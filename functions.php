@@ -21,14 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 //----------------------------------------------
 //	Theme Bootstrapping 
 //----------------------------------------------
-
 require_once 'inc/bootstrap.php'; 
-
-//----------------------------------------------
-//	Parent Theme Basic Support
-//----------------------------------------------
-
-// Theme Setup Configuration: actions, filters etc
-require_once IPRESS_INCLUDES_DIR . '/config.php';
 
 //end

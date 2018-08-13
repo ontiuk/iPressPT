@@ -75,6 +75,6 @@
 	// Other jQuery
     $('.scroll-top').hide();
 
-})( jQuery, ipress );
+})( jQuery, theme );
 
 //end

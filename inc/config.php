@@ -11,54 +11,33 @@
  * @license		GPL-2.0+
  */
 
-// Retrieve theme settings
-global $ipress;
-
 //----------------------------------------------
-//	Parent Theme Scripts
+//	Child Theme Config
 //----------------------------------------------
 
-// Set up scripts - filterable array. See definitions for structure
-$ipress_scripts = [
+// Get current transient and sanitize, or error
+if ( false === ( $ipress_config = get_transient( 'ipress_config' ) ) ) {
+	add_action( 'admin_notices', function() {
+		echo sprintf( '<div class="notice notice-error is-dismissible"><p>%s</p></div>', __( 'Error: Could not retrieve theme config', 'ipress' ) );
+	} );
+	$ipress_scripts = $ipress_styles = $ipress_fonts = $ipress_post_types =	$ipress_taxonomies = [];
+} else {
+	$ipress_scripts 	= ( isset( $ipress_config->scripts ) && ! empty( $ipress_config->scripts ) ) ? $ipress_config->scripts : [];
+	$ipress_styles 		= ( isset( $ipress_config->styles ) && ! empty( $ipress_config->styles ) ) ? $ipress_config->styles : [];
+	$ipress_fonts 		= ( isset( $ipress_config->fonts ) && ! empty( $ipress_config->fonts ) ) ? $ipress_config->fonts : [];
+	$ipress_post_types 	= ( isset( $ipress_config->post_types ) && ! empty( $ipress_config->post_types ) ) ? $ipress_config->post_types : [];
+	$ipress_taxonomies 	= ( isset( $ipress_config->taxonomies ) && ! empty( $ipress_config->taxonomies ) ) ? $ipress_config->taxonomies : [];
+}
 
-	// Core scripts: [ 'script-name', 'script-name2' ... ]
-	'core' => [ 'jquery' ],
-
-	// Custom scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ];
-	'custom' => [
-		'ipress' => [ IPRESS_JS_URL . '/theme.js', [ 'jquery' ], NULL ] 
-	],
-
-	// Localize scripts: [ 'label' => [ 'name' => name, trans => function/path_url ] ]
-	'local' => [
-		'ipress'	=> [ 
-			'name'	=> 'ipress', 
-			'trans' => [ 
-				'home_url' => home_url(), 
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'rest_url' => rest_url( '/' ) 
-			] 
-		]
-	]
-];
-
-// Initialise scripts
+//------------------------------------------------------
+//	Child Theme: Initialize Scripts, Styles & Fonts
+//------------------------------------------------------
 $ipress->scripts->init( $ipress_scripts );
+$ipress->styles->init( $ipress_styles, $ipress_fonts );
 
-//----------------------------------------------
-//	Theme Styles & Fonts
-//----------------------------------------------
-
-// Set up scripts - filterable array. See definitions for structure
-$ipress_styles = [
-
-	// Theme styles
-	'theme'  => [ 
-		'ipress' => [ IPRESS_URL . '/style.css', [], NULL ]
-	]
-];
-
-// Initialise styles & fonts
-$ipress->styles->init( $ipress_styles, [] );
+//----------------------------------------------------------
+//	Child Theme: Initialize Custom Post Types & Taxonomies
+//----------------------------------------------------------
+$ipress->custom->init( $ipress_post_types, $ipress_taxonomies );
 
 //end

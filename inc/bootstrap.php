@@ -62,8 +62,8 @@ define( 'IPRESS_LIB_URL',		IPRESS_INCLUDES_URL . '/lib' );
 //----------------------------------------------
 
 // Load compatability check
-$ipress_version_error = require_once IPRESS_INCLUDES_DIR . '/classes/class-compat.php';
-if ( true === $ipress_version_error->get_error() ) { return; }
+$ipress_compat = require_once IPRESS_INCLUDES_DIR . '/classes/class-compat.php';
+if ( true === $ipress_compat->get_error() ) { return; }
 
 //----------------------------------------------
 //	Includes - Functions
@@ -92,28 +92,34 @@ $ipress_version = $theme['Version'];
 $ipress = (object)[
 
 	// Set theme
-	'theme'		=> $theme,
-	'version'	=> $ipress_version,
+	'theme'			=> $theme,
+	'version'		=> $ipress_version,
 
 	// Load scripts & styles
-	'scripts'	=> require_once IPRESS_CLASSES_DIR . '/class-load-scripts.php',
-	'styles'	=> require_once IPRESS_CLASSES_DIR . '/class-load-styles.php',
+	'scripts'		=> require_once IPRESS_CLASSES_DIR . '/class-load-scripts.php',
+	'styles'		=> require_once IPRESS_CLASSES_DIR . '/class-load-styles.php',
 	
-	// Custom Post-Types & Taxonomies 
-	'custom'	=> require_once IPRESS_CLASSES_DIR . '/class-custom.php',
-
 	// Theme setup
 	'main'			=> require_once IPRESS_CLASSES_DIR . '/class-theme.php',
-	'customizer'	=> require_once IPRESS_CLASSES_DIR . '/class-customizer.php'
+	'customizer'	=> require_once IPRESS_CLASSES_DIR . '/class-customizer.php',
+
+	// Custom Post-Types & Taxonomies 
+	'custom'		=> require_once IPRESS_CLASSES_DIR . '/class-custom.php'
 ];
 
-// Theme header setup
-require_once IPRESS_CLASSES_DIR . '/class-init.php';
+// Tag on Child Theme data
+if ( is_child_theme() ) {
+	$ipress->child_theme 	= wp_get_theme( IPRESS_CHILD_THEME_NAME );
+	$ipress->child_version 	= $ipress->child_theme['Version'];
+}
 
-// Admin functionlity
+// Tag on admin
 if ( is_admin() ) {
 	$ipress->admin = require_once IPRESS_CLASSES_DIR . '/class-admin.php';
 }
+
+// Theme header setup
+require_once IPRESS_CLASSES_DIR . '/class-init.php';
 
 // Layout template functions
 require_once IPRESS_CLASSES_DIR . '/class-layout.php';
@@ -152,10 +158,10 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 }
 
 //----------------------------------------------
-//	Theme Settings
+//	Parent Theme Configuration
 //----------------------------------------------
 
-// Register theme object
-$GLOBALS['ipress'] = $ipress;
+// Theme Setup Configuration: actions, filters etc
+include_once IPRESS_INCLUDES_DIR . '/config.php';
 
 //end

@@ -19,12 +19,19 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 	final class IPR_Load_Styles {
 
 		/**
-		 * admin styles 
+		 * Admin styles 
 		 *
 		 * @var array $admin
 		 */
 		private $admin = [];
 
+		/**
+		 * Styles for dequeueing
+		 *
+		 * @var array $undo
+		 */
+		private $undo = [];
+		
 		/**
 		 * Core styles
 		 *
@@ -33,7 +40,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		private $core = [];
 
 		/**
-		 * external styles
+		 * External styles
 		 *
 		 * @var array $external
 		 */
@@ -75,7 +82,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		private $fonts = [];
 
 		/**
-		 * login styles
+		 * Login styles
 		 *
 		 * @var array $login
 		 */
@@ -102,8 +109,14 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			// Front-end only
 			if ( is_admin() ) { return; }
 
-			// Main styles 
-			add_action( 'wp_enqueue_scripts', 					[ $this, 'load_styles' ] ); 
+			// Main parent styles 
+			add_action( 'wp_enqueue_scripts', 					[ $this, 'load_parent_styles' ], 10 ); 
+
+			// Main child styles 
+			add_action( 'wp_enqueue_scripts', 					[ $this, 'load_child_styles' ], 25 ); 
+
+			// Dequeueue styles
+			add_action( 'wp_enqueue_scripts', 					[ $this, 'undo_styles' ], 99 ); 
 
 			// Fonts & typography 
 			add_action( 'wp_enqueue_scripts', 					[ $this, 'load_fonts' ] ); 
@@ -128,6 +141,9 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 
 			// Admin styles: [ 'label' => [ 'hook', 'src', (array)deps, 'ver' ] ... ]
 			$this->admin = $this->set_key( $styles, 'admin' );
+
+			// Core styles for deregistration: [ 'style-name', [ 'style-name2', 'template' ] ... ]
+			$this->undo = $this->set_key( $styles, 'undo' );
 
 			// Core styles: [ 'style-name', 'style-name' ... ];
 			$this->core = $this->set_key( $styles, 'core' );
@@ -196,9 +212,20 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		//----------------------------------------------
 
 		/**
-		 * Load CSS styles files
+		 * Load Parent CSS styles files
 		 */
-		public function load_styles() { 
+		public function load_parent_styles() { 
+
+			// Theme styles
+			wp_register_style( 'ipress', IPRESS_URL . '/style.css', [], null ); 
+			wp_enqueue_style( 'ipress' ); 
+			wp_style_add_data( 'ipress', 'rtl', 'replace' );
+		}
+
+		/**
+		 * Load Child CSS styles files
+		 */
+		public function load_child_styles() { 
 
 			// Register & enqueue core css in order
 			foreach ( $this->core as $k=>$v ) { 
@@ -241,6 +268,27 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 				wp_register_style( $k, $v[0], $v[1], $v[2], $m ); 
 				wp_enqueue_style( $k ); 
 				wp_style_add_data( $k, 'rtl', 'replace' );
+			}
+		}
+
+		/**
+		 * Dequeue styles 
+		 */
+		public function undo_styles() { 
+	 
+			// Dequeue core styles
+			foreach ( $this->undo as $s ) { 
+
+				// Page template or global
+				if ( is_array( $s ) ) {
+					if( is_page_template( $s[1] ) ) {
+						wp_dequeue_style( $s[0] );
+						wp_deregister_style( $s[0] ); 
+					}
+				} else {
+					wp_dequeue_style( $s );
+					wp_deregister_style( $s ); 
+				}
 			}
 		}
 
