@@ -12,9 +12,9 @@
     // Windor scroll to top functions
     _window.on('scroll', function () {
         if (_window.scrollTop() >= 800) {
-            $('.scroll-top').fadeIn();
+            $('#scrollTop').fadeIn();
         } else {
-            $('.scroll-top').fadeOut();
+            $('#scrollTop').fadeOut();
         }
     });
 
@@ -51,7 +51,7 @@
 	$(function(){ 
 
 		// scroll body to top on click
-		$('.scroll-top').on( 'click', function () {
+		$('#scrollTop').on( 'click', function () {
 			$('body,html').animate({
 				scrollTop: 0
 			}, 800);
@@ -73,7 +73,7 @@
 	});
 
 	// Other jQuery
-    $('.scroll-top').hide();
+    $('#scrollTop').hide();
 
 })( jQuery, theme );
 

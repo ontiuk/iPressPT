@@ -77,6 +77,13 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		protected $taxonomy_errors = [];
 
 		/**
+		 * Optional Post Type prefix
+		 *
+		 * @var	string	$post_type_prefix
+		 */
+		public $post_type_prefix;
+
+		/**
 		 * Class constructor
 		 */
 		public function __construct() {
@@ -101,10 +108,11 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		/**
 		 * Initialise Post Types & Taxonomies
 		 *
-		 * @param array $post_types
-		 * @param array $taxonomies
+		 * @param 	array 	$post_types
+		 * @param 	array 	$taxonomies
+		 * @param	string	$prefix
 		 */
-		public function init( $post_types, $taxonomies ) {
+		public function init( $post_types, $taxonomies, $prefix = '' ) {
 
 			// Register post-types
 			$this->post_types = (array) $post_types;
@@ -114,6 +122,9 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 
 			// Post-type - taxonomy columns & filters
 			$this->taxonomy_columns();
+
+			// Tag on post type prefix if required
+			$this->post_type_prefix = $prefix;
 		}
 		
 		//----------------------------------------------
@@ -138,8 +149,9 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			// Iterate custom post-types...
 			foreach ( $this->post_types as $k=>$v ) {
 
-				// Sanitize post-type... a-z_- only
-				$post_type = sanitize_key( str_replace( ' ', '_', $k ) );
+				// Sanitize post-type... a-z_- only, with ot without prefix
+				$post_type = ( empty( $this->post_type_prefix ) ) ? sanitize_key( str_replace( ' ', '_', $k ) ) :
+																	$this->post_type_prefix . '_' . sanitize_key( str_replace( ' ', '_', $k ) );
 
 				// Sanity checks - reserved words and max post-type length
 				if ( in_array( $post_type, $this->post_type_reserved ) || strlen( $post_type ) > 20 ) { 
@@ -157,6 +169,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 					'name'					=> sprintf( _x( '%s', 'Post type general name', 'ipress' ), $plural ),
 					'singular_name'			=> sprintf( _x( '%s', 'Post type singular name', 'ipress' ), $singular ),
 					'menu_name'				=> sprintf( _x( '%s', 'Admin menu text', 'ipress' ), $plural ),
+					'name_admin_bar'		=> sprintf( _x( '%s', 'Add new on admin bar', 'ipress' ), $singular ),
 					'add_new'				=> sprintf( _x( 'Add New', '%s', 'ipress' ), $singular ),
 					'add_new_item'			=> sprintf( __( 'Add New %s', 'ipress' ), $singular ),
 					'edit_item'				=> sprintf( __( 'Edit %s', 'ipress' ), $singular ),
@@ -178,8 +191,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 					'use_featured_image'	=> sprintf( __( 'Use %s Featured Image', 'ipress' ), $singular ),
 					'filter_items_list'		=> sprintf( __( 'Filter %s list', 'ipress' ), $plural ),
 					'items_list_navigation' => sprintf( __( '%s list navigation', 'ipress' ), $plural ), 
-					'items_list'			=> sprintf( __( '%s list', 'ipress' ), $plural ),
-					'name_admin_bar'		=> sprintf( __( '%s', 'ipress' ), $singular )
+					'items_list'			=> sprintf( __( '%s list', 'ipress' ), $plural )
 				];
 
 				// Set up post-type support - default: 'title', 'editor', 'thumbnail'
@@ -263,6 +275,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 					'search_items'		=> sprintf( __( 'Search %s', 'ipress' ), $plural ), 
 					'popular_items'		=> sprintf( __( 'Popular %s', 'ipress' ), $plural ), 
 					'not_found'			=> sprintf( __( 'No %s found', 'ipress' ), $plural ), 
+					'back_to_items'		=> sprintf( __( '&#8617; Back to %s', 'ipress' ), $plural ), 
 					'separate_items_with_commas' => sprintf( __( 'Separate %s with commas', 'ipress' ), $plural ), 
 					'add_or_remove_items'		 => sprintf( __( 'Add or remove %s', 'ipress' ), $plural ), 
 					'choose_from_the_most_used'  => sprintf( __( 'Chose from the most used %s', 'ipress' ), $plural ) 

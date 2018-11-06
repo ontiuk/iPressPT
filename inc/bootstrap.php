@@ -11,6 +11,9 @@
  * @license		GPL-2.0+
  */
 
+// Initialise hooks
+do_action( 'ipress_bootstrap' );
+
 //----------------------------------------------
 //	Theme Defines
 //----------------------------------------------
@@ -84,6 +87,9 @@ require_once IPRESS_INCLUDES_DIR . '/template-tags.php';
 //	Includes - Classes
 //----------------------------------------------
 
+// Initialization
+do_action( 'ipress_init' );
+
 // Set Up theme
 $theme			= wp_get_theme( IPRESS_THEME_NAME );
 $ipress_version = $theme['Version'];
@@ -113,9 +119,14 @@ if ( is_child_theme() ) {
 	$ipress->child_version 	= $ipress->child_theme['Version'];
 }
 
-// Tag on admin
+// Tag on admin dashboard
 if ( is_admin() ) {
-	$ipress->admin = require_once IPRESS_CLASSES_DIR . '/class-admin.php';
+	require_once IPRESS_CLASSES_DIR . '/class-dashboard.php';
+}
+
+// Multisite?
+if ( is_multisite() ) {
+	require_once IPRESS_CLASSES_DIR . '/class-multisite.php';
 }
 
 // Theme header setup
@@ -130,8 +141,8 @@ require_once IPRESS_CLASSES_DIR . '/class-navigation.php';
 // Images & Media template functions
 require_once IPRESS_CLASSES_DIR . '/class-images.php';
 
-// Redirect template functions
-require_once IPRESS_CLASSES_DIR . '/class-redirect.php';
+// Login Redirect template functions
+require_once IPRESS_CLASSES_DIR . '/class-login.php';
 
 // Rewrites template functions
 require_once IPRESS_CLASSES_DIR . '/class-rewrites.php';
@@ -160,6 +171,9 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 //----------------------------------------------
 //	Parent Theme Configuration
 //----------------------------------------------
+
+// Configuration
+do_action( 'ipress_config' );
 
 // Theme Setup Configuration: actions, filters etc
 include_once IPRESS_INCLUDES_DIR . '/config.php';

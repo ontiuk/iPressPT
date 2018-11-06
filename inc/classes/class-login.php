@@ -11,12 +11,12 @@
  * @license		GPL-2.0+
  */
 
-if ( ! class_exists( 'IPR_Redirect' ) ) :
+if ( ! class_exists( 'IPR_Login' ) ) :
 
 	/**
-	 * Set up redirect features
+	 * Set up login redirect features
 	 */ 
-	final class IPR_Redirect {
+	final class IPR_Login {
 
 		/**
 		 * Class constructor
@@ -31,10 +31,6 @@ if ( ! class_exists( 'IPR_Redirect' ) ) :
 			add_action( 'wp_logout',			[ $this, 'logout_redirect'] );	
 		}
 
-		//----------------------------------------------
-		//	Redirect Functionality
-		//----------------------------------------------
-			
 		//----------------------------------------------
 		//	Custom Login Page
 		//----------------------------------------------
@@ -100,7 +96,7 @@ if ( ! class_exists( 'IPR_Redirect' ) ) :
 
 endif;
 
-// Instantiate Redirect Class
-return new IPR_Redirect;
+// Instantiate Login Redirect Class
+return new IPR_Login;
 
 //end

@@ -28,9 +28,9 @@ if ( ! class_exists( 'IPR_Navigation' ) ) :
 			add_filter( 'wp_nav_menu_args', [ $this, 'nav_menu_args' ] ); 
 
 			// Remove navigation <li> injected classes 
-			 add_filter( 'nav_menu_css_class', [ $this, 'css_attributes_filter' ], 99, 1 ); 
-			 add_filter( 'nav_menu_item_id', [ $this, 'css_attributes_filter' ], 99, 1 ); 
-			 add_filter( 'page_css_class', [ $this, 'css_attributes_filter' ], 99, 1 ); 
+			add_filter( 'nav_menu_css_class', [ $this, 'css_attributes_filter' ], 99, 1 ); 
+			add_filter( 'nav_menu_item_id', [ $this, 'css_attributes_filter' ], 99, 1 ); 
+			add_filter( 'page_css_class', [ $this, 'css_attributes_filter' ], 99, 1 ); 
 		}
 
 		//---------------------------------------------

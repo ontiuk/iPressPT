@@ -15,6 +15,10 @@
 
 <?php if ( ! is_active_sidebar( 'primary' ) ) { return; } ?>
 
+<?php do_action( 'ipress_before_sidebar_widget_area' ); ?>
+
 <aside id="secondary" class="widget-area" role="complementary">
 	<?php dynamic_sidebar( 'primary' ); ?>
 </aside><!-- #secondary -->
+
+<?php do_action( 'ipress_after_sidebar_widget_area' );

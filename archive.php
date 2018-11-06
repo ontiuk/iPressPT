@@ -4,8 +4,8 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Template for displaying generic post archives when a category, author, or date is queried. 
- * Will be overridden by category.php, author.php, and date.php for their respective query types if available.
+ * Template for displaying generic post archives when a category, author, or date is queried.
+ * - Will be overridden by category.php, author.php, and date.php for their respective query types if available.
  * 
  * @see https://codex.wordpress.org/Template_Hierarchy
  *
@@ -17,11 +17,9 @@
 
 <?php get_header(); ?>
 
-<div id="primary" class="content-area">
-
 <?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="site-main" role="main">
+	<main id="main" class="site-main">
 
 	<?php do_action( 'ipress_archive_before' ); ?>
 
@@ -42,12 +40,10 @@
 
 	<?php do_action( 'ipress_archive_after' ); ?>
 
-	</main><!-- #main -->
+	</main><!-- #main / .site-main -->
 
 <?php do_action( 'ipress_after_main_content' ); ?>
 
-</div><!-- #primary -->
+<?php do_action( 'ipress_sidebar' ); ?>
 
-<?php 
-do_action( 'ipress_sidebar' );
-get_footer();
+<?php get_footer();

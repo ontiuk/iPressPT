@@ -12,9 +12,10 @@
  * @license     GPL-2.0+
  */
 ?>
-<?php do_action( 'ipress_loop_post_before' ); ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'entry' ); ?>>
+<?php do_action( 'ipress_article_before' ); ?>
+
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> itemscope itemtype="https://schema.org/CreativeWork">
 
 <?php
 	/**
@@ -26,8 +27,8 @@
 	 * @hooked ipress_loop_excerpt      - 30
 	 * @hooked ipress_loop_footer       - 40
 	 */
-	do_action( 'ipress_loop_post' ); 
-?>
+	do_action( 'ipress_loop' ); ?>
+
 </article><!-- #post-<?php the_ID(); ?> -->
 
-<?php do_action( 'ipress_loop_post_after' );
+<?php do_action( 'ipress_article_after' );

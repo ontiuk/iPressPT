@@ -76,16 +76,21 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 			// @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 			// - add_theme_support( 'post-thumbnails' ); 
 			// - add_theme_support( 'post-thumbnails', $post_types ); 
-			add_theme_support( 'post-thumbnails' ); 
+			$post_thumbnails_post_types = (array) apply_filters( 'ipress_post_thumbnails_post_types', [] );
+			if ( $post_thumbnails_post_types ) {
+				add_theme_support( 'post-thumbnails', $post_thumbnails_post_types ); 
+			} else {
+				add_theme_support( 'post-thumbnails' ); 
+			}
 
 			// Set thumbnail default size: width, height, crop
 			// - set_post_thumbnail_size( 50, 50 ); // 50px x 50px, prop resize
 			// - set_post_thumbnail_size( 50, 50, true ); // 50px x 50px, hard crop
 			// - set_post_thumbnail_size( 50, 50, [ 'left', 'top' ] ); // 50px x 50px, hard crop from top left
 			// - set_post_thumbnail_size( 50, 50, [ 'center', 'center' ] ); // 50 px x 50px, crop from center
-			$post_thumb_size = apply_filters( 'ipress_post_thumb_size', [] );
-			if ( $post_thumb_size ) {
-				$this->set_post_thumb_size( $post_thumb_size );
+			$post_thumbnail_size = apply_filters( 'ipress_post_thumbnail_size', [] );
+			if ( $post_thumbnail_size ) {
+				$this->set_post_thumbnail_size( $post_thumbnail_size );
 			}
 
 			// Core image sizes overrides
@@ -101,7 +106,7 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 			// - add_image_size( 'custom-size', 220 );					// 220px wide, relative height, soft proportional crop mode
 			// - add_image_size( 'custom-size-prop', 220, 180 );		// 220px x 180px, soft proportional crop
 			// - add_image_size( 'custom-size-prop-height', 9999, 180); // 180px height: proportion resize 
-			// - add_image_size( 'custom-size', 220, 180, true );		// 220 pixels wide by 180 pixels tall, soft proportional crop mode
+			// - add_image_size( 'custom-size', 220, 180, true );		// 220 pixels wide by 180 pixels tall, hard positional crop mode
 			$add_image_size = apply_filters( 'ipress_add_image_size', [] );
 			if ( $add_image_size ) {
 				$this->set_add_image_size( $add_image_size );
@@ -122,7 +127,9 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 			//   'header'    => __( 'Header Menu', 'ipress' ) 
 			// ] );
 			$nav_menus = apply_filters( 'ipress_nav_menus', [] );
-			if ( $nav_menus ) { register_nav_menus( $nav_menus ); }
+			if ( $nav_menus ) { 
+				register_nav_menus( $nav_menus ); 
+			}
 
 			// Enable support for HTML5 markup: 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'widgets'
 			add_theme_support( 'html5', apply_filters( 'ipress_html5', [
@@ -154,6 +161,9 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 				add_filter( 'document_title_separator', [ $this, 'document_title_separator' ], 10, 1 ); 
 				add_filter( 'document_title_parts',		[ $this, 'document_title_parts' ], 10, 1 ); 
 			}
+
+			// Theme initialization
+			do_action( 'ipress_setup' );
 		}
 
 		//----------------------------------------------
@@ -165,20 +175,21 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 		 *
 		 * @param array $size
 		 */
-		private function set_post_thumb_size( $size ) {
+		private function set_post_thumbnail_size( $size ) {
 			$crop = ( isset( $size['crop'] ) ) ? $size['crop'] : false;
 			set_post_thumbnail_size( $size['width'], $size['height'], $crop );
 		}
 
 		/**
 		 * Set up thumbnail image size
+		 * [ name => [ 'width' => xx, 'height' => xx, 'crop' => true/false ] ]
 		 *
 		 * @param array $size
 		 */
 		private function set_add_image_size( $sizes ) {
-			foreach ( $sizes as $size ) {
-				$crop = ( isset( $size['crop'] ) ) ? $size['crop'] : false;
-				add_image_size( $size['name'], $size['width'], $size['height'], $crop );
+			foreach ( $sizes as $k=>$v ) {
+				$crop = ( isset( $v['crop'] ) ) ? $v['crop'] : false;
+				add_image_size( $k, $v['width'], $v['height'], $crop );
 			}
 		}
 

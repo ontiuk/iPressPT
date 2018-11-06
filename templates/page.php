@@ -13,9 +13,9 @@
  */
 ?>
 
-<?php do_action( 'ipress_page_before_content' ); ?>
+<?php do_action( 'ipress_article_before' ); ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'entry' ); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> itemscope itemtype="https://schema.org/CreativeWork">
 
 	<?php
 	/**
@@ -29,6 +29,5 @@
 
 </article><!-- #post-<?php the_ID(); ?> -->
 
-<?php 
-/** @hooked ipress_display_comments - 10 */
-do_action( 'ipress_page_after_content' );
+<?php /** @hooked ipress_display_comments - 10 */
+do_action( 'ipress_article_after' );

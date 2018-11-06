@@ -11,12 +11,12 @@
  * @license		GPL-2.0+
  */
 
-if ( ! class_exists( 'IPR_Admin' ) ) :
+if ( ! class_exists( 'IPR_Dashboard' ) ) :
 
 	/**
-	 * Set up admin functionality
+	 * Set up admin dashboard functionality
 	 */ 
-	final class IPR_Admin {
+	final class IPR_Dashboard {
 
 		/**
 		 * Class constructor
@@ -27,10 +27,6 @@ if ( ! class_exists( 'IPR_Admin' ) ) :
 			// Add to dashboard
 			add_filter( 'dashboard_glance_items', [ $this, 'dashboard_post_type_count' ], 10, 1 );
 		}
-
-		//----------------------------------------------
-		//	Admin UI Functions
-		//----------------------------------------------
 
 		//----------------------------------------------
 		//	Dashboard
@@ -72,7 +68,7 @@ if ( ! class_exists( 'IPR_Admin' ) ) :
 
 endif;
 
-// Instantiate Admin class
-return new IPR_Admin;
+// Instantiate Admin dashboard class
+return new IPR_Dashboard;
 
 //end
