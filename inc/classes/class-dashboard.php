@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme admin UI functionality
+ * Theme admin UI dashboard functionality.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.uk

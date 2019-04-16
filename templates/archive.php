@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template part for displaying post archives via the_loop
+ * Template part for displaying post archives via the_loop.
  * 
  * @package     iPress\Templates
  * @see         https://codex.wordpress.org/Template_Hierarchy
@@ -20,5 +20,5 @@
 
 <?php endwhile; ?>
 
-<?php /** @hooked ipress_paging_nav - 10 */
+<?php /** @hooked ipress_loop_nav - 10 */
 do_action( 'ipress_loop_after' );

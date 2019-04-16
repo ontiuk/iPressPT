@@ -15,7 +15,7 @@ if ( post_password_required() ) { return; } ?>
 
 <?php do_action( 'ipress_before_comments' ); ?>
 
-<section id="comments" class="comments-area" aria-label="Post Comments">
+<section id="comments" class="<?= ( comments_open() ) ? 'comments-area' : 'comments-area comments-closed'; ?>" aria-label="Post Comments">
 
 	<?php
 	if ( have_comments() ) : ?>

@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying the generic site menu
+ * Template for displaying the generic site menu.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk

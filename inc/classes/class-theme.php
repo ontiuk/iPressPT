@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme initialisation for core WordPress features
+ * Theme initialisation for core WordPress theme setup features
  * 
  * @package		iPress\Includes
  * @link		http://ipress.uk
@@ -57,11 +57,15 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 
 		/**
 		 * Set up core theme settings & functionality
+		 * - Some such as logo, header and background moved to customizer setup
 		 */
 		public function setup_theme() {
 
 			// Loads wp-content/languages/themes/ipress-it_IT.mo.
 			load_theme_textdomain( 'ipress', trailingslashit( WP_LANG_DIR ) . 'themes/' );
+
+			// Loads wp-content/themes/child-theme-name/languages/it_IT.mo.
+			load_theme_textdomain( 'ipress', get_stylesheet_directory() . '/languages/ipress' );
 
 			// Localisation Support - Loads file e.g: wp-content/themes/ipress/includes/languages/en_GB.mo
 			load_theme_textdomain( 'ipress', IPRESS_LANG_DIR );
@@ -116,7 +120,7 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 			add_theme_support( 'menus' ); 
 
 			// Register main navigation menu location
-			register_nav_menus( apply_filters( 'ipress_nav_menu_primary', [ 
+			register_nav_menus( apply_filters( 'ipress_nav_menu_default', [ 
 				'primary'   => __( 'Primary Menu', 'ipress' )
 			] ) );
 

@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme compatibility functionality
+ * Theme compatibility functionality.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.uk
@@ -84,7 +84,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 		 * Adds a message for unsuccessful theme switch if version prior to theme required
 		 */
 		public function version_notice_php() {
-			$message = sprintf( __( 'PHP version <strong>%s</strong> is required You are using <strong>%s</strong>. Please update or contact your hosting company', 'ipress' ), phpversion(), IPRESS_THEME_PHP );
+			$message = sprintf( __( 'PHP version <strong>%s</strong> is required You are using <strong>%s</strong>. Please update or contact your hosting company.', 'ipress' ), phpversion(), IPRESS_THEME_PHP );
 			echo sprintf( '<div class="notice notice-warning"><p>%s</p></div>', esc_html( $message ) );
 		}
 
@@ -141,7 +141,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 		 * Adds a message if a child theme is not being used. i.e. Parent theme is active
 		 */
 		public function child_theme_notice() {
-			$message = __( 'iPress Parent Theme is active. Please use a Child Theme', 'ipress' );
+			$message = __( 'iPress Parent Theme is active. Please use a Child Theme.', 'ipress' );
 			echo sprintf( '<div class="notice notice-warning"><p>%s</p></div>', esc_html( $message ) );
 		}
 

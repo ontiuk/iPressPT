@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Theme initialisation for core WordPress features
+ * Theme initialisation for core WordPress navigation features.
  * 
  * @package     iPress\Navigation
  * @link        http://ipress.uk
@@ -28,9 +28,9 @@ if ( ! class_exists( 'IPR_Navigation' ) ) :
 			add_filter( 'wp_nav_menu_args', [ $this, 'nav_menu_args' ] ); 
 
 			// Remove navigation <li> injected classes 
-			add_filter( 'nav_menu_css_class', [ $this, 'css_attributes_filter' ], 99, 1 ); 
-			add_filter( 'nav_menu_item_id', [ $this, 'css_attributes_filter' ], 99, 1 ); 
-			add_filter( 'page_css_class', [ $this, 'css_attributes_filter' ], 99, 1 ); 
+			add_filter( 'nav_menu_css_class', 	[ $this, 'css_attributes_filter' ], 99, 1 ); 
+			add_filter( 'nav_menu_item_id', 	[ $this, 'css_attributes_filter' ], 99, 1 ); 
+			add_filter( 'page_css_class', 		[ $this, 'css_attributes_filter' ], 99, 1 ); 
 		}
 
 		//---------------------------------------------
@@ -62,7 +62,7 @@ if ( ! class_exists( 'IPR_Navigation' ) ) :
 		public function css_attributes_filter( $var ) {
 
 			// Filterable css attributes
-			$css_attr       = (bool)apply_filters( 'ipress_css_attr', false );    
+			$css_attr       = (bool) apply_filters( 'ipress_nav_css_attr', false );    
 			$css_attr_val   = ( is_array( $var ) ) ? [] : '';
 
 			// Return attributes

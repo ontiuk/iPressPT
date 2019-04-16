@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme initialisation for core WordPress theme customizer features
+ * Theme initialisation for core WordPress theme customizer features.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.uk
@@ -260,6 +260,9 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					'right' => __( 'Sidebar - Content', 'ipress' )
 				],
 			] );
+
+			// Filterable registrations - pass customizer manager object
+			do_action( 'ipress_customize_register', $wpm );
 		}
 
 		/**

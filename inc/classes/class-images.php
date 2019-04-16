@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme initialisation for core WordPress features
+ * Theme initialisation for core WordPress images functionality.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.uk

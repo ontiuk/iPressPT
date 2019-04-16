@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying skip links
+ * Template for displaying skip links.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk

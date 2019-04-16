@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template part for displaying the_loop in search mode
+ * Template part for displaying the_loop in search mode.
  *
  * @package     iPress\Templates
  * @see         https://codex.wordpress.org/Template_Hierarchy

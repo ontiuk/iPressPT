@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying the post loop footer
+ * Template for displaying the post loop footer.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk

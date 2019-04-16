@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying the post loop meta data
+ * Template for displaying the post loop meta data.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk

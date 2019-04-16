@@ -1,0 +1,674 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-26 14:45+0000\n"
+"PO-Revision-Date: 2019-04-15 12:46+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.2.1\n"
+
+#: comments.php:25
+#, php-format
+msgctxt "comments title"
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] "Ein Gedanke zu &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s Gedanken über &ldquo;%2$s&rdquo;"
+
+#: comments.php:49
+msgid "Comments are closed."
+msgstr "Kommentarfunktion ist geschlossen."
+
+#: index.php:31
+msgid "Our Latest Posts"
+msgstr "Unsere Neuesten Beiträge"
+
+#: search.php:33
+#, php-format
+msgid "Search: %s Results for <span>%s</span>"
+msgstr "Suche: %s Ergebnisse für <span>%s</span>"
+
+#: searchform.php:15
+msgctxt "label"
+msgid "Search for:"
+msgstr "Suchen nach:"
+
+#: searchform.php:16
+msgctxt "placeholder"
+msgid "Search &hellip;"
+msgstr "Suche &hellip;"
+
+#: searchform.php:17
+msgctxt "ipress"
+msgid "Search"
+msgstr "Suche"
+
+#: searchform.php:17
+msgctxt "submit button"
+msgid "Search"
+msgstr "Suche"
+
+#: inc/config.php:24
+msgid "Error: Could not retrieve theme config."
+msgstr "Fehler: Design-Konfiguration konnte nicht abgerufen werden."
+
+#: inc/template-functions.php:234
+msgctxt "Next post"
+msgid "Next"
+msgstr "Nächster"
+
+#: inc/template-functions.php:235
+msgctxt "Previous post"
+msgid "Previous"
+msgstr "Bisherige"
+
+#: inc/template-tags.php:151
+#, php-format
+msgid "by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%s\">%s</a></span>"
+msgstr ""
+"durch <span class=\"author vcard\"><a class=\"url fn n\" href=\"%s\">%s</a></span>"
+
+#: inc/template-tags.php:169
+#, php-format
+msgctxt "post author"
+msgid "by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%s\">%s</a></span>"
+msgstr ""
+"durch <span class=\"author vcard\"><a class=\"url fn n\" href=\"%s\">%s</a></span>"
+
+#: inc/template-tags.php:203
+#, php-format
+msgctxt "post date"
+msgid "Posted on <a href=\"%s\" rel=\"bookmark\">%s</a>"
+msgstr "Gepostet am <a href=\"%s\" rel=\"bookmark\">%s</a>"
+
+#: inc/template-tags.php:219 inc/template-tags.php:224 inc/template-tags.php:381
+#: inc/template-tags.php:397
+msgid ", "
+msgstr ", "
+
+#: inc/template-tags.php:221
+#, php-format
+msgid "Posted in %1$s"
+msgstr "Veröffentlicht in %1$s"
+
+#: inc/template-tags.php:226
+#, php-format
+msgid "Tagged %1$s"
+msgstr "Tagged %1$s"
+
+#: inc/template-tags.php:306
+#, php-format
+msgid "Edit<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr "Bearbeiten <span class=\"screen-reader-text\"> \"%s\"</span>"
+
+#: inc/template-tags.php:370
+msgid "Written by"
+msgstr "Geschrieben von"
+
+#: inc/template-tags.php:384
+msgid "Posted in"
+msgstr "Veröffentlicht in"
+
+#: inc/template-tags.php:400
+msgid "Tagged"
+msgstr "Tagged"
+
+#: inc/template-tags.php:414
+msgid "Comments"
+msgstr "Bemerkungen"
+
+#: inc/template-tags.php:415
+msgid "Leave a comment"
+msgstr "Hinterlasse einen Kommentar"
+
+#: inc/template-tags.php:415 inc/shortcodes/post.php:318
+msgid "1 Comment"
+msgstr "1 Kommentar"
+
+#: inc/template-tags.php:415 inc/shortcodes/post.php:317
+msgid "% Comments"
+msgstr "% Bemerkungen"
+
+#: inc/classes/class-compat.php:87
+#, php-format
+msgid ""
+"PHP version <strong>%s</strong> is required You are using <strong>%s</strong>. Please "
+"update or contact your hosting company."
+msgstr ""
+"PHP-Version <strong>%s</ strong> ist erforderlich Sie verwenden <strong>%s</ strong>. "
+"Bitte aktualisieren oder wenden Sie sich an Ihr Hosting-Unternehmen."
+
+#: inc/classes/class-compat.php:112 inc/classes/class-compat.php:122
+#: inc/classes/class-compat.php:132
+#, php-format
+msgid "iPress requires at least WordPress version %s. You are running version %s."
+msgstr ""
+"Für iPress ist mindestens die WordPress version %s erforderlich. Sie führen version "
+"%s aus."
+
+#: inc/classes/class-compat.php:144
+msgid "iPress Parent Theme is active. Please use a Child Theme."
+msgstr "Das iPress-übergeordnete Design ist aktiv. Bitte verwenden Sie ein Child-Theme."
+
+#: inc/classes/class-custom.php:179
+#, php-format
+msgctxt "Post type general name"
+msgid "%s"
+msgstr "%s"
+
+#: inc/classes/class-custom.php:180
+#, php-format
+msgctxt "Post type singular name"
+msgid "%s"
+msgstr "%s"
+
+#: inc/classes/class-custom.php:181
+#, php-format
+msgctxt "Admin menu text"
+msgid "%s"
+msgstr "%s"
+
+#: inc/classes/class-custom.php:182
+#, php-format
+msgctxt "Add new on admin bar"
+msgid "%s"
+msgstr "%s"
+
+#: inc/classes/class-custom.php:183
+msgctxt "%s"
+msgid "Add New"
+msgstr "Neue hinzufügen"
+
+#: inc/classes/class-custom.php:184 inc/classes/class-custom.php:281
+#, php-format
+msgid "Add New %s"
+msgstr "Neue hinzufügen %s"
+
+#: inc/classes/class-custom.php:185 inc/classes/class-custom.php:278
+#, php-format
+msgid "Edit %s"
+msgstr "Bearbeiten %s"
+
+#: inc/classes/class-custom.php:186
+#, php-format
+msgid "New %s"
+msgstr "Neue %s"
+
+#: inc/classes/class-custom.php:187 inc/classes/class-custom.php:188
+#: inc/classes/class-custom.php:279
+#, php-format
+msgid "View %s"
+msgstr "Aussicht %s"
+
+#: inc/classes/class-custom.php:189 inc/classes/class-custom.php:285
+#, php-format
+msgid "Search %s"
+msgstr "Suche %s"
+
+#: inc/classes/class-custom.php:190 inc/classes/class-custom.php:287
+#, php-format
+msgid "No %s found"
+msgstr "Keine %s gefunden"
+
+#: inc/classes/class-custom.php:191
+#, php-format
+msgid "No %s found in Trash"
+msgstr "Keine %s im papierkorb gefunden"
+
+#: inc/classes/class-custom.php:192 inc/classes/class-custom.php:284
+#, php-format
+msgid "Parent %s:"
+msgstr "Elternteil %s:"
+
+#: inc/classes/class-custom.php:193 inc/classes/class-custom.php:277
+#, php-format
+msgid "All %s"
+msgstr "Alles %s"
+
+#: inc/classes/class-custom.php:194
+#, php-format
+msgid "%s Archives"
+msgstr "%s Archiv"
+
+#: inc/classes/class-custom.php:195
+#, php-format
+msgid "%s Attributes"
+msgstr "%s Attribute"
+
+#: inc/classes/class-custom.php:196
+#, php-format
+msgid "Insert into %s"
+msgstr "Einfügen in %s"
+
+#: inc/classes/class-custom.php:197
+#, php-format
+msgid "Uploaded to this %s"
+msgstr "Zu diesem hochgeladen %s"
+
+#: inc/classes/class-custom.php:198
+#, php-format
+msgid "%s Featured Image"
+msgstr "%s Ausgewähltes Bild"
+
+#: inc/classes/class-custom.php:199
+#, php-format
+msgid "Set %s Featured Image"
+msgstr "%s Featured Image einstellen"
+
+#: inc/classes/class-custom.php:200
+#, php-format
+msgid "Remove %s Featured Image"
+msgstr "%s Featured Image entfernen"
+
+#: inc/classes/class-custom.php:201
+#, php-format
+msgid "Use %s Featured Image"
+msgstr "Verwenden Sie %s Featured Image"
+
+#: inc/classes/class-custom.php:202
+#, php-format
+msgid "Filter %s list"
+msgstr "%s Liste filtern"
+
+#: inc/classes/class-custom.php:203
+#, php-format
+msgid "%s list navigation"
+msgstr "%s Listennavigation"
+
+#: inc/classes/class-custom.php:204
+#, php-format
+msgid "%s list"
+msgstr "%s Liste"
+
+#: inc/classes/class-custom.php:274 inc/classes/class-custom.php:275
+#, php-format
+msgctxt "ipress"
+msgid "%s"
+msgstr "%s"
+
+#: inc/classes/class-custom.php:276 inc/classes/class-custom.php:301
+#: inc/shortcodes/post.php:74 inc/shortcodes/post.php:107 inc/shortcodes/post.php:138
+#: inc/shortcodes/post.php:170
+#, php-format
+msgid "%s"
+msgstr "%s"
+
+#: inc/classes/class-custom.php:280
+#, php-format
+msgid "Update %s"
+msgstr "Aktualisieren %s"
+
+#: inc/classes/class-custom.php:282
+#, php-format
+msgid "New %s Name"
+msgstr "Neuer %s Name"
+
+#: inc/classes/class-custom.php:283
+#, php-format
+msgid "Parent %s"
+msgstr "Elternteil %s"
+
+#: inc/classes/class-custom.php:286
+#, php-format
+msgid "Popular %s"
+msgstr "Beliebt %s"
+
+#: inc/classes/class-custom.php:288
+#, php-format
+msgid "&#8617; Back to %s"
+msgstr "&#8617; Zurück zu %s"
+
+#: inc/classes/class-custom.php:289
+#, php-format
+msgid "Separate %s with commas"
+msgstr "Trennen Sie %s durch Kommas"
+
+#: inc/classes/class-custom.php:290
+#, php-format
+msgid "Add or remove %s"
+msgstr "Hinzufügen oder entfernen %s"
+
+#: inc/classes/class-custom.php:291
+#, php-format
+msgid "Chose from the most used %s"
+msgstr "Wählen Sie aus den am häufigsten verwendeten %s"
+
+#: inc/classes/class-custom.php:494
+#, php-format
+msgid "Show All %s"
+msgstr "Zeige alles %s"
+
+#: inc/classes/class-custom.php:564
+#, php-format
+msgid "Error: Bad Post Types [%s]."
+msgstr "Fehler: Fehlerhafte Beitragstypen [%s]."
+
+#: inc/classes/class-custom.php:570
+#, php-format
+msgid "Error: Bad Taxonomies [%s]."
+msgstr "Fehler: Ungültige Taxonomien [%s]."
+
+#: inc/classes/class-customizer.php:221
+msgid "Background"
+msgstr "Hintergrund"
+
+#: inc/classes/class-customizer.php:229
+msgid "Header"
+msgstr "Kopfzeile"
+
+#: inc/classes/class-customizer.php:233
+msgid "Theme Colours"
+msgstr "Farben des Themas"
+
+#: inc/classes/class-customizer.php:237
+msgid "Theme Options"
+msgstr "Theme-Optionen"
+
+#: inc/classes/class-customizer.php:238
+msgid "Configure your theme settings"
+msgstr "Konfigurieren Sie Ihre Designeinstellungen"
+
+#: inc/classes/class-customizer.php:243
+msgid "Content Layout"
+msgstr "Inhaltslayout"
+
+#: inc/classes/class-customizer.php:254
+msgid "Page Layout"
+msgstr "Seitenlayout"
+
+#: inc/classes/class-customizer.php:257
+msgid "Content section left or right."
+msgstr "Inhaltsbereich links oder rechts."
+
+#: inc/classes/class-customizer.php:259
+msgid "Content - Sidebar"
+msgstr "Inhalt - Seitenleiste"
+
+#: inc/classes/class-customizer.php:260
+msgid "Sidebar - Content"
+msgstr "Seitenleiste - Inhalt"
+
+#: inc/classes/class-customizer.php:446
+msgid "Content Sidebar"
+msgstr "Inhalts-Sidebar"
+
+#: inc/classes/class-customizer.php:447
+msgid "Sidebar Content"
+msgstr "Inhalt der Seitenleiste"
+
+#: inc/classes/class-dashboard.php:57
+#, php-format
+msgid "%s "
+msgid_plural "%s "
+msgstr[0] "%s "
+msgstr[1] "%s "
+
+#: inc/classes/class-images.php:62
+msgid "Image in Post"
+msgstr "Bild in der Post"
+
+#: inc/classes/class-images.php:63
+msgid "Original size"
+msgstr "Originalgröße"
+
+#: inc/classes/class-init.php:191
+msgid "<strong>ERROR</strong>: Stop guessing!"
+msgstr "<strong>Fehler</ strong>: Raten Sie nicht weiter!"
+
+#: inc/classes/class-layout.php:155
+msgid "View Article"
+msgstr "Artikel anzeigen"
+
+#: inc/classes/class-sidebars.php:69
+msgid "Primary Sidebar"
+msgstr "Primäre Seitenleiste"
+
+#: inc/classes/class-sidebars.php:70
+msgid "This is the primary sidebar for two-column and full-width layouts."
+msgstr "Dies ist die Hauptseitenleiste für Layouts mit zwei Spalten und voller Breite."
+
+#: inc/classes/class-sidebars.php:83
+#, php-format
+msgid "Footer %d"
+msgstr "Fußzeile %d"
+
+#: inc/classes/class-sidebars.php:84
+#, php-format
+msgid "Footer sidebar area %d."
+msgstr "Fußzeilenbereich %d."
+
+#: inc/classes/class-sidebars.php:122
+#, php-format
+msgid "This is the %s sidebar description"
+msgstr "Dies ist die %s Seitenleistenbeschreibung"
+
+#: inc/classes/class-theme.php:124
+msgid "Primary Menu"
+msgstr "Hauptmenü"
+
+#: inc/functions/pagination.php:115
+msgid "Prev"
+msgstr "Vorige"
+
+#: inc/functions/pagination.php:116
+msgid "Next"
+msgstr "Nächster"
+
+#: inc/functions/pagination.php:189
+msgid "Previous Page"
+msgstr "Vorherige Seite"
+
+#: inc/functions/pagination.php:206
+msgid "Current page"
+msgstr "Aktuelle Seite"
+
+#: inc/functions/pagination.php:223
+msgid "Next Page"
+msgstr "Nächste Seite"
+
+#: inc/shortcodes/category.php:35
+msgid "Tagged With: "
+msgstr "Markiert mit: "
+
+#: inc/shortcodes/category.php:67 inc/shortcodes/category.php:102
+msgid "Filed Under: "
+msgstr "Abgelegt unter: "
+
+#: inc/shortcodes/links.php:38
+msgid "Return to top"
+msgstr "Zurück nach oben"
+
+#: inc/shortcodes/links.php:66
+msgid "&#x000A9;"
+msgstr "&#x000A9;"
+
+#: inc/shortcodes/links.php:105
+msgid "iPress"
+msgstr "iPress"
+
+#: inc/shortcodes/links.php:155
+msgid "Log in"
+msgstr "Einloggen"
+
+#: inc/shortcodes/links.php:156
+msgid "Log out"
+msgstr "Ausloggen"
+
+#: inc/shortcodes/post.php:36
+msgid "(Edit)"
+msgstr "(Bearbeiten)"
+
+#: inc/shortcodes/post.php:85
+msgid "ago"
+msgstr "vor"
+
+#: inc/shortcodes/post.php:319
+msgid "Leave a Comment"
+msgstr "Hinterlasse einen Kommentar"
+
+#: templates/footer/site-credit.php:17
+#, php-format
+msgid "Theme %1$s by %2$s."
+msgstr "Thema %1$s von %2$s."
+
+#: templates/global/404.php:20
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "Hoppla! Diese Seite kann nicht gefunden werden."
+
+#: templates/global/404.php:21
+msgid "Return home?"
+msgstr "Nach Hause zurückkehren?"
+
+#: templates/global/404.php:25
+msgid "Nothing found at this location."
+msgstr "An dieser Stelle wurde nichts gefunden."
+
+#: templates/global/content-none.php:21
+msgid "Nothing to display."
+msgstr "Nothing to display."
+
+#: templates/global/content-none.php:31
+#, php-format
+msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+"Bereit Deinen ersten Post zu veröffentlichen? <a href=\"%1$s\">Fang hier an</a>."
+
+#: templates/global/content-none.php:44
+msgid ""
+"Sorry, nothing matched your search terms. Please try again with different keywords."
+msgstr ""
+"Leider, stimmte nichts mit Ihren Suchbegriffen überein. Bitte versuchen Sie es erneut "
+"mit anderen Schlüsselwörtern."
+
+#: templates/global/content-none.php:49
+msgid "We can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+msgstr "Wir können nicht finden wonach Sie suchen. Vielleicht kann das Suchen helfen."
+
+#: templates/global/skip-links.php:14
+msgid "Skip to navigation"
+msgstr "Zur Navigation springen"
+
+#: templates/global/skip-links.php:15
+msgid "Skip to content"
+msgstr "Zum Inhalt springen"
+
+#: templates/global/breadcrumbs/archive-cpt.php:24
+#: templates/global/breadcrumbs/archive.php:18
+#: templates/global/breadcrumbs/author.php:18
+#: templates/global/breadcrumbs/category.php:18 templates/global/breadcrumbs/date.php:31
+#: templates/global/breadcrumbs/home.php:18 templates/global/breadcrumbs/page.php:18
+#: templates/global/breadcrumbs/search.php:18 templates/global/breadcrumbs/single.php:18
+#: templates/global/breadcrumbs/tag.php:19 templates/global/breadcrumbs/taxonomy.php:55
+msgid "Home"
+msgstr "Zuhause"
+
+#: templates/global/breadcrumbs/archive.php:19
+msgid "Archive"
+msgstr "Archiv"
+
+#: templates/global/breadcrumbs/author.php:19
+msgid "Author"
+msgstr "Autor"
+
+#: templates/global/breadcrumbs/category.php:19
+msgid "Category"
+msgstr "Kategorie"
+
+#: templates/global/breadcrumbs/date.php:18
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr "Y"
+
+#: templates/global/breadcrumbs/date.php:21
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr "F Y"
+
+#: templates/global/breadcrumbs/date.php:24
+msgctxt "daily archives date format"
+msgid "F j, Y"
+msgstr "F j, Y"
+
+#: templates/global/breadcrumbs/search.php:19
+msgid "Search"
+msgstr "Suche"
+
+#: templates/global/breadcrumbs/tag.php:20
+msgid "Tag"
+msgstr "Etikett"
+
+#: templates/global/breadcrumbs/taxonomy.php:18
+msgctxt "post format archive title"
+msgid "Asides"
+msgstr "Nebenbei"
+
+#: templates/global/breadcrumbs/taxonomy.php:21
+msgctxt "post format archive title"
+msgid "Galleries"
+msgstr "Galerien"
+
+#: templates/global/breadcrumbs/taxonomy.php:24
+msgctxt "post format archive title"
+msgid "Images"
+msgstr "Bilder"
+
+#: templates/global/breadcrumbs/taxonomy.php:27
+msgctxt "post format archive title"
+msgid "Videos"
+msgstr "Videos"
+
+#: templates/global/breadcrumbs/taxonomy.php:30
+msgctxt "post format archive title"
+msgid "Quotes"
+msgstr "Zitate"
+
+#: templates/global/breadcrumbs/taxonomy.php:33
+msgctxt "post format archive title"
+msgid "Links"
+msgstr "Links"
+
+#: templates/global/breadcrumbs/taxonomy.php:36
+msgctxt "post format archive title"
+msgid "Statuses"
+msgstr "Status"
+
+#: templates/global/breadcrumbs/taxonomy.php:39
+msgctxt "post format archive title"
+msgid "Audio"
+msgstr "Audio"
+
+#: templates/global/breadcrumbs/taxonomy.php:42
+msgctxt "post format archive title"
+msgid "Chats"
+msgstr "Chats"
+
+#: templates/loop/content.php:22 templates/single/content.php:24
+#, php-format
+msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr "Lesen Sie weiter <span class=\"screen-reader-text\">\"%s\"</span>"
+
+#: templates/loop/content.php:33 templates/page/content.php:23
+#: templates/single/content.php:35
+msgid "Pages:"
+msgstr "Seiten:"
+
+#: templates/loop/header.php:19
+msgctxt "post"
+msgid "Featured"
+msgstr "Vorgestellt"
+
+#: templates/page/footer.php:21
+#, php-format
+msgid "Edit <span class=\"screen-reader-text\">%s</span>"
+msgstr "Bearbeiten  <span class=\"screen-reader-text\">%s</span>"

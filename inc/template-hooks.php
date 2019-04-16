@@ -26,8 +26,13 @@
  */
 add_action( 'ipress_before_header', 'ipress_skip_links',	3 );
 add_action( 'ipress_sidebar',		'ipress_get_sidebar',	10 );
-add_action( 'ipress_after_content',	'ipress_scroll_top', 	10 );
+add_action( 'ipress_before_footer',	'ipress_scroll_top', 	10 );
 	    
+/**
+ * @see ipress_breadcrumbs()
+ */
+add_action( 'ipress_before_main_content', 'ipress_breadcrumbs', 10 );
+
 //------------------------------------------
 //  Header
 //------------------------------------------
@@ -55,81 +60,32 @@ add_action( 'ipress_footer',	'ipress_credit_info',		20 );
 //------------------------------------------
 
 /**
- * @see  ipress_loop_sticky()
  * @see  ipress_loop_header()
  * @see  ipress_loop_meta()
  * @see  ipress_loop_content()
  * @see  ipress_loop_footer()
  * @see	 ipress_init_structured_data()
- * @see  ipress_paging_nav()
- * @see  ipress_post_thumbnail()
+ * @see  ipress_loop_nav()
+ * @see  ipress_loop_thumbnail()
  */
-add_action( 'ipress_loop',				'ipress_loop_sticky',			5 );
-add_action( 'ipress_loop',				'ipress_loop_header',			10 );
-add_action( 'ipress_loop',				'ipress_loop_meta',				20 );
-add_action( 'ipress_loop',				'ipress_loop_content',			30 );
-add_action( 'ipress_loop',				'ipress_loop_footer',			40 );
-add_action( 'ipress_loop_footer',		'ipress_init_structured_data',	10 );
-
-add_action( 'ipress_loop_after',			'ipress_paging_nav',	10 );
-add_action( 'ipress_loop_content_before',	'ipress_loop_image',	10 );
-
-//------------------------------------------
-// Post Formats - Not Yet Implemented
-//------------------------------------------
-
-/**
- * @see  ipress_loop_sticky()
- * @see  ipress_loop_header()
- * @see  ipress_loop_content_audio()
- * @see  ipress_init_structured_data()
- */        
-add_action( 'ipress_loop_audio',   	'ipress_loop_sticky',          	5 );
-add_action( 'ipress_loop_audio',   	'ipress_loop_header',          	10 );
-add_action( 'ipress_loop_audio',   	'ipress_loop_content_audio',   	20 );
-add_action( 'ipress_loop_audio',   	'ipress_init_structured_data', 	30 );
+add_action( 'ipress_loop',					'ipress_loop_header',			10 );
+add_action( 'ipress_loop',					'ipress_loop_meta',				20 );
+add_action( 'ipress_loop',					'ipress_loop_content',			30 );
+add_action( 'ipress_loop',					'ipress_loop_footer',			40 );
+add_action( 'ipress_loop_footer',			'ipress_init_structured_data',	10 );
+add_action( 'ipress_loop_content_before',	'ipress_loop_thumbnail',		10 );
+add_action( 'ipress_loop_after',			'ipress_loop_nav',				10 );
 
 /**
  * @see  ipress_loop_header()
- * @see  ipress_loop_content_excerpt()
- * @see  ipress_init_structured_data()
+ * @see  ipress_loop_meta()
+ * @see  ipress_loop_excerpt()
+ * @see  ipress_loop_footer()
  */        
-add_action( 'ipress_loop_excerpt', 	'ipress_loop_header',          	10 );
-add_action( 'ipress_loop_excerpt', 	'ipress_loop_content_excerpt', 	20 );
-add_action( 'ipress_loop_excerpt', 	'ipress_init_structured_data', 	30 );
-
-/**
- * @see  ipress_loop_sticky()
- * @see  ipress_loop_header()
- * @see  ipress_loop_content_gallery()
- * @see  ipress_init_structured_data()
- */        
-add_action( 'ipress_loop_gallery', 	'ipress_loop_sticky',          	5 );
-add_action( 'ipress_loop_gallery', 	'ipress_loop_header',          	10 );
-add_action( 'ipress_loop_gallery', 	'ipress_loop_content_gallery', 	20 );
-add_action( 'ipress_loop_gallery', 	'ipress_init_structured_data', 	30 );
-
-/**
- * @see  ipress_loop_sticky()
- * @see  ipress_loop_header()
- * @see  ipress_loop_content_image()
- * @see  ipress_init_structured_data()
- */        
-add_action( 'ipress_loop_image',   	'ipress_loop_sticky',          	5 );
-add_action( 'ipress_loop_image',   	'ipress_loop_header',          	10 );
-add_action( 'ipress_loop_image',   	'ipress_loop_content_image',   	20 );
-add_action( 'ipress_loop_image',   	'ipress_init_structured_data', 	30 );
-
-/**
- * @see  ipress_loop_sticky()
- * @see  ipress_loop_header()
- * @see  ipress_loop_content_image()
- * @see  ipress_init_structured_data()
- */        
-add_action( 'ipress_loop_video',   	'ipress_loop_sticky',          	5 );
-add_action( 'ipress_loop_video',   	'ipress_loop_header',          	10 );
-add_action( 'ipress_loop_video',   	'ipress_loop_content_video',   	20 );
-add_action( 'ipress_loop_video',   	'ipress_init_structured_data', 	30 );
+add_action( 'ipress_loop_excerpt', 			'ipress_loop_header',          	10 );
+add_action( 'ipress_loop_excerpt',			'ipress_loop_meta',				20 );
+add_action( 'ipress_loop_excerpt', 			'ipress_loop_excerpt', 			23 );
+add_action( 'ipress_loop_excerpt',			'ipress_loop_footer',			40 );
 
 //------------------------------------------
 //  Single

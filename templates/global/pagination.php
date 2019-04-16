@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying main pagination
+ * Template for displaying main pagination.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk

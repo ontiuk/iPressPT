@@ -4,14 +4,14 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying the post loop excerpt
+ * Template for displaying the post loop content and thumbnail.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk
  * @license     GPL-2.0+
  */
 ?>
-<?php /** @hooked ipress_loop_image - 10 */
+<?php /** @hooked ipress_loop_thumbnail - 10 */
 do_action( 'ipress_loop_content_before' ); ?>
 
 <section class="entry-summary">
@@ -20,19 +20,19 @@ do_action( 'ipress_loop_content_before' ); ?>
 		wp_kses(
 			/* translators: %s: Name of current post. Only visible to screen readers */
 			__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'underscores' ),
-			array(
-				'span' => array(
-					'class' => array(),
-				),
-			)
+			[
+				'span' => [
+					'class' => [],
+				]
+			]
 		),
 		get_the_title()
 	) );
 
-	wp_link_pages( array(
+	wp_link_pages( [
 		'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'underscores' ),
 		'after'  => '</div>',
-	) );
+	] );
 ?>
 </section><!-- .entry-summary -->
 

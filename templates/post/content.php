@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template part for displaying posts.
+ * Template part for displaying post content.
  *
  * @package     iPress\Templates
  * @see         https://codex.wordpress.org/Template_Hierarchy
@@ -21,10 +21,9 @@
 	/**
 	 * Functions hooked in to ipress_loop_post action.
 	 *
-	 * @hooked ipress_loop_sticky       - 5
 	 * @hooked ipress_loop_header       - 10
 	 * @hooked ipress_loop_meta         - 20
-	 * @hooked ipress_loop_excerpt      - 30
+	 * @hooked ipress_loop_content      - 30
 	 * @hooked ipress_loop_footer       - 40
 	 */
 	do_action( 'ipress_loop' ); ?>

@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme initialisation for Jetpack features
+ * Theme initialisation for Jetpack features.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.co.uk

@@ -4,14 +4,14 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying the post loop excerpt
+ * Template for displaying the post loop excerpt.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk
  * @license     GPL-2.0+
  */
 ?>
-<?php /** @hooked ipress_loop_image - 10 */
+<?php /** @hooked ipress_loop_thumbnail - 10 */
 do_action( 'ipress_loop_content_before' ); ?>
 
 <section class="entry-summary">

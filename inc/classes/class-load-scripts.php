@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme initialisation for core WordPress features
+ * Theme initialisation for theme and plugin scripts.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.uk
@@ -129,6 +129,9 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		 */
 		public function __construct() {
 
+			// Set up theme scripts
+			add_action( 'init', [ $this, 'init' ] );
+
 			// Load admin scripts
 			add_action( 'admin_enqueue_scripts', 	[ $this, 'load_admin_scripts' ] ); 
 
@@ -165,10 +168,12 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 		/**
 		 * Initialise main scripts
-		 *
-		 * @param array $scripts
 		 */
-		public function init( $scripts ) {
+		public function init() {
+
+			// Register theme scripts
+			$scripts = (array) apply_filters( 'ipress_scripts', [] );
+			if ( empty( $scripts ) ) { return; }
 
 			// Admin scripts: [ 'label' => [ 'hook', 'src', (array)deps, 'ver' ] ... ]
 			$this->admin = $this->set_key( $scripts, 'admin' );
@@ -278,7 +283,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			];
 			wp_localize_script( 'ipress', 'theme', $trans ); 
 
-			// Enqueue main script
+			// Enqueue main script - can be overriden by child scripts undo
 			wp_enqueue_script( 'ipress' );
 		}
 

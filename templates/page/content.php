@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying the page content
+ * Template for displaying the page content.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk

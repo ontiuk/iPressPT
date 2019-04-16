@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Set up and load theme requirements
+ * Set up and load theme requirements and bootstrap initialization
  * 
  * @package		iPress\Bootstrap
  * @link		http://ipress.uk
@@ -28,6 +28,7 @@ define( 'IPRESS_DIR', 			get_parent_theme_file_path() );
 define( 'IPRESS_ASSETS_DIR',	IPRESS_DIR . '/assets' );
 define( 'IPRESS_INCLUDES_DIR',	IPRESS_DIR . '/inc' );
 define( 'IPRESS_TEMPLATES_DIR', IPRESS_DIR . '/templates' );
+define( 'IPRESS_LANG_DIR',		IPRESS_DIR . '/languages' );
 
 // Assets Directory Structure
 define( 'IPRESS_CSS_DIR',		IPRESS_ASSETS_DIR . '/css' );
@@ -36,7 +37,6 @@ define( 'IPRESS_IMAGES_DIR',	IPRESS_ASSETS_DIR . '/images' );
 define( 'IPRESS_FONTS_DIR',		IPRESS_ASSETS_DIR . '/fonts' );
 
 // Includes Directory Structure
-define( 'IPRESS_LANG_DIR',		IPRESS_INCLUDES_DIR . '/languages' );
 define( 'IPRESS_LIB_DIR',		IPRESS_INCLUDES_DIR . '/lib' );
 define( 'IPRESS_ADMIN_DIR',		IPRESS_INCLUDES_DIR . '/admin' );
 define( 'IPRESS_CLASSES_DIR',	IPRESS_INCLUDES_DIR . '/classes' );
@@ -49,6 +49,7 @@ define( 'IPRESS_WIDGETS_DIR',	IPRESS_INCLUDES_DIR . '/widgets' );
 define( 'IPRESS_URL',			get_parent_theme_file_uri() );
 define( 'IPRESS_ASSETS_URL',	IPRESS_URL . '/assets' );
 define( 'IPRESS_INCLUDES_URL',	IPRESS_URL . '/inc' );
+define( 'IPRESS_LANG_URL',		IPRESS_URL . '/languages' );
 
 // Assets Directory Paths
 define( 'IPRESS_CSS_URL',		IPRESS_ASSETS_URL . '/css' );
@@ -57,7 +58,6 @@ define( 'IPRESS_IMAGES_URL',	IPRESS_ASSETS_URL . '/images' );
 define( 'IPRESS_FONTS_URL',		IPRESS_ASSETS_URL . '/fonts' );
 
 // Includes Directory Paths
-define( 'IPRESS_LANG_URL',		IPRESS_INCLUDES_URL . '/languages' );
 define( 'IPRESS_LIB_URL',		IPRESS_INCLUDES_URL . '/lib' );
 
 //----------------------------------------------
@@ -108,9 +108,6 @@ $ipress = (object)[
 	// Theme setup
 	'main'			=> require_once IPRESS_CLASSES_DIR . '/class-theme.php',
 	'customizer'	=> require_once IPRESS_CLASSES_DIR . '/class-customizer.php',
-
-	// Custom Post-Types & Taxonomies 
-	'custom'		=> require_once IPRESS_CLASSES_DIR . '/class-custom.php'
 ];
 
 // Tag on Child Theme data
@@ -126,7 +123,7 @@ if ( is_admin() ) {
 
 // Multisite?
 if ( is_multisite() ) {
-	require_once IPRESS_CLASSES_DIR . '/class-multisite.php';
+	$ipress->multisite = require_once IPRESS_CLASSES_DIR . '/class-multisite.php';
 }
 
 // Theme header setup
@@ -158,6 +155,13 @@ require_once IPRESS_CLASSES_DIR . '/class-page.php';
 
 // Content Functionality: actions & filters
 require_once IPRESS_CLASSES_DIR . '/class-content.php';
+
+//----------------------------------------------------------
+//	Initialize Custom Post Types & Taxonomies
+//----------------------------------------------------------
+
+// Custom Post-Types & Taxonomies 
+require_once IPRESS_CLASSES_DIR . '/class-custom.php';
 
 //----------------------------------------------
 //	Libraries & Plugins

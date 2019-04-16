@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template part for displaying results in search pages
+ * Template part for displaying results in search pages.
  *
  * @package     iPress\Templates
  * @see         https://codex.wordpress.org/Template_Hierarchy

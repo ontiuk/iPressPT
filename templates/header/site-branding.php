@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying the generic site logo / text
+ * Template for displaying the generic site logo / text.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk

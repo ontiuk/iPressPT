@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme initialisation for core WordPress features
+ * Theme initialisation for core WordPress sidebar widget areas features.
  * 
  * @package		iPress\Includes
  * @link		http://on.tinternet.co.uk
@@ -87,7 +87,7 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 			} else { $footer_sidebars = []; }
 
 			// Custom widgets
-			$custom_sidebars = (array)apply_filters( 'ipress_custom_sidebars', [] );
+			$custom_sidebars = (array) apply_filters( 'ipress_custom_sidebars', [] );
 
 			// Set default sidebars
 			return array_merge( $default_sidebars, $footer_sidebars, $custom_sidebars );

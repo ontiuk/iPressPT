@@ -38,7 +38,7 @@
 
 	<?php else: ?>
 	
-		<?php get_template_part( 'templates/global/none' ); ?>
+		<?php get_template_part( 'templates/global/content', 'none' ); ?>
 
 	<?php endif; ?>
 

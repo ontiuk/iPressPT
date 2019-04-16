@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying the page content header
+ * Template for displaying the page content header.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk

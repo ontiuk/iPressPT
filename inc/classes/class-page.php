@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme initialisation for core WordPress page support features
+ * Theme initialisation for core WordPress page support features.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.uk
@@ -71,7 +71,7 @@ if ( ! class_exists( 'IPR_Page' ) ) :
 		public function add_cpt_to_search( $query ) { 
 
 			// Generate search post types - e.g names from get_post_types( [ 'public' => true, 'exclude_from_search' => false ], 'objects' ); 
-			$post_types = (array)apply_filters( 'ipress_search_types', [] );
+			$post_types = (array) apply_filters( 'ipress_search_post_types', [] );
 			if ( empty( $post_types ) ) { return $query; }
 
 			// Check to verify it's search page & add post types to search

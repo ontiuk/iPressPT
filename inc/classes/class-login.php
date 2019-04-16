@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme initialisation for core WordPress features
+ * Theme initialisation for core WordPress login features.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.uk
@@ -44,7 +44,7 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 			if ( empty( $login_page ) ) { return; }
 
 			$login_url  = home_url( '/' . $login_page . '/' );
-			$page_viewed = basename($_SERVER['REQUEST_URI']);
+			$page_viewed = basename( $_SERVER['REQUEST_URI'] );
 
 			if ( $page_viewed == "wp-login.php" && $_SERVER['REQUEST_METHOD'] == 'GET' ) {
 				wp_redirect( $login_url );

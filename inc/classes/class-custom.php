@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme specific custom post-type and taxonomy initialization
+ * Theme specific custom post-type and taxonomy initialization.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.co.uk
@@ -88,6 +88,9 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 */
 		public function __construct() {
 
+			// Set up theme post-types and taxonomies
+			add_action( 'init', [ $this, 'init' ] );
+
 			// Generate & register custom post-types
 			add_action( 'init', [ $this, 'register_post_types' ] ); 
 
@@ -95,10 +98,17 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			add_action( 'init', [ $this, 'register_taxonomies' ] ); 
 
 			// Flush rewrite rules after theme activation
-			add_action( 'after_switch_theme', [ $this, 'flush_rewrite_rules' ] );
+			add_action( 'after_switch_theme', 		[ $this, 'flush_rewrite_rules' ] );
 
 			// Post-type & taxonomy error messages
-			add_action( 'admin_notices', [ $this, 'admin_notices' ] );
+			add_action( 'admin_notices', 			[ $this, 'admin_notices' ] );
+
+			// Setup Messages Callback
+			add_filter( 'post_updated_messages', 	[ $this, 'messages' ] );
+
+			// Contextual screen help
+			add_action( 'load-edit.php', 			[ $this, 'contextual_help_tabs' ] );
+			add_action( 'load-post.php', 			[ $this, 'contextual_help_tabs' ] );
 		}
 
 		//----------------------------------------------
@@ -112,19 +122,19 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param 	array 	$taxonomies
 		 * @param	string	$prefix
 		 */
-		public function init( $post_types, $taxonomies, $prefix = '' ) {
+		public function init() {
 
 			// Register post-types
-			$this->post_types = (array) $post_types;
+			$this->post_types = (array) apply_filters( 'ipress_custom_post_types', [] );
 
 			// Register taxonomies
-			$this->taxonomies = (array) $taxonomies;
+			$this->taxonomies = (array) apply_filters( 'ipress_taxonomies', [] );
 
 			// Post-type - taxonomy columns & filters
 			$this->taxonomy_columns();
 
 			// Tag on post type prefix if required
-			$this->post_type_prefix = $prefix;
+			$this->post_type_prefix = sanitize_text_field( apply_filters( 'ipress_post_type_prefix', '' ) );
 		}
 		
 		//----------------------------------------------
@@ -551,41 +561,15 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			
 			// Post-Type Errors
 			if ( !empty( $this->post_type_errors ) ) {
-				$message = sprintf( __( 'Error: Bad Post Types [%s]', 'ipress' ), join( ', ', $this->post_type_errors ) ); 
+				$message = sprintf( __( 'Error: Bad Post Types [%s].', 'ipress' ), join( ', ', $this->post_type_errors ) ); 
 				echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', esc_html( $message ) ); 
 			}
 
 			// Taxonomy Errors
 			if ( !empty( $this->taxonomy_errors ) ) {
-				$message = sprintf( __( 'Error: Bad Taxonomies [%s]', 'ipress' ), join( ', ', $this->taxonomy_errors ) );
+				$message = sprintf( __( 'Error: Bad Taxonomies [%s].', 'ipress' ), join( ', ', $this->taxonomy_errors ) );
 				echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', esc_html( $message ) ); 
 			}
-		}
-	}
-
-endif;
-
-if ( ! class_exists( 'IPR_Custom_Child' ) ) :
-
-	/**
-	 * Example child class if wanting to extend messages / contextual help
-	 * @see https://codex.wordpress.org/Function_Reference/register_post_type
-	 */
-	class IPR_Custom_Child extends IPR_Custom {
-
-		/**
-		 * Class Constructor
-		 */
-		public function __construct() {
-			
-			// Call parent class
-			parent::__construct();
-
-			// Setup Messages Callback
-			add_filter( 'post_updated_messages', [ $this, 'messages' ] );
-
-			// Setup Contextual Help
-			add_action( 'contextual_help', [ $this, 'contextual_help' ], 10, 3 );
 		}
 
 		//----------------------------------------------
@@ -599,7 +583,7 @@ if ( ! class_exists( 'IPR_Custom_Child' ) ) :
 		 * @return	array
 		 */
 		public function messages( $messages ) { 
-			return $messages; 
+			return (array) apply_filters( 'ipress_post_type_messages', $messages ); 
 		}
 
 		//----------------------------------------------
@@ -608,14 +592,39 @@ if ( ! class_exists( 'IPR_Custom_Child' ) ) :
 
 		/**
 		 * Contextual Help Callback
-		 *
+		 * 	[
+		 *  	[
+		 *  		'id'      => 'sp_overview',
+		 *  		'title'   => 'Overview',
+		 *  		'content' => '<p>Overview of your plugin or theme here</p>'
+		 *  	]
+		 *  ];
+ 		 *
 		 * @param	string $contextual_help
 		 * @param	object $screen_id
 		 * @param	string $screen
 		 * @return	array
 		 */
-		public function contextual_help( $contextual_help, $screen_id, $screen ) { 
-			return $contextual_help; 
+		public function contextual_help_tabs() {
+
+			// Get current screen
+			$screen = get_current_screen();
+
+			// Test valid post types
+			if ( ! in_array( $screen->id, $this->post_types ) ) { return; }
+
+			// Get help types
+			$help_types = (array) apply_filters( 'ipress_post_type_help', [] );
+			if ( empty( $help_types ) ) { return; }
+
+			// Get right help
+			if ( ! array_key_exists( $screen->id, $help_types[$screen->id] ) ) { return; }
+			$help_tabs = $help_types[$screen->id];
+
+			// Construct tabs from array
+			foreach ( $help_tabs as $help_tab ) {
+				$screen->add_help_tab( $help_tab );
+			}
 		}
 	}
 

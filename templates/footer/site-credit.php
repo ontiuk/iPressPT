@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying the generic site info & credits
+ * Template for displaying the generic site info & credits.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk

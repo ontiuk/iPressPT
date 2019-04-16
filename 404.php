@@ -6,7 +6,7 @@
  *
  * Template for displaying the 404 page
  * 
- * @see https://codex.wordpress.org/Creating_an_Error_404_Page
+ * @see https://codex.wordpress.org/Creating_an_Error_404_Page.
  *
  * @package		iPress\Templates
  * @link		http://ipress.uk

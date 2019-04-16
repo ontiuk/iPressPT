@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme starter content
+ * Theme starter content.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.uk

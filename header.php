@@ -36,7 +36,7 @@
 
 	<header id="masthead" class="site-header" <?php ipress_header_style(); ?> itemscope itemtype="https://schema.org/WPHeader">
 
-		<?php do_action( 'ipress_header_before' ); ?>
+		<?php do_action( 'ipress_header_top' ); ?>
 
 		<div class="wrap">
 			<?php 
@@ -49,7 +49,7 @@
 			do_action( 'ipress_header' ); ?>
 		</div>
 
-		<?php do_action( 'ipress_header_after' ); ?>
+		<?php do_action( 'ipress_header_bottom' ); ?>
 
 	</header><!-- .site-header -->
 

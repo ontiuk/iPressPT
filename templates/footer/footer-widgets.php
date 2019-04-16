@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework                       
  * ==========================================================
  *
- * Template for displaying footer widgets
+ * Template for displaying footer widgets.
  * 
  * @package     iPress\Templates
  * @link        http://ipress.uk
@@ -27,18 +27,14 @@ if ( is_active_sidebar( 'footer-3' ) ) {
 if ( $widget_columns === 0 ) { return; }
 ?>
 
-<div class="footer-widgets col-<?php echo intval( $widget_columns ); ?> fix">
-
+<div class="footer-widgets col-<?= intval( $widget_columns ); ?> fix">
 <?php
 	$i = 0;
 	while ( $i < $widget_columns ) : $i++;
 		if ( is_active_sidebar( 'footer-' . $i ) ) : ?>
-
 			<div class="block footer-widget-<?php echo intval( $i ); ?>">
 				<?php dynamic_sidebar( 'footer-' . intval( $i ) ); ?>
 			</div>
-
 		<?php endif;
 	endwhile; ?>
-
 </div><!-- /.footer-widgets  -->

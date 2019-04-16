@@ -28,16 +28,16 @@
 		<?php if ( is_home() && !is_front_page() ) : ?>
 			<h1 class="page-title single-title"><?php single_post_title(); ?></h1>
 		<?php else : ?>
-			<h1 class="page-title index-title"><?php __( 'Our Latest Posts', 'ipress' ); ?></h1>
+			<h1 class="page-title index-title"><?= __( 'Our Latest Posts', 'ipress' ); ?></h1>
 			<?php the_archive_description( '<div class="archive-description index-archive">', '</div>' ); ?>
 		<?php endif; ?>
 		</header><!-- .page-header -->
 
-		<?php get_template_part( 'templates/archive' ); ?>
+		<?php get_template_part( 'templates/index' ); ?>
 
 	<?php else: ?>
 	
-		<?php get_template_part( 'templates/global/none' ); ?>
+		<?php get_template_part( 'templates/global/content', 'none' ); ?>
 
 	<?php endif; ?>
 

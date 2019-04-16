@@ -17,6 +17,8 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?> itemscope itemtype="https://schema.org/CreativeWork">
 
+	<?php do_action( 'ipress_single_top' ); ?>
+
 	<?php
 	/**
 	 * Functions hooked into ipress_single_post add_action
@@ -27,6 +29,8 @@
 	 * @hooked ipress_footer            - 40
 	 */
 	do_action( 'ipress_single' ); ?>
+
+	<?php do_action( 'ipress_single_bottom' ); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->
 

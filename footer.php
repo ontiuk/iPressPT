@@ -20,7 +20,7 @@
 
 	<footer id="footer" class="site-footer" itemscope itemtype="https://schema.org/WPFooter">
 
-		<?php do_action( 'ipress_footer_before' ); ?>
+		<?php do_action( 'ipress_footer_top' ); ?>
 
 		<div class="wrap">
 
@@ -35,7 +35,7 @@
 
 		</div>
 
-		<?php do_action( 'ipress_footer_after' ); ?>
+		<?php do_action( 'ipress_footer_bottom' ); ?>
 
 	</footer><!-- #footer / .site-footer -->
 

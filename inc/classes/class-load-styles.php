@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme initialisation for core WordPress features
+ * Theme initialisation for theme and plugin styles.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.co.uk
@@ -101,6 +101,9 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		 */
 		public function __construct() {
 
+			// Set up theme styles
+			add_action( 'init', [ $this, 'init' ] );
+
 			// Load admin styles
 			add_action( 'admin_enqueue_scripts', 				[ $this, 'load_admin_styles' ] ); 
 
@@ -143,11 +146,12 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 
 		/**
 		 * Initialise main styles
-		 *
-		 * @param array $styles
-		 * @param array $fonts
 		 */
-		public function init( $styles, $fonts ) {
+		public function init() {
+
+			// Retrieve theme config: styles
+			$styles = (array) apply_filters( 'ipress_styles', [] );
+			if ( empty( $styles ) ) { return; }
 
 			// Admin styles: [ 'label' => [ 'hook', 'src', (array)deps, 'ver' ] ... ]
 			$this->admin = $this->set_key( $styles, 'admin' );
@@ -178,9 +182,6 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 
 			// Styles attributes: [ 'label' => [ 'handle' ] ... ]
 			$this->attr = $this->set_key( $styles, 'attr' );
-
-			// Theme fonts: [ 'label' => [ 'src', (array)deps, 'ver' ] ... ];
-			$this->fonts = ( is_array( $fonts ) && ! empty( $fonts ) ) ? $fonts : [];
 		}
 
 		/**
@@ -314,8 +315,14 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		 */
 		public function load_fonts() { 
 
+			// Retrieve theme config: styles
+			$fonts 	= (array) apply_filters( 'ipress_fonts', [] );
+
 			// No fonts set?
 			if ( ! isset( $this->fonts['family'] ) || empty( $this->fonts['family'] ) ) { return; }
+
+			// Filterable fonts url
+			$font_url = apply_filters( 'ipress_fonts_url', 'https://fonts.googleapis.com/css' );
 
 			// Construct font: family
 			$query_args = [
@@ -328,7 +335,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			}
 
 			// Set fonts url
-			$fonts_url = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
+			$fonts_url = add_query_arg( $query_args, $fonts_url );
 
 			// Register & enqueue css style file for later use 
 			wp_register_style( 'ipress-fonts', esc_url( $fonts_url ), [], null ); 
@@ -368,7 +375,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 
 			// Use filter to add styles
 			$header_styles = apply_filters( 'ipress_header_styles', get_theme_mod( 'ipress_header_styles', '' ) );
-			if ( ! $header_styles ) { return; }
+			if ( empty( $header_styles ) ) { return; }
 			
 			// Capture output	
 			wp_add_inline_style( 'style', $header_styles );
