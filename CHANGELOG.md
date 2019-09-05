@@ -6,3 +6,4 @@
 * (06 November 2018)	1.0.4 Various tweaks and improvements
 * (26 March 2019)		1.0.5 Various tweaks, i18n, templates
 * (16 April 2019) 		1.0.6 Decouple parent - child config. Move to filters. Various tweaks
+* (05 September 2019)	1.0.7 Update custom class
