@@ -33,8 +33,12 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 		 */
 		public function __construct() {
 
+			// Set up versioning
+			$ipress_theme_php 	= apply_filters( 'ipress_theme_php', IPRESS_THEME_PHP );
+			$ipress_theme_wp	= apply_filters( 'ipress_theme_wp', IPRESS_THEME_WP );
+
 			// PHP versioning check
-			if ( version_compare( phpversion(), apply_filters( 'ipress_theme_php', IPRESS_THEME_PHP ), '<' ) ) {
+			if ( version_compare( phpversion(), $ipress_theme_php, '<' ) ) {
 
 				// Prevent switching & activation 
 				add_action( 'after_switch_theme', [ $this, 'switch_theme_php' ] );
@@ -44,7 +48,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 			}
 
 			// WP versioning check
-			if ( version_compare( $GLOBALS['wp_version'], apply_filters( 'ipress_theme_wp', IPRESS_THEME_WP ), '<' ) ) {
+			if ( version_compare( $GLOBALS['wp_version'], $ipress_theme_wp, '<' ) ) {
 				
 				// Prevent switching & activation 
 				add_action( 'after_switch_theme', [ $this, 'switch_theme_wp' ] );

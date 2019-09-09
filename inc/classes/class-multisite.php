@@ -90,7 +90,7 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 
 					// Set ID & description
 					$blogs[$k]->blog_id 	= $blog->userblog_id;
-					$blogs[$k]->description = apply_filters( 'ipress_multisite_description', $blog->userblog_id, '' );
+					$blogs[$k]->description = apply_filters( 'ipress_multisite_description', '', $blog->userblog_id );
 
 					// Set language
 					$blog_language			= (string) get_blog_option( $blog->userblog_id, 'WPLANG' );

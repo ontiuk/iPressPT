@@ -98,7 +98,7 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 			// Add the file extension to the current mimes
 			foreach ( $new_mimes as $k=>$v ) {
 				if ( array_key_exists( $k, $existing_mimes ) ) { continue; }
-				$existing_mimes[$k] = sanitize_text_field( $v );
+				$existing_mimes[$k] = esc_html( $v );
 			}
 
 			// Return the modified list of extensions / mime-types

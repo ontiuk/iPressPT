@@ -57,7 +57,7 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 		 */
 		public function custom_login_failed() {
 
-			$login_page = apply_filters( 'ipress_login_page', '' );
+			$login_page = apply_filters( 'ipress_login_failed_page', '' );
 			if ( empty( $login_page ) ) { return; }
 
 			$login_url  = home_url( '/' . $login_page . '/' );
@@ -70,7 +70,7 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 		 */
 		public function verify_user_pass( $user, $username, $password ) {
 
-			$login_page = apply_filters( 'ipress_login_page', '' );
+			$login_page = apply_filters( 'ipress_login_verify_page', '' );
 			if ( empty( $login_page ) ) { return; }
 
 			$login_url  = home_url( '/' . $login_page . '/' );
@@ -85,7 +85,7 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 		 */
 		public function logout_redirect() {
 
-			$login_page = apply_filters( 'ipress_login_page', '' );
+			$login_page = apply_filters( 'ipress_login_logout_page', '' );
 			if ( empty( $login_page ) ) { return; }
 
 			$login_url  = home_url( '/' . $login_page . '/' );

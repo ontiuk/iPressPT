@@ -133,6 +133,12 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 				'show_in_rest', 'rest_base', 'rest_controller_class'					
 			];
 
+			// Update reserved post-types with custom values e.g. from 3rd party products
+			$post_type_reserved = apply_filters( 'ipress_custom_post_type_reserved', $post_type_reserved );
+
+			// Update optional args list - e.g. remove args if needed
+			$valid = apply_filters( 'ipress_custom_post_type_valid_args', $valid );
+
 			// Built-in, do not use here
 			$invalid = [ '_builtin', '_edit_link' ];
 
@@ -378,6 +384,12 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 				'show_admin_column', 'hierarchical', 'update_count_callback',
 				'query_var', 'rewrite', 'capabilities', 'sort'
 			];
+
+			// Update reserved taxonomies with custom values e.g. from 3rd party products
+			$taxonomy_reserved = apply_filters( 'ipress_custom_taxonomy_reserved', $taxonomy_reserved );
+
+			// Update optional args list - e.g. remove args if needed
+			$valid = apply_filters( 'ipress_custom_post_type_valid_args', $valid );
 
 			// Built-in, do not use here
 			$invalid = [ '_builtin' ];
