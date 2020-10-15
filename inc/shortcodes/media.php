@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Images and media shortcodes
+ * Images and media shortcodes.
  *
  * @package		iPress\Shortcodes
  * @link		http://ipress.uk
@@ -20,6 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //---------------------------------------------
 // Images and Media Shortcodes 
+//
+// ipress_attachment_meta
+// ipress_post_attachments
+// ipress_image_hex_to_rgb
 //---------------------------------------------
 
 /**
@@ -30,32 +34,30 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ipress_attachment_meta_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'			=> '',
 		'before'		=> '',
 		'attachment'	=> '',
 		'size'			=> ''
 	];
+	
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_attachment_meta_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_attachment_meta' );
 
 	// Attachment ID required
-	if ( empty( $attachemnt_id ) ) { return false; }
+	if ( ! isset( $atts['attachment_id'] ) ) { return false; }
 
 	// Get attachment data
-	$attachment = get_post( $atts['attachment_id'] );
-
-	// Not valid
-	if ( empty( $attachment ) ) { return false; }
-
-	// Get attachment data
-	$attachment = get_post( $attachment_id );
-	if ( empty( $attachment ) ) { return false; }
+	$attachment_id 	= absint( $atts['attachment_id'] );
+	$attachment 	= get_post( $attachment_id );
 
 	// Set thumbnail if available  
-	$att_data_thumb = wp_get_attachment_image_src( $attachment_id, $size );
-	if ( !$att_data_thumb ) { return false; }
+	$att_data_thumb = wp_get_attachment_image_src( $attachment_id, sanitize_text_field( $atts['size'] ) );
+	if ( ! $att_data_thumb ) { return false; }
 	
 	// Generate attachment data
 	$data = [];
@@ -67,14 +69,15 @@ function ipress_attachment_meta_shortcode( $atts ) {
 	$data['title']			= $attachment->post_title;
 
 	// Generate output
-	$output = sprintf( '<span class="attachment-meta">%s</span>', $atts['before'] . print_r( $data, true ) . $atts['after'] );
+	$output = sprintf( '<span class="attachment-meta">%s</span>', sanitize_text_field( $atts['before'] ) . print_r( $data, true ) . sanitize_text_field( $atts['after'] ) );
+	$output = (string) apply_filters( 'ipress_attachment_meta_shortcode', $output, $atts );
 
 	// Return filterable output
-	return apply_filters( 'ipress_attachment_meta_shortcode', $output, $atts );
+	return trim( $output );
 }
 
 // Attachment meta data shortcode
-add_shortcode( 'ipress_attachment_meta', 'ipress_attachment_meta_shortcode' );
+add_shortcode( 'ipress_attachment_meta', 'ipress_attachment_meta_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Get post attachements by attachement mime type 
@@ -84,13 +87,17 @@ add_shortcode( 'ipress_attachment_meta', 'ipress_attachment_meta_shortcode' );
  */
 function ipress_post_attachments_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'				=> '',
 		'before'			=> '',
 		'post_mime_type'	=> '',
-		'numberposts'		=> -1,
+		'numberposts'		=> -1, // phpcs:ignore WPThemeReview.CoreFunctionality.PostsPerPage.posts_per_page_numberposts
 		'post_parent'		=> ''
 	];
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_attachments_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_attachments' );
@@ -98,24 +105,29 @@ function ipress_post_attachments_shortcode( $atts ) {
 	// Parent & type required
 	if ( empty( $atts['post_parent'] ) || empty( $atts['post_mime_type'] ) ) { return false; }
 
+	// Set some defaults
+	$numberposts =	intval( $atts['numberposts'] );
+	$post_parent =	absint( $atts['post_parent'] );
+	
 	// Get attachment data if available
 	$attachments = get_posts( [
 		'post_type'			=> 'attachment',
-		'post_mime_type'	=> $atts['post_mime_type'],
-		'numberposts'		=> $atts['numberposts'],
-		'post_parent'		=> $atts['post_parent']
+		'post_mime_type'	=> sanitize_text_field( $atts['post_mime_type'] ),
+		'numberposts'		=> $numberposts,
+		'post_parent'		=> $post_parent
 	] );
-	if ( !$attachments ) { return false; }
+	if ( ! $attachments ) { return false; }
 
 	// Generate output
-	$output = sprintf( '<span class="post-attachment">%s</span>', $atts['before'] . join( ' ', $attachments ) . $atts['after'] );
+	$output = sprintf( '<span class="post-attachment">%s</span>', sanitize_text_field( $atts['before'] ) . join( ' ', $attachments ) . sanitize_text_field( $atts['after'] ) );
+	$output = (string) apply_filters( 'ipress_post_attachments_shortcode', $output, $atts );
 
 	// Return filterable output
-	return apply_filters( 'ipress_post_attachments_shortcode', $output, $atts );
+	return trim( $output );
 }
 
 // Attachments by post ID shortcode
-add_shortcode( 'ipress_post_attachments', 'ipress_post_attachments_shortcode' );
+add_shortcode( 'ipress_post_attachments', 'ipress_post_attachments_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Convert color form hex to rgb
@@ -125,11 +137,15 @@ add_shortcode( 'ipress_post_attachments', 'ipress_post_attachments_shortcode' );
  */
 function ipress_image_hex_to_rgb_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'		=> '',
 		'before'	=> '',
 		'hex'		=> ''
 	];
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_image_hex_to_rgb_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_image_hex_to_rgb' );
@@ -137,23 +153,27 @@ function ipress_image_hex_to_rgb_shortcode( $atts ) {
 	// Hex code required
 	if ( empty( $atts['hex'] ) ) { return false; }
 
+	// Hex with hash
+	$hex_color = ( false === strpos( $atts['hex'], '#' ) ) ? sanitize_hex_color_without_hash( $atts['hex'] ) : sanitize_hex_color( $atts['hex'] );
+
 	// Convert hex code...
-	$hex = str_replace( '#', '', $atts['hex'] );
+	$hex_color = str_replace( '#', '', $hex_color );
 
 	// ...to rgb data
-	$r = hexdec( substr( $hex, 0, 2 ) );
-	$g = hexdec( substr( $hex, 2, 2 ) );
-	$b = hexdec( substr( $hex, 4, 2 ) );
+	$r = hexdec( substr( $hex_color, 0, 2 ) );
+	$g = hexdec( substr( $hex_color, 2, 2 ) );
+	$b = hexdec( substr( $hex_color, 4, 2 ) );
 	$rgb = $r . ',' . $g . ',' . $b; 
 
 	// Generate output
-	$output = sprintf( '<span class="image-hex-to-rgb">%s</span>', $atts['before'] . esc_html( $rgb ) . $atts['after'] );
+	$output = sprintf( '<span class="image-hex-to-rgb">%s</span>', sanitize_text_field( $atts['before'] ) . esc_attr( $rgb ) . sanitize_text_field( $atts['after'] ) );
+	$output = (string) apply_filters( 'ipress_image_hex_to_rgb_shortcode', $output, $atts );
 
 	// Return filterable output
-	return apply_filters( 'ipress_image_hex_to_rgb_shortcode', $output, $atts );
+	return trim( $output );
 }
 
 // Hex Colour Code shortcode
-add_shortcode( 'ipress_image_hex_to_rgb', 'ipress_image_hex_to_rgb_shortcode' );
+add_shortcode( 'ipress_image_hex_to_rgb', 'ipress_image_hex_to_rgb_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 //end

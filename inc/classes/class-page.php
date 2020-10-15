@@ -20,18 +20,17 @@ if ( ! class_exists( 'IPR_Page' ) ) :
 
 		/**
 		 * Class constructor
-		 * - set up hooks
 		 */
 		public function __construct() {
 
 			// Page excerpt & tag support
-			add_action( 'init', [ $this, 'page_support' ] );
+			add_action( 'init', 			[ $this, 'page_support' ] );
 
 			// Tags query support
-			add_action( 'pre_get_posts', [ $this, 'page_tags_query' ] );
+			add_action( 'pre_get_posts', 	[ $this, 'page_tags_query' ] );
 
 			// Add post types to generic search
-			add_action( 'pre_get_posts', [ $this, 'add_cpt_to_search' ] ); 
+			add_action( 'pre_get_posts', 	[ $this, 'add_cpt_to_search' ] ); 
 		}
 
 		//----------------------------------------------  
@@ -44,12 +43,12 @@ if ( ! class_exists( 'IPR_Page' ) ) :
 		public function page_support() {
 
 			// Page excerpt support
-			$page_excerpt_support = (bool)apply_filters( 'ipress_page_excerpt', false );
-			if ( $page_excerpt_support ) { add_post_type_support( 'page', 'excerpt' ); }
+			$ip_page_excerpt = (bool) apply_filters( 'ipress_page_excerpt', false );
+			if ( true === $ip_page_excerpt ) { add_post_type_support( 'page', 'excerpt' ); }
 
 			// Page tag support   
-			$page_tag_support = (bool)apply_filters( 'ipress_page_tags', false );
-			if ( $page_tag_support ) { register_taxonomy_for_object_type( 'post_tag', 'page' ); }
+			$ip_page_tags = (bool) apply_filters( 'ipress_page_tags', false );
+			if ( true === $ip_page_tags ) { register_taxonomy_for_object_type( 'post_tag', 'page' ); } // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_register_taxonomy_for_object_type
 		}
 
 		/**
@@ -57,28 +56,33 @@ if ( ! class_exists( 'IPR_Page' ) ) :
 		 * 
 		 * @param object $query WP_Query
 		 */
-		public function page_tags_query( $wp_query ) {
-			$page_tag_support = (bool)apply_filters( 'ipress_page_tags_query', false );
-			if ( $page_tag_support && $wp_query->get( 'tag' ) ) { $wp_query->set( 'post_type', 'any' ); }
+		public function page_tags_query( WP_Query $wp_query ) {
+
+			// Include tags in query?
+			$ip_page_tags_query = (bool) apply_filters( 'ipress_page_tags_query', false );
+			if ( true === $ip_page_tags_query && $wp_query->get( 'tag' ) ) {
+				$wp_query->set( 'post_type', 'any' ); 
+			}
 		}
 
 		/**
 		 * Add custom post types to search
 		 *	
-		 * @param	object $query WP_Query
-		 * @return	object
+		 * @param	object $wp_query WP_Query
+		 * @return	object $wp_query WP_Query
 		 */
-		public function add_cpt_to_search( $query ) { 
+		public function add_cpt_to_search( WP_Query $wp_query ) { 
 
 			// Generate search post types - e.g names from get_post_types( [ 'public' => true, 'exclude_from_search' => false ], 'objects' ); 
-			$post_types = (array) apply_filters( 'ipress_search_post_types', [] );
-			if ( empty( $post_types ) ) { return $query; }
+			$ip_search_post_types = (array) apply_filters( 'ipress_search_post_types', [] );
+			if ( empty( $ip_search_post_types ) ) { return $wp_query; }
 
 			// Check to verify it's search page & add post types to search
-			if ( ! is_admin() && $query->is_main_query() && $query->is_search() ) { 
-				$query->set( 'post_type', array_merge( $post_types, [ 'post', 'page' ] ) ); 
-			} 
-			return $query; 
+			if ( ! is_admin() && $query->is_main_query() && $wp_query->is_search() ) { 
+				$wp_query->set( 'post_type', array_merge( $ip_search_post_types, [ 'post', 'page' ] ) ); 
+			}
+
+			return $wp_query; 
 		} 
 	}
 

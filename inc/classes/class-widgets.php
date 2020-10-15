@@ -20,7 +20,6 @@ if ( ! class_exists( 'IPR_Widgets' ) ) :
 
 		/**
 		 * Class constructor
-		 * - set up hooks
 		 */
 		public function __construct() {
 
@@ -41,14 +40,14 @@ if ( ! class_exists( 'IPR_Widgets' ) ) :
 		private function widget_autoload( $widget ) {
 
 			// Syntax for widget classname to file
-			$classname = 'class-' . str_replace( '_', '-', strtolower( $widget ) );
+			$ip_classname = 'class-' . trim( str_replace( '_', '-', strtolower( $widget ) ) );
 
 			// Create the actual filepath
-			$file_path = ( is_child_theme() ) ? trailingslashit( IPRESS_CHILD_WIDGETS_DIR ) . $classname . '.php' : trailingslashit( IPRESS_WIDGETS_DIR ) . $classname . '.php';
+			$ip_file_path = ( is_child_theme() ) ? trailingslashit( IPRESS_CHILD_WIDGETS_DIR ) . $ip_classname . '.php' : trailingslashit( IPRESS_WIDGETS_DIR ) . $ip_classname . '.php';
 
 			// Check if the file exists in parent theme
-			if ( file_exists( $file_path ) && is_file( $file_path ) ) { 
-				include $file_path; 
+			if ( file_exists( $ip_file_path ) && is_file( $ip_file_path ) ) { 
+				include_once $ip_file_path; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound 
 				return true; 
 			}
 
@@ -62,10 +61,10 @@ if ( ! class_exists( 'IPR_Widgets' ) ) :
 		public function widgets_init() {
 
 			// Contruct widgets list
-			$widgets = apply_filters( 'ipress_widgets', [] );
+			$ip_widgets = (array) apply_filters( 'ipress_widgets', [] );
 
 			// Register widgets
-			foreach ( $widgets as $widget ) {
+			foreach ( $ip_widgets as $widget ) {
 
 				// Load widget file... spl_autoload might be better
 				if ( ! $this->widget_autoload( $widget ) ) { continue; }

@@ -19,25 +19,28 @@ if ( ! class_exists( 'IPR_Layout' ) ) :
 	final class IPR_Layout {
 
 		/**
-		 * Class constructor. Set up hooks
+		 * Class constructor
 		 */
 		public function __construct() {
 
 			// Set the current theme direction
-			add_action( 'init', [ $this, 'theme_direction' ] ); 
+			add_action( 'init', 					[ $this, 'theme_direction' ] ); 
 
 			// Add slug to body class
-			add_filter( 'body_class', [ $this, 'body_class' ] ); 
+			add_filter( 'body_class', 				[ $this, 'body_class' ] ); 
+
+			// Remove hentry in lieu of using schema format
+			add_filter ( 'post_class',				[ $this, 'post_class' ], 		10, 1 );
 
 			// Remove or amend the 'read more' link
-			add_filter( 'the_content_more_link', [ $this, 'read_more_link' ] ); 
+			add_filter( 'the_content_more_link', 	[ $this, 'read_more_link' ] ); 
 
-			// Add 'View Article' button instead of [...] for Excerpts
-			add_filter( 'excerpt_more', [ $this, 'excerpt_more' ] ); 
+			// Add 'Read More' button instead of [...] for Excerpts
+			add_filter( 'excerpt_more', 			[ $this, 'excerpt_more' ] ); 
 
 			// Wrapper for video embedding - generic & jetpack
-			add_filter( 'embed_oembed_html', [ $this, 'embed_video_html' ], 10, 3 );
-			add_filter( 'video_embed_html', [ $this, 'embed_video_html' ] ); 
+			add_filter( 'embed_oembed_html', 		[ $this, 'embed_video_html' ], 10, 4 );
+			add_filter( 'video_embed_html', 		[ $this, 'embed_video_html' ], 10, 4 ); 
 		}
 
 		//---------------------------------------------
@@ -55,30 +58,29 @@ if ( ! class_exists( 'IPR_Layout' ) ) :
 			global $wp_locale, $wp_styles;
 
 			// Filterable direction: ltr, rtl, none
-			$direction = apply_filters( 'ipress_theme_direction', '' );		
-			if ( empty( $direction ) ) { return; }
+			$ip_theme_direction = (string) apply_filters( 'ipress_theme_direction', '' );		
+			if ( empty( $ip_theme_direction ) ) { return; }
 
 			// Get current user
-			$uid = get_current_user_id();
+			$ip_uid = get_current_user_id();
 		
 			// Set direction data
-			if ( $direction ) {
-				update_user_meta( $uid, 'rtladminbar', $direction );
+			if ( $ip_theme_direction ) {
+				update_user_meta( $ip_uid, 'rtladminbar', trim( $ip_theme_direction ) );
 			} else {
-				$direction = get_user_meta( $uid, 'rtladminbar', true );
-				if ( false === $direction ) {
-					$direction = isset( $wp_locale->text_direction ) ? $wp_locale->text_direction : 'ltr' ;
+				$ip_theme_direction = get_user_meta( $ip_uid, 'rtladminbar', true );
+				if ( false === $ip_theme_direction ) {
+					$ip_theme_direction = ( isset( $wp_locale->text_direction ) ) ? $wp_locale->text_direction : 'ltr' ;
 				}
 			}	
 
 			// Set styles setting
-			$wp_locale->text_direction = $direction;
-			if ( ! is_a( $wp_styles, 'WP_Styles' ) ) { $wp_styles = new WP_Styles(); }
-			$wp_styles->text_direction = $direction;
+			$wp_locale->text_direction = $ip_theme_direction;
+			$wp_styles->text_direction = $ip_theme_direction;
 		}
 
 		/**
-		 * Add page slug to body class - Credit: Starkers Wordpress Theme
+		 * Add page slug to body class - Credit: Starkers WordPress Theme
 		 *
 		 * @param	array
 		 * @return	array
@@ -87,30 +89,37 @@ if ( ! class_exists( 'IPR_Layout' ) ) :
 
 			global $post;
 
-			// Set by page type restrictions
-			if ( is_home() ) {
-				$key = array_search( 'blog', $classes );
-				if ( $key > -1 ) {
-					unset($classes[$key]);
-				}
-			} elseif ( is_page() ) {
-				$classes[] = sanitize_html_class( $post->post_name );
-			} elseif ( is_singular() ) {
-				$classes[] = sanitize_html_class( $post->post_name );
+			// Add classes to singular pages
+			if ( is_singular() ) {
+				
+				// Base singular
+				$classes[] = 'singular';
+
+				// Add class for featured image 
+				$classes[] = ( has_post_thumbnail() ) ? 'ipress-singular-image' : 'ipress-singular-image-hidden';
+
+				// Check if posts have single pagination
+				$classes[] = ( get_next_post() || get_previous_post() ) ? 'ipress-single-pagination' : 'ipress-single-pagination-hidden';
 			}
 
-			// Add class of hfeed to non-singular pages.
-			if ( ! is_singular() ) {
-				$classes[] = 'hfeed';
+			// Add class for breadcrumbs
+			if ( is_singular() || is_archive() || is_post_type_archive() ) {
+				$ip_breadcrumbs = (bool) apply_filters( 'ipress_breadcrumbs', false );
+				$classes[] = ( true === $ip_breadcrumbs ) ? 'ipress-breadcrumbs' : 'ipress-breadcrumbs-hidden';
+			}
+
+			// Slim page template class names (class = name - file suffix)
+			if ( is_page_template() ) {
+				$classes[] = basename( get_page_template_slug(), '.php' );
 			}
 
 			// Add class if we're viewing the Customizer
 			if ( is_customize_preview() ) {
-				$classes[] = 'is-customizer';
+				$classes[] = 'is-customizer customizer-preview';
 			}
-		
-			// Widgetless main sidebar? adjust to full-width layout
-			if ( ! is_active_sidebar( 'primary' ) ) {
+
+			// Widgetless main sidebar? clunky adjust to full-width layout
+			if ( is_singular() && ! is_active_sidebar( 'primary' ) ) {
 				$classes[] = 'full-width-content';
 			}
 
@@ -121,11 +130,31 @@ if ( ! class_exists( 'IPR_Layout' ) ) :
 
 			// Add a class if there is a custom header
 			if ( has_header_image() ) {
-				$classes[] = 'has-header-image';
+				$classes[] = 'ipress-header-image';
+			}
+			
+			// Check if we're showing comments 
+			if ( is_singular() ) {
+				if ( $post && ( ( 'post' === get_post_type() || comments_open() || get_comments_number() ) && ! post_password_required() ) ) {
+					$classes[] = 'with-comments';
+				} else {
+					$classes[] = 'no-comments';
+				}
 			}
 
 			// Return attributes
-			return apply_filters( 'ipress_body_class', $classes );
+			return (array) apply_filters( 'ipress_body_class', $classes );
+		}
+
+		/**
+		 * Modify post classes
+		 *
+		 * @param	array	$class
+		 * @return 	array	$class
+		 */
+		public function post_class( $class ) {
+			$class = array_diff( $class, [ 'hentry' ] );	
+			return $class;
 		}
 
 		/**
@@ -134,38 +163,45 @@ if ( ! class_exists( 'IPR_Layout' ) ) :
 		 * @return string
 		 */
 		public function read_more_link( $link ) { 
-			$rml = apply_filters( 'ipress_read_more_link', false ); 
-			return ( $rml === false || empty( $rml ) ) ? $link : $rml;
+			$ip_read_more_link = (bool) apply_filters( 'ipress_read_more_link', false ); 
+			return ( ! $ip_read_more_link || empty( $ip_read_more_link ) ) ? $link : $ip_read_more_link;
 		}
 
 		/**
-		 * Custom View Article link to Post
+		 * Custom view article link to post
 		 *
 		 * @param string
 		 * @return $string
 		 */
 		public function excerpt_more( $more ) {
 
+			// Frontend only
 			if ( is_admin() ) { return $more; }
 
 			// Get fiterable link & set markup
-			$view_more = (bool) apply_filters( 'ipress_view_more', false );
-			$view_article = sprintf( '<a class="view-article" href="%s">%s</a>', 
+			$ip_view_more = (bool) apply_filters( 'ipress_view_more', false );
+			if ( true !== $ip_view_more ) { return $more; }
+
+			// Set link
+			$view_article = sprintf( '... <a class="view-article" href="%s">%s</a>', 
 				esc_url( get_permalink( get_the_ID() ) ), 
-				__( 'View Article', 'ipress' ) );
+				__( '[Read more...]', 'ipress' ) );
 
 			// Return filterable markup
-			return ( $view_more ) ? apply_filters( 'ipress_view_more_link', $view_article ) : $more;
+			return (string) apply_filters( 'ipress_view_more_link', $view_article );
 		}
 
 		/**
-		 * Video Embedding Wrapper
+		 * Video embedding wrapper
 		 *
-		 * @param	string
+		 * @param	string 	$html
+		 * @param	string	$url
+		 * @param	array	$attr
+		 * @param	integer	$post_id
 		 * @return	string
 		 */
-		public function embed_video_html( $html ) {
-			return apply_filters( 'ipress_embed_video', sprintf( '<div class="video-container">%s</div>', esc_html( $html ) ), $html );
+		public function embed_video_html( $html, $url, $attr, $post_id  ) {
+			return (string) apply_filters( 'ipress_embed_video', sprintf( '<div class="video-container">%s</div>', $html ), $html );
 		}
 	}
 

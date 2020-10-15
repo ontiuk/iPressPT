@@ -4,7 +4,7 @@
  * iPress - WordPress Base Theme					   
  * ==========================================================
  *
- * Theme shortcodes
+ * Theme custom shortcodes to wrap core & theme functionality
  *
  * @package		iPress\Shortcodes
  * @link		http://ipress.uk
@@ -16,14 +16,14 @@
 //----------------------------------------------  
 
 // Include shortcode files by type
-include_once IPRESS_SHORTCODES_DIR . '/analytics.php';
-include_once IPRESS_SHORTCODES_DIR . '/category.php';
-include_once IPRESS_SHORTCODES_DIR . '/date.php';
-include_once IPRESS_SHORTCODES_DIR . '/links.php';
-include_once IPRESS_SHORTCODES_DIR . '/media.php';
-include_once IPRESS_SHORTCODES_DIR . '/post.php';
-include_once IPRESS_SHORTCODES_DIR . '/search-form.php';
-include_once IPRESS_SHORTCODES_DIR . '/user.php';
+include_once IPRESS_SHORTCODES_DIR . '/analytics.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+include_once IPRESS_SHORTCODES_DIR . '/category.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+include_once IPRESS_SHORTCODES_DIR . '/date.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+include_once IPRESS_SHORTCODES_DIR . '/links.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+include_once IPRESS_SHORTCODES_DIR . '/media.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+include_once IPRESS_SHORTCODES_DIR . '/post.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+include_once IPRESS_SHORTCODES_DIR . '/search.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+include_once IPRESS_SHORTCODES_DIR . '/user.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
 
 //---------------------------------------------
 //	Shortcode Actions
@@ -58,7 +58,7 @@ function ipress_do_shortcode( $tag, $atts = [], $content = null ) {
 
 	global $shortcode_tags;
 
-	if ( ! isset( $shortcode_tags[ $tag ] ) || !is_array( $atts ) ) { return false; }
+	if ( ! isset( $shortcode_tags[ $tag ] ) || ! is_array( $atts ) ) { return false; }
 	return call_user_func( $shortcode_tags[ $tag ], $atts, $content, $tag );
 }
 

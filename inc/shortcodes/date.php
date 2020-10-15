@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Date and time shortcodes
+ * Date and time shortcodes.
  *
  * @package		iPress\Shortcodes
  * @link		http://ipress.uk

@@ -20,7 +20,6 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 
 		/**
 		 * Class constructor
-		 * - set up hooks
 		 */
 		public function __construct() {
 
@@ -36,24 +35,25 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 		 * Set sidebar defaults
 		 *
 		 * @param	array	$sidebar
-		 * @return	array
+		 * @return	array	$sidebar
 		 */
-		private function sidebar_defaults ( $args ) {
+		private function sidebar_defaults ( $sidebar ) {
 
 			// Set default wrappers
-			$defaults = apply_filters( 'ipress_sidebar_defaults', [
+			$ip_sidebar_defaults = (array) apply_filters( 'ipress_sidebar_defaults', [
 				'before_widget' => '<section id="%1$s" class="widget %2$s"><div class="widget-wrap">',
 				'after_widget'	=> '</div></section>' . PHP_EOL,
 				'before_title'	=> '<h4 class="widget-title widgettitle">',
-				'after_title'	=> '</h4>' . PHP_EOL
+				'after_title'	=> '</h4>' . PHP_EOL,
+				'class'			=> ( isset( $sidebar['class'] ) ) ? $sidebar['class'] : 'sidebar-' . $sidebar['id']
 			] );
 
 			// Filterable sidebar defaults
-			$defaults = apply_filters( 'ipress_sidebar_' . $args['id'] . '_defaults', $defaults );
-			$args = wp_parse_args( $args, $defaults );
+			$ip_sidebar_defaults = (array) apply_filters( "ipress_sidebar_{$sidebar['id']}_defaults", $ip_sidebar_defaults );
+			$sidebar = wp_parse_args( $sidebar, $ip_sidebar_defaults );
 
 			// Return sidebar params
-			return $args;
+			return $sidebar;
 		}	
 
 		/**
@@ -64,33 +64,37 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 		private function register_sidebars() {
 
 			// Default sidebars
-			$default_sidebars = (array) apply_filters( 'ipress_default_sidebars', [
+			$ip_default_sidebars = (array) apply_filters( 'ipress_default_sidebars', [
 				'primary'		=> [ 
 					'name'			=> __( 'Primary Sidebar', 'ipress' ),
-					'description'	=> __( 'This is the primary sidebar for two-column and full-width layouts.', 'ipress' )
+					'description'	=> __( 'This is the primary sidebar.', 'ipress' ),
+					'class'			=> 'sidebar-primary'
 				]
 			] );
 
 			// Footer widgets - default 3, false or 0 for none
-			$footer_widget_areas = (int) apply_filters( 'ipress_footer_widget_areas', 3 );
-			if ( $footer_widget_areas > 0 ) {
-				$footer_sidebars = [];
+			$ip_footer_widget_areas = (int) apply_filters( 'ipress_footer_widget_areas', 3 );
+			if ( $ip_footer_widget_areas > 0 ) {
+				$ip_footer_sidebars = [];
 
-				for ( $i = 1; $i <= intval( $footer_widget_areas ); $i++ ) {
+				for ( $i = 1; $i <= intval( $ip_footer_widget_areas ); $i++ ) {
 					$footer = sprintf( 'footer-%d', $i );
 	
-					$footer_sidebars[ $footer ] = [
-						'name'        => sprintf( __( 'Footer %d', 'ipress' ), $i ),
-						'description' => sprintf( __( 'Footer sidebar area %d.', 'ipress' ), $i )
+					$ip_footer_sidebars[ $footer ] = [
+						/* translators: %s: footer ID */
+						'name'        	=> sprintf( __( 'Footer %d', 'ipress' ), $i ),
+						/* translators: %s: footer description */
+						'description' 	=> sprintf( __( 'Footer sidebar area %d.', 'ipress' ), $i ),
+						'class'			=> 'sidebar-' . $footer
 					];
 				}
-			} else { $footer_sidebars = []; }
+			} else { $ip_footer_sidebars = []; }
 
 			// Custom widgets
-			$custom_sidebars = (array) apply_filters( 'ipress_custom_sidebars', [] );
+			$ip_custom_sidebars = (array) apply_filters( 'ipress_custom_sidebars', [] );
 
 			// Set default sidebars
-			return array_merge( $default_sidebars, $footer_sidebars, $custom_sidebars );
+			return array_merge( $ip_default_sidebars, $ip_footer_sidebars, $ip_custom_sidebars );
 		}
 
 		//----------------------------------------------
@@ -106,10 +110,10 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 		public function sidebars_init() {
 
 			// Get sidebars
-			$ipress_sidebars = $this->register_sidebars();
+			$ip_sidebars = $this->register_sidebars();
 
 			// Register widget areas
-			foreach ( $ipress_sidebars as $id => $sidebar ) {
+			foreach ( $ip_sidebars as $id => $sidebar ) {
 
 				// Reasign sidebar ID
 				$sidebar['id'] = $id;
@@ -119,6 +123,7 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 	 
 				// ...and description
 				if ( ! isset( $sidebar['description'] ) || empty( $sidebar['description'] ) ) {
+					/* translators: %s: sidebar description */
 					$sidebar['description'] = sprintf( __( 'This is the %s sidebar description', 'ipress' ), $sidebar['name'] );
 				}
 

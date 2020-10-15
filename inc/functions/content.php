@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Content and URL functions & functionality
+ * Content and URL functions & functionality.
  * 
  * @package		iPress\Functions
  * @link		http://ipress.uk
@@ -14,14 +14,91 @@
 //---------------------------------------------
 //	Content & URL
 //	
+//	- ipress_is_home_page
+//	- ipress_is_index
+//	- ipress_is_subpage
+//	- ipress_is_tree
 //	- ipress_canonical_url
 //	- ipress_paged_post_url
 //	- ipress_get_permalink_by_page
 //	- ipress_excerpt
 //	- ipress_content
 //	- ipress_truncate
-//	- ipress_init_structured_data
+//	- ipress_ordinal_number
 //---------------------------------------------
+
+if ( ! function_exists( 'ipress_is_home_page' ) ) :
+	
+	/**
+	 * Check if the root page of the site is being viewed
+	 *
+	 * is_front_page() returns false for the root page of a website when
+	 * - the WordPress 'Front page displays' setting is set to 'Static page'
+	 * - 'Front page' is left undefined
+	 * - 'Posts page' is assigned to an existing page
+	 *
+	 * @return boolean
+	 */
+	function ipress_is_home_page() {
+		return ( is_front_page() || ( is_home() && get_option( 'page_for_posts' ) && ! get_option( 'page_on_front' ) && ! get_queried_object() ) );
+	}
+endif;
+
+if ( ! function_exists( 'ipress_is_index' ) ) :
+	
+	/**
+	 * Check if the page being viewed is the index page
+	 *
+	 * @param	string	$page
+	 * @return	boolean
+	 */
+	function ipress_is_index( $page ) {
+		return ( basename( $page ) === 'index.php' );
+	}
+endif;
+
+if ( ! function_exists( 'ipress_is_subpage' ) ) :
+
+	/**
+	 * Determine if the page is a subpage
+	 * - returns parent post ID if true
+	 *
+	 * @global 	$post
+	 * @return 	boolean | integer
+	 */
+	function ipress_is_subpage() {
+		global $post;
+		return ( is_page() && $post->post_parent ) ? $post->post_parent : false;
+	}
+endif;
+
+if ( ! function_exists( 'ipress_is_tree' ) ) :
+
+	/**
+	 * Check if page is current of ancestor
+	 *
+	 * @global 	$post
+	 * @param	integer	$pid
+	 * @return	boolean
+	 */
+	function ipress_is_tree( $pid ) {
+
+		global $post;
+
+		// Current page
+		if ( is_page( $pid ) ) { return true; }
+
+		// Post ancestor
+		$anc = get_post_ancestors( $post->ID );
+		foreach ( $anc as $ancestor ) {
+			if ( is_page() && $ancestor == $pid ) {
+				return true;
+			}
+		}
+	 
+		return false;
+	}
+endif;
 
 if ( ! function_exists( 'ipress_canonical_url' ) ) :
 
@@ -34,35 +111,37 @@ if ( ! function_exists( 'ipress_canonical_url' ) ) :
 	function ipress_canonical_url() {
 
 		global $wp_query;
+
+		// Initialize output		
 		$canonical = '';
 
 		// Pagination values
 		$paged = absint( get_query_var( 'paged' ) );	
 		$page  = absint( get_query_var( 'page' ) );
 
+		// Get the queried object id, returns int	
+		$id = $wp_query->get_queried_object_id();
+
 		// Front page / home page
 		if ( is_front_page() ) {
-			$canonical = ( $paged ) ? get_pagenum_link( $paged ) : trailingslashit( home_url() );
+			$canonical = ( $paged > 0 ) ? get_pagenum_link( $paged ) : home_url( '/' );
 		}
 
 		// Single post
-		if ( is_singular() ) {
+		if ( is_singular() && $id ) {
 			$numpages = substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1;
-			if ( ! $id = $wp_query->get_queried_object_id() ) { return; }
 			$canonical = ( $numpages > 1 && $page > 1 ) ? ipress_paged_post_url( $page, $id ) : get_permalink( $id );
 		}
 
 		// Archive
-		if ( is_category() || is_tag() || is_tax() ) {
-			if ( ! $id = $wp_query->get_queried_object_id() ) { return; }
-			$taxonomy = $wp_query->queried_object->taxonomy;
-			$canonical = ( $paged ) ? get_pagenum_link( $paged ) : get_term_link( (int)$id, $taxonomy );
+		if ( ( is_category() || is_tag() || is_tax() ) && $id ) {
+			$taxonomy 	= $wp_query->queried_object->taxonomy;
+			$canonical 	= ( $paged > 0 ) ? get_pagenum_link( $paged ) : get_term_link( $id, $taxonomy );
 		}
 
 		// Author
-		if ( is_author() ) {
-			if ( ! $id = $wp_query->get_queried_object_id() ) { return; }
-			$canonical = ( $paged ) ? get_pagenum_link( $paged ) : get_author_posts_url( $id );
+		if ( is_author() && $id ) {
+			$canonical = ( $paged > 0 ) ? get_pagenum_link( $paged ) : get_author_posts_url( $id );
 		}
 
 		// Search
@@ -81,11 +160,12 @@ if ( ! function_exists( 'ipress_paged_post_url' ) ) :
 	 * Return the special URL of a paged post 
 	 * - adapted from _wp_link_page() in WP core
 	 *
-	 * @param   int     $i The page number to generate the URL from
-	 * @param   int     $post_id The post ID
-	 * @return  string  Unescaped URL
+	 * @global 	$wp_rewrite
+	 * @param   int     $page_id 	The page number to generate the URL from
+	 * @param   int     $post_id 	The post ID
+	 * @return  string  Unescaped 	URL
 	 */
-	function ipress_paged_post_url( $i, $post_id = 0 ) {
+	function ipress_paged_post_url( $page_id, $post_id = 0 ) {
 
 		global $wp_rewrite;
 
@@ -93,15 +173,15 @@ if ( ! function_exists( 'ipress_paged_post_url' ) ) :
 		$post = get_post( $post_id );
 
 		// Paged?
-		if ( 1 == $i ) {
+		if ( 1 === $page_id ) {
 			$url = get_permalink( $post_id );
 		} else {
 			if ( '' == get_option( 'permalink_structure' ) || in_array( $post->post_status, [ 'draft', 'pending' ] ) ) {
-				$url = add_query_arg( 'page', $i, get_permalink( $post_id ) );
+				$url = add_query_arg( 'page', $page_id, get_permalink( $post_id ) );
 			} elseif ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) == $post->ID ) {
-				$url = trailingslashit( get_permalink( $post_id ) ) . user_trailingslashit( $wp_rewrite->pagination_base . '/' . $i, 'single_paged' );
+				$url = trailingslashit( get_permalink( $post_id ) ) . user_trailingslashit( $wp_rewrite->pagination_base . '/' . $page_id, 'single_paged' );
 			} else {
-				$url = trailingslashit( get_permalink( $post_id ) ) . user_trailingslashit( $i, 'single_paged' );
+				$url = trailingslashit( get_permalink( $post_id ) ) . user_trailingslashit( $page_id, 'single_paged' );
 			}
 		}
 
@@ -136,31 +216,33 @@ if ( ! function_exists( 'ipress_excerpt' ) ) :
 	/**
 	 * Create the Custom Excerpt 
 	 *
-	 * @param	string $length_callback
-	 * @param	string $more_callback
-	 * @param	boolean $wrap
+	 * @param	string	$length_callback	default empty
+	 * @param	string 	$more_callback		default empty
+	 * @param	boolean $wrap				default true
 	 */
-	function ipress_excerpt( $length_callback = '', $more_callback = '', $wrap=true ) { 
+	function ipress_excerpt( $length_callback = '', $more_callback = '', $wrap = true ) { 
 		
-		global $post; 
-
 		// Excerpt length	 
-		if ( !empty( $length_callback ) && function_exists( $length_callback ) ) { 
+		if ( ! empty( $length_callback ) && function_exists( $length_callback ) ) { 
 			add_filter( 'excerpt_length', $length_callback ); 
 		} 
 
 		// Excerpt more
-		if ( !empty( $more_callback ) && function_exists( $more_callback ) ) { 
+		if ( ! empty( $more_callback ) && function_exists( $more_callback ) ) { 
 			add_filter( 'excerpt_more', $more_callback ); 
 		} 
 
 		// Get the excerpt
-		$output = get_the_excerpt(); 
-		$output = apply_filters( 'wptexturize', $output ); 
-		$output = apply_filters( 'convert_chars', $output ); 
+		$excerpt = get_the_excerpt(); 
+
+		// No wrap, remove filter
+		if ( ! $wrap ) { remove_filter( 'the_excerpt', 'wpautop' ); }
 
 		// Output the excerpt
-		echo ( $wrap ) ? sprintf( '<p>%s</p>', $output ) : $output; 
+		echo apply_filters( 'the_excerpt', $excerpt ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		// No wrap, readd filter
+		if ( ! $wrap ) { add_filter( 'the_excerpt', 'wpautop' ); }
 	} 
 endif;
 
@@ -169,17 +251,19 @@ if ( ! function_exists( 'ipress_content' ) ) :
 	/**
 	 * Trim the content by word count
 	 * 
-	 * @param  integer
-	 * @param  string
-	 * @param  string
+	 * @param  integer	$length	default 54
+	 * @param  string	$before	default empty
+	 * @param  string	$after	default	empty
 	 */
-	function ipress_content( $length=54, $before='', $after='' ) {
+	function ipress_content( $length = 54, $before = '', $after = '' ) {
 
 		// Get the content
-		$content = get_the_content();
+		$the_content = get_the_content();
 
-		// Trim to word count and output
-		echo sprintf( '%s', $before . wp_trim_words( $content, $length, '...' ) . $after );
+		// Trim to word count and output, output as for the_content
+		$the_content = $before . wp_trim_words( $content, $length, '...' ) . $after;
+		$the_content = apply_filters( 'the_content', $the_content ); 
+		echo str_replace( ']]>', ']]&gt;', $the_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 endif;
 
@@ -189,11 +273,11 @@ if ( ! function_exists( 'ipress_truncate' ) ) :
 	 * Return a phrase shortened in length to a maximum number of characters
 	 * - Truncated at the last white space in the original string
 	 *
-	 * @param	string $text 
-	 * @param	integer $max_chara
+	 * @param	string	$text 
+	 * @param	integer $max_char	default 54
 	 * @return	string 
 	 */
-	function ipress_truncate( $text, $max_char ) {
+	function ipress_truncate( $text, $max_char = 54 ) {
 
 		// Sanitize
 		$text = trim( $text );
@@ -213,72 +297,28 @@ if ( ! function_exists( 'ipress_truncate' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ipress_init_structured_data' ) ) :
+if ( ! function_exists( 'ipress_ordinal_number' ) ) :
 
 	/**
-	 * Post structured data
+	 * Return a suffix for a number by type: st,rd, th
+	 *
+	 * @param	integer|string $num 
+	 * @return	string 
 	 */
-	function ipress_init_structured_data() {
+	function ipress_ordinal_number( $num ) {
 
-		global $ipress;
+		// Typecast: string
+		$num = trim( $num );
 
-		// Init data
-		$json = [];
+		// Test for outliers
+		if ( in_array( ( $num % 100 ), [ 11, 12, 13 ] ) ) { return 'th'; }
 
-		// Post & page structured data
-		if ( is_home() || is_category() || is_date() || is_search() || is_single() ) {
-
-			$image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'normal' );
-			$logo  = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' );
-
-			$json['@type']			  = 'BlogPosting';
-
-			$json['mainEntityOfPage'] = [
-				'@type'					=> 'webpage',
-				'@id'					=> get_the_permalink(),
-			];
-
-			$json['publisher']		  = [
-				'@type'					=> 'organization',
-				'name'					=> get_bloginfo( 'name' ),
-				'logo'					=> [
-					'@type'				  => 'ImageObject',
-					'url'				  => $logo[0],
-					'width'				  => $logo[1],
-					'height'			  => $logo[2],
-				]
-			];
-
-			$json['author']			  = [
-				'@type'					=> 'person',
-				'name'					=> get_the_author()
-			];
-
-			if ( $image ) {
-				$json['image']			  = [
-					'@type'					=> 'ImageObject',
-					'url'					=> $image[0],
-					'width'					=> $image[1],
-					'height'				=> $image[2],
-				];
-			}
-
-			$json['datePublished']	  = get_post_time( 'c' );
-			$json['dateModified']	  = get_the_modified_date( 'c' );
-			$json['name']			  = get_the_title();
-			$json['headline']		  = $json['name'];
-			$json['description']	  = get_the_excerpt();
-
-		} elseif ( is_page() ) {
-			$json['@type']			  = 'WebPage';
-			$json['url']			  = get_the_permalink();
-			$json['name']			  = get_the_title();
-			$json['description']	  = get_the_excerpt();
-		}
-
-		// Set if ok
-		if ( ! empty( $json ) ) {
-			$ipress->main->set_structured_data( apply_filters( 'ipress_structured_data', $json ) );
+		// Ok, general rules apply: handle 1st, 2nd, 3rd, nth
+		switch ( $num % 10 ) {
+			case 1:  return 'st';
+			case 2:  return 'nd';
+			case 3:  return 'rd';
+			default: return 'th';
 		}
 	}
 endif;

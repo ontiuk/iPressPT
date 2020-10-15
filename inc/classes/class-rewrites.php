@@ -20,7 +20,6 @@ if ( ! class_exists( 'IPR_Rewrites' ) ) :
 
 		/**
 		 * Class constructor
-		 * - set up hooks
 		 */
 		public function __construct() {
 
@@ -35,16 +34,16 @@ if ( ! class_exists( 'IPR_Rewrites' ) ) :
 		/**
 		 * Add a new query var
 		 *
-		 * @param	array
-		 * @return	array
+		 * @param	array	$qvars
+		 * @return	array	$qvars
 		 */
 		public function query_vars( $qvars ) {
 		
 			// Filterable query vars
-			$query_vars = apply_filters( 'ipress_query_vars', [] );
+			$ip_query_vars = (array) apply_filters( 'ipress_query_vars', [] );
 
 			// Return modified query vars
-			return ( empty( $query_vars ) ) ? $qvars : array_merge( $qvars, array_map( sanitize_title_with_dashes, $query_vars ) );   
+			return ( empty( $ip_query_vars ) ) ? $qvars : array_merge( $qvars, array_map( sanitize_title_with_dashes, $ip_query_vars ) );   
 		}
 	}
 

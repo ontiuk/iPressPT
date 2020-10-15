@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme functions & functionality
+ * Theme pagination functions & functionality.
  * 
  * @package		iPress\Functions
  * @link		http://ipress.uk
@@ -35,23 +35,23 @@ if ( ! function_exists( 'ipress_prev_next_posts_nav' ) ) :
 		if ( ! $wp_query->max_num_pages > 1 ) { return; } 
 
 		// Previous Next Context
-		$older = apply_filters( 'ipress_next_nav_link', '&larr; Older' );
-		$newer = apply_filters( 'ipress_prev_nav_link', 'Newer &rarr;' );
+		$ip_next_nav_link = (string) apply_filters( 'ipress_next_nav_link', __( '&larr; Older', 'ipress' ) );
+		$ip_prev_nav_link = (string) apply_filters( 'ipress_prev_nav_link', __( 'Newer &rarr;', 'ipress' ) );
 
 		// Get nav links
 		ob_start()
 	?>
 		<section id="pagination" class="paginate posts-paginate">';
 			<nav class="pagination" role="navigation"> 
-				<div class="nav-next nav-left"><?= get_next_posts_link( $older ); ?></div> 
-				<div class="nav-previous nav-right"><?= get_previous_posts_link( $newer ); ?></div> 
+				<div class="nav-next nav-left"><?php echo esc_url( get_next_posts_link( trim( $ip_next_nav_link ) ) ); ?></div> 
+				<div class="nav-previous nav-right"><?php echo esc_url( get_previous_posts_link( trim( $ip_prev_nav_link ) ) ); ?></div> 
 			</nav> 
 		</section>
 	<?php	
 		$output = ob_get_clean();
 
 		// Send output
-		if ( $echo ) { echo $output; } else { return $output; }
+		if ( $echo ) { echo $output; } else { return $output; } // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 endif;
 
@@ -69,23 +69,23 @@ if ( ! function_exists( 'ipress_prev_next_post_nav' ) ) :
 		if ( ! is_singular() ) { return; }
 
 		// Previous Next Context
-		$older = apply_filters( 'ipress_single_next_nav_link', '&larr; Older' );
-		$newer = apply_filters( 'ipress_single_prev_nav_link', 'Newer &rarr;' );
+		$ip_single_next_nav_link = (string) apply_filters( 'ipress_single_next_nav_link', __( '&larr; Older', 'ipress' ) );
+		$ip_single_prev_nav_link = (string) apply_filters( 'ipress_single_prev_nav_link', __( 'Newer &rarr;', 'ipress' ) );
 
 		// Get nav links
 		ob_start()
 	?>
 		<section id="pagination" class="paginate single-paginate">';
 			<nav class="pagination" role="navigation"> 
-				<div class="nav-next nav-left"><?= get_next_post_link( $next ); ?></div> 
-				<div class="nav-previous nav-right"><?= get_previous_post_link( $prev ); ?></div> 
+				<div class="nav-next nav-left"><?php echo esc_url( get_next_post_link( trim( $ip_single_next_nav_link ) ) ); ?></div> 
+				<div class="nav-previous nav-right"><?php echo esc_url( get_previous_post_link( trim( $ip_single_prev_nav_link ) ) ); ?></div> 
 			</nav> 
 		</section>
 	<?php	
 		$output = ob_get_clean();
 
 		// Send output
-		if ( $echo ) { echo $output; } else { return $output; }
+		if ( $echo ) { echo $output; } else { return $output; } // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 endif;
 
@@ -99,9 +99,10 @@ if ( ! function_exists( 'ipress_pagination' ) ) :
 	 */
 	function ipress_pagination( $echo = true ) { 
 		
-		global $wp_query; 
+		global $wp_query;
+	   	
+		// Set some params
 		$big = 999999999; 
-
 		$total_pages = $wp_query->max_num_pages;
 		if ( $total_pages <= 1 ) { return; }
 
@@ -127,7 +128,7 @@ if ( ! function_exists( 'ipress_pagination' ) ) :
 		} else { $list = ''; }
 
 		// Send output
-		if ( $echo ) { echo $list; } else { return $list; }
+		if ( $echo ) { echo $list; } else { return $list; } // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	} 
 endif;
 
@@ -137,15 +138,15 @@ if ( ! function_exists( 'ipress_posts_nav' ) ) :
 	 * Archive pagination in page numbers format
 	 *
 	 * - Links ordered as:
-	 *	- previous page arrow
-	 *	- first page
-	 *	- up to two pages before current page
-	 *	- current page
-	 *	- up to two pages after the current page
-	 *	- last page
-	 *	- next page arrow
+	 * - previous page arrow
+	 * - first page
+	 * - up to two pages before current page
+	 * - current page
+	 * - up to two pages after the current page
+	 * - last page
+	 * - next page arrow
 	 *
-	 * @param	boolean		$echo
+	 * @param	boolean		$echo default true
 	 * @return	string
 	 * @global	WP_Query	$wp_query Query object
 	 */
@@ -186,13 +187,13 @@ if ( ! function_exists( 'ipress_posts_nav' ) ) :
 
 		// Previous post link
 		if ( get_previous_posts_link() ) {
-			$output .= sprintf( '<div class="pagination-previous">%s</div>', get_previous_posts_link( '&#x000AB; ' . __( 'Previous Page', 'ipress' ) ) );
+			$output .= sprintf( '<div class="pagination-previous">%s</div>', esc_url( get_previous_posts_link( '&#x000AB; ' . __( 'Previous Page', 'ipress' ) ) ) );
 		}
 
 		// Link to first page, plus ellipses if necessary
 		if ( ! in_array( 1, $links ) ) {
 
-			$class = ( 1 == $paged )? ' class="active"' : '';
+			$class 	= ( 1 == $paged )? ' class="active"' : '';
 			$output .= sprintf( '<div%s><a href="%s">%s</a></div>', $class, esc_url( get_pagenum_link( 1 ) ), ' ' . '1' );
 
 			if ( ! in_array( 2, $links ) ) {
@@ -203,7 +204,7 @@ if ( ! function_exists( 'ipress_posts_nav' ) ) :
 		// Link to current page, plus 2 pages in either direction if necessary
 		sort( $links );
 		foreach ( (array) $links as $link ) {
-			$class = ( $paged == $link ) ? ' class="active"  aria-label="' . __( 'Current page', 'ipress' ) . '"' : '';
+			$class 	= ( $paged == $link ) ? ' class="active"  aria-label="' . __( 'Current page', 'ipress' ) . '"' : '';
 			$output .= sprintf( '<div%s><a href="%s">%s</a></div>', $class, esc_url( get_pagenum_link( $link ) ), ' ' . $link );
 		}
 
@@ -214,20 +215,20 @@ if ( ! function_exists( 'ipress_posts_nav' ) ) :
 				$output .= sprintf( '<div class="pagination-omission">%s</div>', '&#x02026;' );
 			}
 
-			$class = $paged == $max ? ' class="active"' : '';
+			$class 	= $paged == $max ? ' class="active"' : '';
 			$output .= sprintf( '<div%s><a href="%s">%s</a></div>', $class, esc_url( get_pagenum_link( $max ) ), ' ' . $max );
 		}
 
 		// Next post link
 		if ( get_next_posts_link() ) {
-			$output .= sprintf( '<div class="pagination-next">%s</div>', get_next_posts_link( __( 'Next Page', 'ipress' ) . ' &#x000BB;' ) );
+			$output .= sprintf( '<div class="pagination-next">%s</div>', esc_url( get_next_posts_link( __( 'Next Page', 'ipress' ) ) . ' &#x000BB;' ) );
 		}
 
 		// Generate output
 		$output .= '</nav></section>';
 
 		// Send output
-		if ( $echo ) { echo $output; } else { return $output; }
+		if ( $echo ) { echo $output; } else { return $output; } // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 endif;
 

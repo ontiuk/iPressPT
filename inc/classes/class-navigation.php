@@ -20,12 +20,11 @@ if ( ! class_exists( 'IPR_Navigation' ) ) :
 
 		/**
 		 * Class constructor
-		 * - set up hooks
 		 */
 		public function __construct() {
 
 			// Remove surrounding <div> from WP Navigation
-			add_filter( 'wp_nav_menu_args', [ $this, 'nav_menu_args' ] ); 
+			add_filter( 'wp_nav_menu_args', 	[ $this, 'nav_menu_args' ] ); 
 
 			// Remove navigation <li> injected classes 
 			add_filter( 'nav_menu_css_class', 	[ $this, 'css_attributes_filter' ], 99, 1 ); 
@@ -40,14 +39,14 @@ if ( ! class_exists( 'IPR_Navigation' ) ) :
 		/**
 		 * Remove the <div> surrounding the dynamic navigation to cleanup markup
 		 *
-		 * @param   array
-		 * @return  array
+		 * @param   array $args	default []
+		 * @return  array $args
 		 */
 		public function nav_menu_args( $args = [] ) {
 
 			// Filterable menu args
-			$nav_clean = apply_filters( 'ipress_nav_clean', false );
-			if ( $nav_clean ) { $args['container'] = false; }
+			$ip_nav_clean = (bool) apply_filters( 'ipress_nav_clean', false );
+			if ( true !== $ip_nav_clean ) { $args['container'] = false; }
 
 			// Return menu args
 			return $args;
@@ -62,11 +61,11 @@ if ( ! class_exists( 'IPR_Navigation' ) ) :
 		public function css_attributes_filter( $var ) {
 
 			// Filterable css attributes
-			$css_attr       = (bool) apply_filters( 'ipress_nav_css_attr', false );    
-			$css_attr_val   = ( is_array( $var ) ) ? [] : '';
+			$ip_nav_css_attr	= (bool) apply_filters( 'ipress_nav_css_attr', false );
+			$css_attr_val   	= ( is_array( $var ) ) ? [] : '';
 
 			// Return attributes
-			return ( $css_attr ) ? $css_attr_val : $var;
+			return ( true === $ip_nav_css_attr ) ? $css_attr_val : $var;
 		}
 	}
 

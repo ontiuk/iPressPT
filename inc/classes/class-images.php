@@ -14,7 +14,7 @@
 if ( ! class_exists( 'IPR_Images' ) ) :
 
 	/**
-	 * Set up navigation features
+	 * Set up image features
 	 */ 
 	final class IPR_Images {
 
@@ -25,22 +25,25 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 		public function __construct() {
 
 			// Image size media editor support
-			add_filter( 'image_size_names_choose', [ $this, 'media_images' ] );
+			add_filter( 'image_size_names_choose', 					[ $this, 'media_images' ] );
 
 			// Remove default image sizes
-			add_filter( 'intermediate_image_sizes_advanced', [ $this, 'remove_default_image_sizes' ] );
+			add_filter( 'intermediate_image_sizes_advanced', 		[ $this, 'remove_default_image_sizes' ] );
 
 			// Enable SVG mime type plus filterable other types
-			add_filter( 'upload_mimes', [ $this, 'custom_upload_mimes' ] );			 
+			add_filter( 'upload_mimes', 							[ $this, 'custom_upload_mimes' ] );			 
 
 			// Custom avatar in settings > discussion
-			add_filter( 'avatar_defaults', [ $this, 'gravatar' ] ); 
+			add_filter( 'avatar_defaults', 							[ $this, 'custom_gravatar' ] ); 
 
 			// Responsive image sizes for theme images
-			add_filter( 'wp_calculate_image_sizes', [ $this, 'image_sizes' ], 10, 2 );
+			add_filter( 'wp_calculate_image_sizes', 				[ $this, 'image_sizes' ], 10, 2 );
 
 			// Responsive image sizes for thumbnails
-			add_filter( 'wp_get_attachment_image_attributes', [ $this, 'post_thumbnail_sizes' ], 10, 3 );
+			add_filter( 'wp_get_attachment_image_attributes', 		[ $this, 'post_thumbnail_sizes' ], 10, 3 );
+
+			// Provide media gallery svg thumbnail support
+			add_filter( 'wp_prepare_attachment_for_js', 			[ $this, 'svg_media_thumbnails' ], 10, 3 );
 		}
 
 		//----------------------------------------------
@@ -58,19 +61,20 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 		public function media_images( $sizes ) {
 
 			// Filterable custom images 
-			$custom_sizes = (array) apply_filters( 'ipress_media_images', [
+			$ip_media_images = (array) apply_filters( 'ipress_media_images', [
 				'image-in-post' => __( 'Image in Post', 'ipress' ),
 				'full'			=> __( 'Original size', 'ipress' )
 			] );
 
 			// Test & return
-			return ( empty( $custom_sizes ) ) ? $sizes : array_merge( $sizes, $custom_sizes );
+			return ( empty( $ip_media_images ) ) ? $sizes : array_merge( $sizes, $ip_media_images );
 		}
 
 		/**
 		 * Remove default image sizes
 		 * unset( $sizes['thumbnail'] );
 		 * unset( $sizes['medium'] );
+		 * unset( $sizes['medium_large'] );
 		 * unset( $sizes['large'] );
 		 *
 		 * @param	array
@@ -90,40 +94,96 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 		 * @param  array
 		 * @return array
 		 */
-		public function custom_upload_mimes ( $existing_mimes = [] ) {
+		public function custom_upload_mimes ( $mimes = [] ) {
+
+			// Restricted formats - admin only
+			$ip_restricted = [ 'svg', 'svgz' ];
 
 			// Add the file extension to the array
-			$new_mimes = (array) apply_filters( 'ipress_upload_mimes', [ 'svg' => 'mime/type' ] ); 
+			$ip_upload_mimes = (array) apply_filters( 'ipress_upload_mimes', [ 'svg' => 'image/svg+xml', 'svgz' => 'image/svg+xml' ] ); 
+
+			// Force admin restrictions
+			$ip_restricted = (array) apply_filters( 'ipress_custom_mimes_restricted', $ip_restricted );
+
+			// Validate new mimes against restrictions
+			foreach ( $ip_upload_mimes as $k => $v ) {
+				if ( in_array( $k, $ip_restricted ) ) {
+					if ( current_user_can('administrator') ) { continue; } 
+					else {
+						unset( $ip_upload_mimes[$k] );
+					}
+				}
+			}
 
 			// Add the file extension to the current mimes
-			foreach ( $new_mimes as $k=>$v ) {
-				if ( array_key_exists( $k, $existing_mimes ) ) { continue; }
-				$existing_mimes[$k] = esc_html( $v );
+			foreach ( $ip_upload_mimes as $k => $v ) {
+				if ( array_key_exists( $k, $mimes ) ) { continue; }
+				$mimes[$k] = esc_attr( $v );
 			}
 
 			// Return the modified list of extensions / mime-types
-			return $existing_mimes;
+			return $mimes;
+		}
+		
+		/**
+		 * Add svg image support to media editor thumbnails - todo: add sanitizer class
+		 *
+		 * @param	array	$response
+		 * @param	object	$attachment
+		 * @param	array	$meta
+		 * @return	array	$response
+		 */
+		public function svg_media_thumbnails( $response, $attachment, $meta ) {
+
+			// Only if current type is svg
+			if ( $response['type'] === 'image' && $response['subtype'] === 'svg+xml' ) {
+
+				// get file path
+				$path = get_attached_file( $attachment->ID );
+
+				// validate file in path
+				if ( file_exists( $path ) ) {
+
+					// extract file data
+					list( $width, $height, $type, $attr ) = getimagesize( $path );
+					$src = $response['url'];
+
+					// media gallery
+					$response['image'] = compact( 'src', 'width', 'height' );
+					$response['thumb'] = compact( 'src', 'width', 'height' );
+
+					// media single
+					$response['sizes']['full'] = [
+						'height'        => $height,
+						'width'         => $width,
+						'url'           => $src,
+						'orientation'   => $height > $width ? 'portrait' : 'landscape',
+					];
+				}
+			}
+
+			return $response;
 		}
 
 		/**
 		 * Custom Gravatar in Settings > Discussion
 		 * - add as array ( 'name' => '', 'path' => '' )
 		 *
-		 * @param	array
-		 * @return	array
+		 * @param	array	$avatars
+		 * @return	array	$avatars
 		 */
-		public function gravatar ( $avatar_defaults ) {
+		public function custom_gravatar ( $avatars ) {
 
 			// Filterable markup
-			$custom_avatar = (array) apply_filters( 'ipress_gravatar', [] );
-			if ( empty( $custom_avatar ) ) { return $avatar_defaults; }
+			$ip_gravatar = (array) apply_filters( 'ipress_custom_gravatar', [] );
+			if ( empty( $ip_gravatar ) ) { return $avatars; }
 
-			// Set avatar with caveats for index keys
-			$avatar_path = esc_url( $custom_avatar['path'], false );
-			$avatar_defaults[ $avatar_path ] = $custom_avatar['name'];
+			// Set avatar with caveats for index keys: path & name
+			$ip_avatar_path 				= esc_url( $ip_gravatar['path'], false );
+			$avatars[ $ip_avatar_path ] 	= $ip_gravatar['name'];
 
 			// Return avatar defaults
-			return $avatar_defaults;
+			return $avatars;
 		}
 
 		/**
@@ -143,13 +203,14 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 
 		/**
 		 * Modify post thumbnail image sizes attribute for responsive image functionality
+		 * @todo: functionality, holding
 		 *
 		 * @param	array $attr		  Attributes for the image markup
 		 * @param	int   $attachment Image attachment ID
 		 * @param	array $size		  Registered image size or [ height, width ]
-		 * @return	array 
+		 * @return	array $attr
 		 */
-		public function post_thumbnail_sizes( $attr, $attachment, $size ) {
+		public function post_thumbnail_sizes( $attr, $attachment_id, $size ) {
 			return $attr;
 		}
 	}

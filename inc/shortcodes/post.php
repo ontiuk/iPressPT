@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Post related shortcodes
+ * Post & page related shortcodes.
  *
  * @package		iPress\Shortcodes
  * @link		http://ipress.uk
@@ -19,7 +19,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 //---------------------------------------------
-//	Post, Comment & Content Shortcodes						
+//	Post, Comment & Content Shortcodes
+//	
+//	ipress_post_edit
+//	ipress_post_date
+//	ipress_post_time
+//  ipress_post_modified_date
+//  ipress_post_modified_time
+//  ipress_post_author
+//  ipress_post_author_link
+//  ipress_post_author_posts_link
+//  ipress_post_comments
+//  ipress_post_id_by_name
+//  ipress_post_id_by_type_name
+//  ipress_post_code
+//  ipress_post_type_count
+//  ipress_post_type_list
 //---------------------------------------------
 
 /**
@@ -30,35 +45,48 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ipress_post_edit_shortcode( $atts ) {
 
+	global $post;
+
+	// Set defaults
 	$defaults = [
 		'after'		=> '',
 		'before'	=> '',
 		'link'		=> __( '(Edit)', 'ipress' ),
 		'post_id'	=> 0
 	];
+	
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_edit_defaults', $defaults );
 
 	// Get shortcode attributes
-	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_edit' );
-	$post_id = (int) $atts['post_id'];
+	$atts 		= shortcode_atts( $defaults, $atts, 'ipress_post_edit' );
+	$post_id 	= absint( $atts['post_id'] );
+	$link  	 	= sanitize_text_field( $atts['link'] );
 
 	// Not in loop? must have post_id
-	if ( ! in_the_loop() && $post_id === 0 ) { return; }
+	if ( ! in_the_loop() && $post_id === 0 ) { return false; }
+
+	// Get post_id if not set
+	$post_id = ( $post_id > 0 ) ? $post_id : ( ( isset( $post->ID ) ) ? $post->ID : $post_id );
+   	if ( $post_id === 0 ) { return false; }	
+
+	// Extras
+	$before  = sanitize_text_field( $atts['before'] );
+	$after 	 = sanitize_text_field( $atts['after'] );
+	$class   = ( isset( $atts['class'] ) ) ? sanitize_html_class( $atts['class'] ) : '';
 
 	// Capture output... no function return
 	ob_start();
-	if ( $post_id === 0 ) {
-		edit_post_link( $atts['link'], $atts['before'], $atts['after'] );
-	} else {
-		edit_post_link( $atts['link'], $atts['before'], $atts['after'], $atts['post_id'] );
-	}
+	edit_post_link( $link, $before, $after, $post_id, $class );
 	$output = ob_get_clean();
+	$output = (string) apply_filters( 'ipress_post_edit_shortcode', $output, $atts );
 
 	// Return filterable output
-	return apply_filters( 'ipress_post_edit_shortcode', $output, $atts );
+	return trim( $output );
 }
 
 // Post Edit Link Shortcode
-add_shortcode( 'ipress_post_edit', 'ipress_post_edit_shortcode' );
+add_shortcode( 'ipress_post_edit', 'ipress_post_edit_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Displays the date of post publication.
@@ -68,30 +96,39 @@ add_shortcode( 'ipress_post_edit', 'ipress_post_edit_shortcode' );
  */
 function ipress_post_date_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'		=> '',
 		'before'	=> '',
-		'format'	=> sprintf( __( '%s', 'ipress' ), get_option( 'date_format' ) ),
+		'format'	=> get_option( 'date_format' ),
 		'label'		=> ''
 	];
 
-	// Must be in loop
-	if ( !in_the_loop() ) { return; }
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_date_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_date' );
 
-	// Set & generate output
-	$display = ( 'relative' === $atts['format'] ) ? ipress_time_diff( get_the_time( 'U', get_the_ID() ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'ipress' ) : 
-													get_the_time( $atts['format'], get_the_ID() );
-	$output = sprintf( '<time class="post-time">%s</time>', $atts['before'] . $atts['label'] . $display . $atts['after'] );
+	// Must be in loop
+	if ( ! in_the_loop() ) { return; }
 
-	// Return filterable output
-	return apply_filters( 'ipress_post_date_shortcode', $output, $atts );
+	// Extras
+	$before  = sanitize_text_field( $atts['before'] );
+	$after 	 = sanitize_text_field( $atts['after'] );
+	$label 	 = sanitize_text_field( $atts['label'] );
+
+	// Generate filterable output
+	$display = get_the_time( $atts['format'], get_the_ID() );
+	$output = sprintf( '<time class="post-time">%s</time>', $before . $label . $display . $after );
+	$output = (string) apply_filters( 'ipress_post_date_shortcode', $output, $atts );
+
+	// Return  output
+	return trim( $output );
 }
 
 // Post Date Shortcode
-add_shortcode( 'ipress_post_date', 'ipress_post_date_shortcode' );
+add_shortcode( 'ipress_post_date', 'ipress_post_date_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Display the time of post publication.
@@ -101,28 +138,38 @@ add_shortcode( 'ipress_post_date', 'ipress_post_date_shortcode' );
  */
 function ipress_post_time_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'		=> '',
 		'before'	=> '',
-		'format'	=> sprintf( __( '%s', 'ipress' ), get_option( 'ipress_time_format' ) ),
+		'format'	=> get_option( 'time_format' ),
 		'label'		=> ''
 	];
 
-	// Must be in loop
-	if ( ! in_the_loop() ) { return; }
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_time_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_time' );
 
+	// Must be in loop
+	if ( ! in_the_loop() ) { return; }
+
+	// Extras
+	$before  = sanitize_text_field( $atts['before'] );
+	$after 	 = sanitize_text_field( $atts['after'] );
+	$label   = sanitize_html_class( $atts['label'] );
+
 	// Generate outpur
-	$output = sprintf( '<time class="post-time">%s</time>', $atts['before'] . $atts['label'] . get_the_time( $atts['format'], get_the_ID() ) . $atts['after'] );
+	$output = sprintf( '<time class="post-time">%s</time>', $before . $label . get_the_time( $atts['format'], get_the_ID() ) . $after );
+	$output = (string) apply_filters( 'ipress_post_time_shortcode', $output, $atts );
 
 	// Return filterable output
-	return apply_filters( 'ipress_post_time_shortcode', $output, $atts );
+	return trim( $output );
 }
 
 // Post Time Shortcode
-add_shortcode( 'ipress_post_time', 'ipress_post_time_shortcode' );
+add_shortcode( 'ipress_post_time', 'ipress_post_time_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Produce the post last modified date.
@@ -132,29 +179,39 @@ add_shortcode( 'ipress_post_time', 'ipress_post_time_shortcode' );
  */
 function ipress_post_modified_date_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'		=> '',
 		'before'	=> '',
-		'format'	=> sprintf( __( '%s', 'ipress' ), get_option( 'date_format' ) ),
+		'format'	=> get_option( 'date_format' ),
 		'label'		=> ''
 	];
 
-	// Must be in loop
-	if ( ! in_the_loop() ) { return; }
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_modified_date_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_modified_date' );
 
-	// Set & generate output
+	// Must be in loop
+	if ( ! in_the_loop() ) { return; }
+
+	// Extras
+	$before  = sanitize_text_field( $atts['before'] );
+	$after 	 = sanitize_text_field( $atts['after'] );
+	$label   = sanitize_html_class( $atts['label'] );
+
+	// Generate filterable output
 	$display = get_the_modified_time( $atts['format'] );
-	$output = sprintf( '<time class="post-modified-time">%s</time>', $atts['before'] . $atts['label'] . $display . $atts['after'] );
+	$output = sprintf( '<time class="post-modified-time updated">%s</time>', $before . $label . $display . $after );
+	$output = apply_filters( 'ipress_post_modified_date_shortcode', $output, $atts );
 
 	// Return filterable output
-	return apply_filters( 'ipress_post_modified_date_shortcode', $output, $atts );
+	return trim( $output );
 }
 
 // Post Modified Date Shortcode
-add_shortcode( 'ipress_post_modified_date', 'ipress_post_modified_date_shortcode' );
+add_shortcode( 'ipress_post_modified_date', 'ipress_post_modified_date_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Display the post last modified time.
@@ -164,12 +221,16 @@ add_shortcode( 'ipress_post_modified_date', 'ipress_post_modified_date_shortcode
  */
 function ipress_post_modified_time_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'		=> '',
 		'before'	=> '',
-		'format'	=> sprintf( __( '%s', 'ipress' ), get_option( 'time_format' ) ),
-		'label'		=> '',
+		'format'	=> get_option( 'time_format' ),
+		'label'		=> ''
 	];
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_modified_time_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_modified_time' );
@@ -177,15 +238,21 @@ function ipress_post_modified_time_shortcode( $atts ) {
 	// Must be in loop
 	if ( ! in_the_loop() ) { return; }
 
-	// Generate output
-	$output = sprintf( '<time class="post-modified-time">%s</time>', $atts['before'] . $atts['label'] . get_the_modified_time( $atts['format'] ) . $atts['after'] );
+	// Extras
+	$before  = sanitize_text_field( $atts['before'] );
+	$after 	 = sanitize_text_field( $atts['after'] );
+	$label   = sanitize_html_class( $atts['label'] );
 
-	// Return filterable output
-	return apply_filters( 'ipress_post_modified_time_shortcode', $output, $atts );
+	// Generate filterable output
+	$output = sprintf( '<time class="post-modified-time updated">%s</time>', $before . $label . get_the_modified_time( $atts['format'] ) . $after );
+	$output = (string) apply_filters( 'ipress_post_modified_time_shortcode', $output, $atts );
+
+	// Return output
+	return trim( $output );
 }
 
 // Post Modified Time Shortcode
-add_shortcode( 'ipress_post_modified_time', 'ipress_post_modified_time_shortcode' );
+add_shortcode( 'ipress_post_modified_time', 'ipress_post_modified_time_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Generates the author of the post (unlinked display name).
@@ -195,10 +262,14 @@ add_shortcode( 'ipress_post_modified_time', 'ipress_post_modified_time_shortcode
  */
 function ipress_post_author_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'  => '',
 		'before' => '',
 	];
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_taxonomy_term_count_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_author' );
@@ -209,15 +280,20 @@ function ipress_post_author_shortcode( $atts ) {
 	// Get the current author
 	$author = get_the_author();
 
-	// Generate output
-	$output = sprintf( '<span class="post-author">%s<span class="post-author-name">%s</span>%s</span>', $atts['before'], esc_html( $author ), $atts['after'] );
+	// Extras
+	$before  = sanitize_text_field( $atts['before'] );
+	$after 	 = sanitize_text_field( $atts['after'] );
+	
+	// Generate filterable output
+	$output = sprintf( '<span class="post-author">%s<span class="post-author-name">%s</span>%s</span>', $before, esc_html( $author ), $after );
+	$output = (string) apply_filters( 'ipress_post_author_shortcode', $output, $atts );
 
-	// Return filterable output
-	return apply_filters( 'ipress_post_author_shortcode', $output, $atts );
+	// Return output
+	return trim( $output );
 }
 
 // Post Author Shortcode
-add_shortcode( 'ipress_post_author', 'ipress_post_author_shortcode' );
+add_shortcode( 'ipress_post_author', 'ipress_post_author_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Generate the author of the post (link to author URL).
@@ -227,10 +303,14 @@ add_shortcode( 'ipress_post_author', 'ipress_post_author_shortcode' );
  */
 function ipress_post_author_link_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'    => '',
 		'before'   => '',
 	];
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_author_link_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_author_link' );
@@ -241,27 +321,32 @@ function ipress_post_author_link_shortcode( $atts ) {
 	// Get author url
 	$url = get_the_author_meta( 'url' );
 
+	// Extras
+	$before  = sanitize_text_field( $atts['before'] );
+	$after 	 = sanitize_text_field( $atts['after'] );
+
 	// If no url, use post author shortcode function.
 	if ( ! $url ) { return ipress_post_author_shortcode( $atts ); }
 
 	// Get the current author
 	$author = get_the_author();
 
-	// Generate output
+	// Generate filterable output
 	$output  = sprintf( 
-		'<span class="post-author">%s<a href="%s" class="post-author"><span class="post-author-name">%s</span></a>%s</span>',
-		$atts['before'],
+		'<span class="post-author">%s<a href="%s" class="post-author-link"><span">%s</span></a>%s</span>',
+		$before,
 		$url,
 		esc_html( $author ),
-		$atts['after'] 
+		$after 
 	);
+	$output = (string) apply_filters( 'ipress_post_author_link_shortcode', $output, $atts );
 
-	// Return filterable output
-	return apply_filters( 'ipress_post_author_link_shortcode', $output, $atts );
+	// Return output
+	return trim( $output );
 }
 
 // Post Author Link
-add_shortcode( 'ipress_post_author_link', 'ipress_post_author_link_shortcode' );
+add_shortcode( 'ipress_post_author_link', 'ipress_post_author_link_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Generates the author of the post (link to author archive).
@@ -271,36 +356,45 @@ add_shortcode( 'ipress_post_author_link', 'ipress_post_author_link_shortcode' );
  */
 function ipress_post_author_posts_link_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'  => '',
 		'before' => '',
 	];
 
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_author_posts_link_defaults', $defaults );
+
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_author_posts_link' );
 
 	// Must be in loop
-	if ( !in_the_loop() ) { return; }
+	if ( ! in_the_loop() ) { return; }
 
 	// Get the author & author url	  
 	$author = get_the_author();
 	$url	= get_author_posts_url( get_the_author_meta( 'ID' ) );
 
-	// Generate output
+	// Extras
+	$before  = sanitize_text_field( $atts['before'] );
+	$after 	 = sanitize_text_field( $atts['after'] );
+
+	// Generate filterable output
 	$output  = sprintf( 
-		'<span class="post-author">%s<a href="%s" class="post-author-link"><span class="post-author-name">%s</span></a>%s</span>',
-		$atts['before'],
+		'<span class="post-author">%s<a href="%s" class="post-author-link"><span>%s</span></a>%s</span>',
+		$before,
 		$url,
 		esc_html( $author ),
-		$atts['after'] 
+		$after 
 	);
+	$output = (string) apply_filters( 'ipress_post_author_posts_link_shortcode', $output, $atts );
 
-	// Return fiterable output
-	return apply_filters( 'ipress_post_author_posts_link_shortcode', $output, $atts );
+	// Return output
+	return trim( $output );
 }
 
 // Post Author Posts Link Shortcode
-add_shortcode( 'ipress_post_author_posts_link', 'ipress_post_author_posts_link_shortcode' );
+add_shortcode( 'ipress_post_author_posts_link', 'ipress_post_author_posts_link_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Generate the link to the current post comments.
@@ -310,6 +404,7 @@ add_shortcode( 'ipress_post_author_posts_link', 'ipress_post_author_posts_link_s
  */
 function ipress_post_comments_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'		  => '',
 		'before'	  => '',
@@ -318,30 +413,42 @@ function ipress_post_comments_shortcode( $atts ) {
 		'one'		  => __( '1 Comment', 'ipress' ),
 		'zero'		  => __( 'Leave a Comment', 'ipress' ),
 	];
-	
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_comments_defaults', $defaults );
+
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_comments' );
 
 	// Must be in loop
-	if ( !in_the_loop() ) { return; }
+	if ( ! in_the_loop() ) { return; }
+
+	// Extras
+	$before  		= sanitize_text_field( $atts['before'] );
+	$after 	 		= sanitize_text_field( $atts['after'] );
+	$hide_if_off	= sanitize_text_field( $atts['hide_it_off'] );
+	$more		  	= sanitize_text_field( $atts['more'] ); 
+	$one		  	= sanitize_text_field( $atts['one'] );
+	$zero		  	= sanitize_text_field( $atts['zero'] );
 
 	// No comments if turned off for post
-	if ( !comments_open() && 'enabled' === $atts['hide_if_off'] ) { return; }
+	if ( ! comments_open() && 'enabled' === $atts['hide_if_off'] ) { return; }
 
 	// Capture result... no function return
 	ob_start();
-	comments_number( $atts['zero'], $atts['one'], $atts['more'] );
+	comments_number( $zero, $one, $more );
 	$comments = sprintf( '<a href="%s">%s</a>', get_comments_link(), ob_get_clean() );
 
-	// Generate output 
-	$output = sprintf( '<span class="post-comments-link">%s</span>', $atts['before'] . $comments . $atts['after'] );
+	// Generate filterable output 
+	$output = sprintf( '<span class="post-comments-link">%s</span>', $before . $comments . $after );
+	$output = (string) apply_filters( 'ipress_post_comments_shortcode', $output, $atts );
 
-	// Return filterable output
-	return apply_filters( 'ipress_post_comments_shortcode', $output, $atts );
+	// Return output
+	return trim( $output );
 }
 
 // Post Comments Shortcode
-add_shortcode( 'ipress_post_comments', 'ipress_post_comments_shortcode' );
+add_shortcode( 'ipress_post_comments', 'ipress_post_comments_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Output post/page id by name
@@ -351,28 +458,38 @@ add_shortcode( 'ipress_post_comments', 'ipress_post_comments_shortcode' );
  */
 function ipress_post_id_by_name_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'  => '',
 		'before' => '',
 		'name'	 => ''
 	];
 
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_taxonomy_term_count_defaults', $defaults );
+
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_id_by_name_posts_link' );
 
+	// Extras
+	$before  		= sanitize_text_field( $atts['before'] );
+	$after 	 		= sanitize_text_field( $atts['after'] );
+	$name		  	= sanitize_title( $atts['name'] ); 
+
 	// Get page data if available
-	$page = get_page_by_title( $atts['name'], OBJECT, 'post' );
-	if ( !$page ) { return; }
+	$page = get_page_by_title( $name, OBJECT, 'post' );
+	if ( ! $page ) { return; }
 
-	// Generate output
-	$output = sprintf( '<span class="post-id-by-name">%s</span>', $atts['before'] . $page->ID . $atts['after'] );
+	// Generate filterable output
+	$output = sprintf( '<span class="post-id-by-name">%s</span>', $before . $page->ID . $after );
+	$output = (string) apply_filters( 'ipress_post_id_by_name_shortcode', $output, $atts );
 
-	// Return filterable output
-	return apply_filters( 'ipress_post_id_by_name_shortcode', $output, $atts );
+	// Return output
+	return trim( $output );
 }
 
 // Post ID From Title Shortcode
-add_shortcode( 'ipress_post_id_by_name', 'ipress_post_id_by_name_shortcode' );
+add_shortcode( 'ipress_post_id_by_name', 'ipress_post_id_by_name_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Output post/page id by name
@@ -382,6 +499,7 @@ add_shortcode( 'ipress_post_id_by_name', 'ipress_post_id_by_name_shortcode' );
  */
 function ipress_post_id_by_type_name_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'  => '',
 		'before' => '',
@@ -389,22 +507,32 @@ function ipress_post_id_by_type_name_shortcode( $atts ) {
 		'type'	 => '',
 	];
 
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_id_by_type_name_defaults', $defaults );
+	
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_id_by_type_name_posts_link' );
 
+	// Extras
+	$before = sanitize_text_field( $atts['before'] );
+	$after 	= sanitize_text_field( $atts['after'] );
+	$name	= sanitize_title( $atts['name'] ); 
+	$type 	= sanitize_key( $atts['type'] );
+
 	// Get page data if available
-	$page = get_page_by_path( $atts['name'], OBJECT, $atts['type'] );
-	if ( !$page ) { return; }
+	$page = get_page_by_path( $name, OBJECT, $type );
+	if ( ! $page ) { return; }
 
-	// Generate output
-	$output = sprintf( '<span class="post-id-by-type-name">%s</span>', $atts['before'] . $page->ID . $atts['after'] );
+	// Generate filterable output
+	$output = sprintf( '<span class="post-id-by-type-name">%s</span>', $before . $page->ID . $after );
+	$output = (string) apply_filters( 'ipress_post_id_by_type_name_shortcode', $output, $atts );
 
-	// Return filterable output
-	return apply_filters( 'ipress_post_id_by_type_name_shortcode', $output, $atts );
+	// Return output
+	return trim( $output );
 }
 
 // Post ID From Custom Post Type Shortcode
-add_shortcode( 'ipress_post_id_by_type_name', 'ipress_post_id_by_type_name_shortcode' );
+add_shortcode( 'ipress_post_id_by_type_name', 'ipress_post_id_by_type_name_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Output text wrapped in code tags
@@ -414,11 +542,15 @@ add_shortcode( 'ipress_post_id_by_type_name', 'ipress_post_id_by_type_name_short
  */
 function ipress_post_code_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'before'	=> '',
 		'after'		=> '',
 		'text'		=> ''
 	];
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_code_defaults', $defaults );
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_code' );
@@ -426,15 +558,21 @@ function ipress_post_code_shortcode( $atts ) {
 	// Text field required
 	if ( empty( $atts['text'] ) ) { return; }
 
-	// Generate output
-	$output = sprintf( '<code class="post-code">%s</code>', $atts['before'] . esc_html( $atts['text'] ) . $atts['after'] );
+	// Extras
+	$before  		= sanitize_text_field( $atts['before'] );
+	$after 	 		= sanitize_text_field( $atts['after'] );
+	$text		  	= sanitize_text_field( $atts['text'] ); 
 
-	// Return filterable output
-	return apply_filters( 'ipress_post_code_shortcode', $output, $atts );
+	// Generate filterable output
+	$output = sprintf( '<code class="post-code">%s</code>', $before . esc_html( $text ) . $after );
+	$output = (string) apply_filters( 'ipress_post_code_shortcode', $output, $atts );
+
+	// Return output
+	return trim( $output );
 }
 
 // Code Tag Shortcode
-add_shortcode( 'ipress_post_code', 'ipress_post_code_shortcode' );
+add_shortcode( 'ipress_post_code', 'ipress_post_code_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Generate custom post type post count
@@ -444,30 +582,40 @@ add_shortcode( 'ipress_post_code', 'ipress_post_code_shortcode' );
  */
 function ipress_post_type_count_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'before'	=> '',
 		'after'		=> '',
 		'type'		=> ''
 	];
 
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_type_count_defaults', $defaults );
+
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_type_count' );
 
+	// Extras
+	$before  		= sanitize_text_field( $atts['before'] );
+	$after 	 		= sanitize_text_field( $atts['after'] );
+	$post_type	  	= sanitize_key( $atts['type'] ); 
+
 	// Valid post type required
-	if ( empty( $atts['type'] ) || !post_type_exists( $atts['type'] ) ) { return; }
+	if ( empty( $post_type ) || ! post_type_exists( $post_type ) ) { return; }
 
 	// Get post count
-	$num_posts = wp_count_posts( $atts['type'] );
+	$num_posts = wp_count_posts( $post_type );
 
 	// Generate output
-	$output = sprintf( '<span class="post-type-count">%s</span>', $atts['before'] . intval( $num_posts->publish ) . $atts['after'] );
+	$output = sprintf( '<span class="post-type-count">%s</span>', $before . intval( $num_posts->publish ) . $after );
+	$output = (string) apply_filters( 'ipress_post_type_count_shortcode', $output, $atts );
 
 	// Return filterable output
-	return apply_filters( 'ipress_post_type_count_shortcode', $output, $atts );
+	return trim( $output );
 }
 
 // Custom Post Type Post Count Shortcode
-add_shortcode( 'ipress_post_type_count', 'ipress_post_type_count_shortcode' );
+add_shortcode( 'ipress_post_type_count', 'ipress_post_type_count_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  * Generate custom post type post list
@@ -479,6 +627,7 @@ function ipress_post_type_list_shortcode( $atts ) {
 
 	global $post;
 
+	// Set defaults
 	$defaults = [
 		'before'			=> '',
 		'after'				=> '',
@@ -487,20 +636,30 @@ function ipress_post_type_list_shortcode( $atts ) {
 		'posts_per_page'	=> -1 
 	];
 
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_post_type_list_defaults', $defaults );
+
 	// Start post list
 	$posts = [];
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_post_type_list' );
 
+	// Extras
+	$before  		= sanitize_text_field( $atts['before'] );
+	$after 	 		= sanitize_text_field( $atts['after'] );
+	$post_type	  	= sanitize_key( $atts['type'] ); 
+	$post_status	= sanitize_text_field( $atts['post_status'] ); 
+	$posts_per_page	= intval( $atts['posts_per_page'] ); 
+
 	// Valid post type required
-	if ( empty( $atts['type'] ) || !post_type_exists( $atts['type'] ) ) { return; }
+	if ( empty( $post_type ) || ! post_type_exists( $post_type ) ) { return; }
 
 	// Set up query
 	$args = [ 
-		'post_type'		 => $atts['type'],
-		'post_status'	 => $atts['publish'],
-		'posts_per_page' => $atts['posts_per_page'] 
+		'post_type'		 => $post_type,
+		'post_status'	 => $post_status,
+		'posts_per_page' => $posts_per_page 
 	];
 	$the_query = new WP_Query( $args );
 
@@ -513,14 +672,15 @@ function ipress_post_type_list_shortcode( $atts ) {
 	}
 	wp_reset_postdata();
 
-	// Generate outpur
-	$output = sprintf( '<span class="post-type-list">%s</span>', $atts['before'] . print_r( $posts, true ) . $atts['after'] );
+	// Generate filterable outpu
+	$output = sprintf( '<span class="post-type-list">%s</span>', $before . print_r( $posts, true ) . $after );
+	$output = (string) apply_filters( 'ipress_post_type_list_shortcode', $output, $atts );
 
-	// Return filterable output
-	return apply_filters( 'ipress_post_type_list_shortcode', $output, $atts );
+	// Return output
+	return trim( $output );
 }
 
 // Custom Post Type Post List Shortcode - Should be used with do_shortcode
-add_shortcode( 'ipress_post_type_list', 'ipress_post_type_list_shortcode' );
+add_shortcode( 'ipress_post_type_list', 'ipress_post_type_list_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 //end

@@ -20,7 +20,6 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 
 		/**
 		 * Class constructor
-		 * - set up hooks
 		 */
 		public function __construct() {
 		
@@ -40,14 +39,15 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 		 */
 		public function redirect_login_page() {
 			
-			$login_page = apply_filters( 'ipress_login_page', '' );
-			if ( empty( $login_page ) ) { return; }
+			$ip_login_page = (string) apply_filters( 'ipress_login_page', '' );
+			if ( empty( $ip_login_page ) ) { return; }
 
-			$login_url  = home_url( '/' . $login_page . '/' );
-			$page_viewed = basename( $_SERVER['REQUEST_URI'] );
+			$ip_login_url  		= trailingslashit( esc_url( home_url( '/' ) . trim( $ip_login_page ) ) );
+			$ip_request_uri 	= ( isset( $_SERVER['REQUEST_URI'] ) ) ? basename( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : '';
+			$ip_request_method 	= ( isset( $_SERVER['REQUEST_METHOD'] ) ) ? strtoupper( sanitize_key( $_SERVER['REQUEST_METHOD'] ) ) : '';
 
-			if ( $page_viewed == "wp-login.php" && $_SERVER['REQUEST_METHOD'] == 'GET' ) {
-				wp_redirect( $login_url );
+			if ( $ip_request_uri === 'wp-login.php' && $ip_request_method === 'GET' ) {
+				wp_redirect( $ip_login_url );
 				exit;
 			}
 		}
@@ -57,11 +57,11 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 		 */
 		public function custom_login_failed() {
 
-			$login_page = apply_filters( 'ipress_login_failed_page', '' );
-			if ( empty( $login_page ) ) { return; }
+			$ip_login_failed_page = (string) apply_filters( 'ipress_login_failed_page', '' );
+			if ( empty( $ip_login_failed_page ) ) { return; }
 
-			$login_url  = home_url( '/' . $login_page . '/' );
-			wp_redirect( $login_url . '?login=failed' );
+			$ip_login_url = trailingslashit( esc_url( home_url( '/' ) . trim( $ip_login_failed_page ) ) );
+			wp_redirect( $ip_login_url . '?login=failed' );
 			exit;
 		}
 
@@ -70,12 +70,12 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 		 */
 		public function verify_user_pass( $user, $username, $password ) {
 
-			$login_page = apply_filters( 'ipress_login_verify_page', '' );
-			if ( empty( $login_page ) ) { return; }
+			$ip_login_verify_page = (string) apply_filters( 'ipress_login_verify_page', '' );
+			if ( empty( $ip_login_verify_page ) ) { return; }
 
-			$login_url  = home_url( '/' . $login_page . '/' );
-			if ( $username == "" || $password == "" ) {
-				wp_redirect( $login_url . "?login=empty" );
+			$ip_login_url = trailingslashit( esc_url( home_url( '/' ) . trim( $ip_login_verify_page ) ) );
+			if ( $username == '' || $password == '' ) {
+				wp_redirect( $ip_login_url . '?login=empty' );
 				exit;
 			}
 		}
@@ -85,11 +85,11 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 		 */
 		public function logout_redirect() {
 
-			$login_page = apply_filters( 'ipress_login_logout_page', '' );
-			if ( empty( $login_page ) ) { return; }
+			$ip_login_logout_page = (string) apply_filters( 'ipress_login_logout_page', '' );
+			if ( empty( $ip_login_logout_page ) ) { return; }
 
-			$login_url  = home_url( '/' . $login_page . '/' );
-			wp_redirect( $login_url . "?login=false");
+			$ip_login_logout_url = trailingslashit( esc_url( home_url( '/' ) . trim( $ip_login_logout_page ) ) );
+			wp_redirect( $ip_login_logout_url . '?login=false');
 			exit;
 		}
 	}

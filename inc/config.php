@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme config file: actions, filters etc
+ * Theme config file: actions, filters etc.
  * 
  * @package		iPress\Config
  * @link		http://ipress.uk
@@ -12,7 +12,7 @@
  */
 
 //----------------------------------------------
-//	Theme Config
+//	Theme Config - Use Child Theme Config File
 //----------------------------------------------
 
 //end

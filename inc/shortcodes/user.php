@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * User functionality shortcodes
+ * User functionality shortcodes.
  *
  * @package		iPress\Shortcodes
  * @link		http://ipress.uk
@@ -20,6 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //---------------------------------------------
 //	User Shortcodes 
+//
+//	ipress_user_info
+//	ipress_user_id
+//	ipress_user_name
+//	ipress_user_level
 //---------------------------------------------
 
 /**
@@ -30,10 +35,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ipress_user_info_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'    => '',
 		'before'   => ''
 	];
+	
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_user_info_defaults', $defaults );
 
 	// Get user data
 	$userdata = wp_get_current_user();
@@ -41,15 +50,20 @@ function ipress_user_info_shortcode( $atts ) {
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_user_info' );
 
-	// Generate output
-	$output = sprintf( '<span class="ipress-user-info">%s</span>', $atts['before'] . join( ' ', $userdata ) . $atts['after'] );
+	// Extras
+	$before = sanitize_text_field( $atts['before'] );
+	$after 	= sanitize_text_field( $atts['after'] );
 
-	// Return filterable output
-	return apply_filters( 'ipress_user_info_shortcode', $output, $atts );
+	// Generate filterable output
+	$output = sprintf( '<span class="ipress-user-info">%s</span>', $before . join( ' ', $userdata ) . $after );
+	$output = (string) apply_filters( 'ipress_user_info_shortcode', $output, $atts );
+
+	// Return output
+	return trim( $output );
 }
 
 // Get current user - should be used via do_shortcode
-add_shortcode( 'ipress_user_info', 'ipress_user_info_shortcode' );
+add_shortcode( 'ipress_user_info', 'ipress_user_info_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  *	Retrieve current user ID
@@ -59,26 +73,35 @@ add_shortcode( 'ipress_user_info', 'ipress_user_info_shortcode' );
  */
 function ipress_user_id_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'    => '',
 		'before'   => ''
 	];
-	
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_user_id_defaults', $defaults );
+
 	// Get user data
 	$userdata = wp_get_current_user();
 
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_user_id' );
 
+	// Extras
+	$before = sanitize_text_field( $atts['before'] );
+	$after 	= sanitize_text_field( $atts['after'] );
+
 	// Generate output
-	$output = sprintf( '<span class="ipress-user-id">%s</span>', $atts['before'] . $userdata->ID . $atts['after'] );
+	$output = sprintf( '<span class="ipress-user-id">%s</span>', $before . $userdata->ID . $after );
+	$output = (string) apply_filters( 'ipress_user_id_shortcode', $output, $atts );
 
 	// Return filterable output
-	return apply_filters( 'ipress_user_id_shortcode', $output, $atts );
+	return trim( $output );
 }
 
 // Get current user id 
-add_shortcode( 'ipress_user_id', 'ipress_user_id_shortcode' );
+add_shortcode( 'ipress_user_id', 'ipress_user_id_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  *	Retrieve current user name
@@ -88,10 +111,14 @@ add_shortcode( 'ipress_user_id', 'ipress_user_id_shortcode' );
  */
 function ipress_user_name_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'    => '',
 		'before'   => ''
 	];
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_user_name_defaults', $defaults );
 
 	// Get user data
 	$userdata = wp_get_current_user();
@@ -99,15 +126,20 @@ function ipress_user_name_shortcode( $atts ) {
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_user_name' );
 
-	// Generate output
-	$output = sprintf( '<span class="ipress-user-name">%s</span>', $atts['before'] . $userdata->user_login . $atts['after'] );
+	// Extras
+	$before = sanitize_text_field( $atts['before'] );
+	$after 	= sanitize_text_field( $atts['after'] );
 
-	// Return filterable output
-	return apply_filters( 'ipress_user_name_shortcode', $output, $atts );
+	// Generate filterable output
+	$output = sprintf( '<span class="ipress-user-name">%s</span>', $before . $userdata->user_login . $after );
+	$output = (string) apply_filters( 'ipress_user_name_shortcode', $output, $atts );
+
+	// Return output
+	return trim( $output );
 }
 
 // Get current user name 
-add_shortcode( 'ipress_user_name', 'ipress_user_name_shortcode' );
+add_shortcode( 'ipress_user_name', 'ipress_user_name_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 /**
  *	Retrieve current user level
@@ -117,10 +149,14 @@ add_shortcode( 'ipress_user_name', 'ipress_user_name_shortcode' );
  */
 function ipress_user_level_shortcode( $atts ) {
 
+	// Set defaults
 	$defaults = [
 		'after'    => '',
 		'before'   => ''
 	];
+
+	// Set shortcode defaults
+	$defaults = (array) apply_filters( 'ipress_user_level_defaults', $defaults );
 
 	// Get user data
 	$userdata = wp_get_current_user();
@@ -128,14 +164,19 @@ function ipress_user_level_shortcode( $atts ) {
 	// Get shortcode attributes
 	$atts = shortcode_atts( $defaults, $atts, 'ipress_user_level' );
 
-	// Generate output
-	$output = sprintf( '<span class="ipress-user-level">%s</span>', $atts['before'] . $userdata->user_level . $atts['after'] );
+	// Extras
+	$before = sanitize_text_field( $atts['before'] );
+	$after 	= sanitize_text_field( $atts['after'] );
+
+	// Generate filterable output
+	$output = sprintf( '<span class="ipress-user-level">%s</span>', $before . $userdata->user_level . $after );
+	$output = (string) apply_filters( 'ipress_user_level_shortcode', $output, $atts );
 
 	// Return filterable output
-	return apply_filters( 'ipress_user_level_shortcode', $output, $atts );
+	return trim( $output );
 }
 
 // Get current user level 
-add_shortcode( 'ipress_user_level', 'ipress_user_level_shortcode' );
+add_shortcode( 'ipress_user_level', 'ipress_user_level_shortcode' ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_add_shortcode
 
 //end

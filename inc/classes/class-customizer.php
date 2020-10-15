@@ -20,171 +20,185 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 		/**
 		 * Class constructor
-		 * - set up hooks
 		 */
 		public function __construct() {
 
-			//----------------------------------------------
-			//	Customizer Support & Layout
-			//----------------------------------------------
-						
-			add_action( 'after_setup_theme', 	[ $this, 'setup_theme' ] );
-			add_action( 'after_setup_theme', 	[ $this, 'theme_settings' ], 12 );
-			add_filter( 'body_class', 			[ $this, 'layout_class' ] );
+			// Core WordPress functionality
+			add_action( 'after_setup_theme', 					[ $this, 'setup_theme' ], 12 );
 
-			//----------------------------------------------
-			//	Customizer Settings, Controls & Scripts
-			//----------------------------------------------
-
-			add_action( 'customize_register', 					[ $this, 'customize_register' ] );
-			add_action( 'customize_preview_init', 				[ $this, 'customize_preview_js' ] );
-			add_action( 'customize_controls_enqueue_scripts', 	[ $this, 'customize_controls_js' ] );
-			add_action( 'customize_controls_print_styles', 		[ $this, 'customizer_controls_css' ] );
-
-			//----------------------------------------------
-			//	Custom Theme Mods & CSS
-			//----------------------------------------------
-
-			add_action( 'wp_enqueue_scripts',              [ $this, 'add_customizer_css' ], 130 );
-			add_action( 'customize_register',              [ $this, 'edit_default_customizer_settings' ], 99 );
-			add_action( 'init',                            [ $this, 'default_theme_mod_values' ], 10 );
-
-			add_action( 'after_switch_theme',              [ $this, 'set_style_theme_mods' ] );
-			add_action( 'customize_save_after',            [ $this, 'set_style_theme_mods' ] );
+			// Main customizer api registration 
+			add_action( 'customize_register', 					[ $this, 'customize_register' ], 8 );
 		}
 
-		//----------------------------------------------
-		//	Customizer Support & Layout
-		//----------------------------------------------
-
 		/**
-		 * Set up core customizer driven theme support & functionality
-		 * 
-		 * - add_theme_support( 'custom-logo' )
-		 * - add_theme_support( 'custom-header' )
-		 * - register_default_headers()
-		 * - add_theme_support( 'custom-background' )
-		 * - add_theme_support( 'customize-selective-refresh-widgets' )
+		 * Set up core theme settings & functionality
 		 */
 		public function setup_theme() {
 
-			// Enable support for custom logo
-			// 
-			// @see https://developer.wordpress.org/themes/functionality/custom-logo/
-			// custom_logo_args = [
-			//	 'width'	   => 250,
-			//	 'height'	   => 80,
-			//	 'flex-width'  => true,
-			//	 'flex-height' => true,
-			//	 'header-text' => [ get_bloginfo( 'name' ), get_bloginfo( 'description' ) ]
-			// ];
-			$custom_logo 		= apply_filters( 'ipress_custom_logo', true );
-			$custom_logo_args 	= (array) apply_filters( 'ipress_custom_logo_args', [
+			//----------------------------------------------------------------
+			//	Customizer Support & Layout
+			//
+			//	Set up core customizer driven theme support & functionality
+			//	- add_theme_support( 'custom-logo' )
+			//	- add_theme_support( 'custom-header' )
+			//	- register_default_headers()
+			//	- add_theme_support( 'custom-background' )
+			//	- add_theme_support( 'customize-selective-refresh-widgets' )
+			//----------------------------------------------------------------
+
+			/**
+			 * Enable support for custom logo within customizer and theme
+			 * 
+			 * @see https://developer.wordpress.org/themes/functionality/custom-logo/
+			 * custom_logo_args = [
+			 * 	 'width'	   => 250, 									// Expected logo height in pixels.
+			 * 	 'height'	   => 80,									// Expected logo width in pixels.
+			 * 	 'flex-width'  => true,									// Allow for a flexible height, skips cropping.
+			 * 	 'flex-height' => true, 								// Whether to allow for a flexible width, skips cropping.
+			 * 	 'header-text' => [ 'site-title', 'site-description ]	// Classes of elements to hide. 
+			 * ];
+			 *
+			 * No width & height sets full flexibility support
+			 */
+			
+			// Filterable custom logo settings, custom logo is enabled by default in customizer
+			$ip_custom_logo 		= (bool) apply_filters( 'ipress_custom_logo', true );
+			$ip_custom_logo_args 	= (array) apply_filters( 'ipress_custom_logo_args', [
 				'width'		  => 200,
 				'height'	  => 133,
-				'flex-width'  => true
+				'flex-width'  => true,
+				'flex-height' => true
 			] );
 
 			// Enable custom logo support
-			if ( true === $custom_logo && ! empty( $custom_logo_args ) ) {
-				add_theme_support( 'custom-logo', $custom_logo_args );
+			if ( true === $ip_custom_logo ) {
+				if ( empty( $ip_custom_logo_args ) ) {
+					add_theme_support( 'custom-logo' );
+				} else {
+					add_theme_support( 'custom-logo', $ip_custom_logo_args );
+				}
 			}
 
-			// Enable support for custom headers
-			// 
-			// @see https://developer.wordpress.org/themes/functionality/custom-headers/	
-			// $header_args = [
-			//	  'default-image'		   => '',
-			//	  'random-default'		   => false,
-			//	  'width'				   => 0,
-			//	  'height'				   => 0,
-			//	  'flex-height'			   => false,
-			//	  'flex-width'			   => false,  
-			//	  'default-text-color'	   => '', 
-			//	  'header-text'			   => true,
-			//	  'uploads'				   => true,
-			//	  'wp-head-callback'	   => '',
-			//	  'admin-head-callback'    => '',
-			//	  'admin-preview-callback' => ''
-			// ];
-			$custom_header 		= apply_filters( 'ipress_custom_header', false );
-			$custom_header_args = (array) apply_filters( 'ipress_custom_header_args', [
-				'default-image' => '',
+			/**
+			 * Enable support for custom headers within customizer and theme
+			 * 
+			 * @see https://developer.wordpress.org/themes/functionality/custom-headers/
+			 * $header_args = [
+			 * 	  // Default header image to display			
+			 * 	  'default-image' 		   	=> apply_filters( 'ipress_custom_header_default_image', get_template_directory_uri() . '/assets/images/header.png' ),
+			 * 	  'header-text'			   	=> true,				// Display the header text along with the image.				
+			 * 	  'default-text-color' 		=> '000',				// Header text color default.
+			 * 	  'width'				   	=> 0,					// Header image width (in pixels).
+			 * 	  'height'				   	=> 0,					// Header image height (in pixels).
+			 * 	  'flex-height'			   	=> false,				// Flexible image width, skips the crop stage.
+			 * 	  'flex-width'			   	=> false,				// Flexible image height, skips the crop stage.
+			 * 	  'random-default'		   	=> false,				// Header image random rotation default.
+			 * 	  'uploads'				   	=> true,				// Enable upload of image file in admin.
+			 * 	  'wp-head-callback'      	=> 'wphead_cb',			// Function to be called in theme head section.
+			 * 	  'admin-head-callback'		=> 'adminhead_cb',		// Function to be called in preview page head section.
+			 * 	  'admin-preview-callback'	=> 'adminpreview_cb',	// Function to produce preview markup in the admin screen.
+			 * 	  'video'                  	=> false,				// Display video in background.
+			 * 	  'video-active-callback'  	=> 'is_front_page'		// Function to be called in video playback.
+			 * ];
+			 */
+
+			// Filterable custom header setttings, no width & height sets full flexibility, custom header is disabled by default
+			$ip_custom_header 		= (bool) apply_filters( 'ipress_custom_header', false );
+			$ip_custom_header_image	= (string) apply_filters( 'ipress_custom_header_default_image', get_template_directory_uri() . '/assets/images/header.png' );
+			$ip_custom_header_args 	= (array) apply_filters( 'ipress_custom_header_args', [
+				'default-image' => ( empty( $ip_custom_header_image ) ) ? '' : esc_url_raw( $ip_custom_header_image ),
 				'header-text'	=> false,
 				'width'			=> 1600,
-				'height'		=> 200,
+				'height'		=> 325,
 				'flex-width'	=> true,
 				'flex-height'	=> true
 			] );		
 
 			// Enable custom header support
-			if ( true === $custom_header && ! empty( $custom_header_args ) ) {
-				add_theme_support( 'custom-header', $custom_header_args ); 
+			if ( true === $ip_custom_header ) {
+				if ( empty( $ip_custom_header_args ) ) {
+					add_theme_support( 'custom-header' ); 
+				} else {
+					add_theme_support( 'custom-header', $ip_custom_header_args ); 
+				}
 			}
-			
-			// Register default headers
-			// @see	https://codex.wordpress.org/Function_Reference/register_default_headers
-			//	register_default_headers( apply_filters( 'ipress_default_header_args', [
-			//		'default-image' => [
-			//			'url'			=> '%s/assets/images/header.jpg',
-			//			'thumbnail_url' => '%s/assets/images/header.jpg',
-			//			'description'	=> __( 'Default Header Image', 'ipress' ),
-			//		],
-			//	] ) );
-			$default_headers 		= apply_filters( 'ipress_default_headers', false );
-			$default_header_args	= (array) apply_filters( 'ipress_default_header_args', [] );
+
+			// Force custom header uploads, requires custom headers to be active
+			$ip_custom_header_uploads = (bool) apply_filters( 'ipress_custom_header_uploads', false );
+			if ( true === $ip_custom_header && true === $ip_custom_header_uploads ) {
+				add_theme_support( 'custom-header-uploads' ); 
+			}
+
+			/**
+			 * Register default headers
+			 * @see	https://codex.wordpress.org/Function_Reference/register_default_headers
+			 * register_default_headers( apply_filters( 'ipress_default_header_args', [
+			 * 	 'default-image-1' 	=> [
+			 * 	 	'url'				=> '%s/assets/images/header.jpg',
+			 * 	 	'thumbnail_url' 	=> '%s/assets/images/header.jpg',
+			 * 	 	'description'		=> __( 'Default Header Image', 'ipress' ),
+			 * 	 ],
+			 *   'default-image-2' => [
+			 *   	'url'				=> '%s/assets/images/header-alt.jpg',
+			 *   	'thumbnail_url' => '%s/assets/images/header-alt.jpg',
+			 *   	'description'	=> __( 'Default Header Image Alt', 'ipress' ),
+			 *   ]
+			 * ] ) );
+			 */
+
+			// Filterable default header settings
+			$ip_default_headers 	= (bool) apply_filters( 'ipress_default_headers', false );
+			$ip_default_header_args	= (array) apply_filters( 'ipress_default_header_args', [] );
 
 			// Register default header
-			if ( true === $default_headers && ! empty( $default_header_args ) ) {
-				register_default_headers( $default_header_args ); 
+			if ( true === $ip_default_headers && ! empty( $ip_default_header_args ) ) {
+				register_default_headers( $ip_default_header_args ); 
 			}
 					
-			// Enable support for custom backgrounds - default false
-			// @see https://codex.wordpress.org/Custom_Backgrounds
-			// $background_args = [ 
-			//	   'default-color'		   => apply_filters( 'ipress_default_background_color', 'ffffff' ), 
-			//	   'default-image'		   => '', 
-			//	   'wp-head-callback'	   => '_custom_background_cb',
-			//	   'admin-head-callback'   => '',
-			//	   'admin-preview-callback' => ''
-			// ];
-			// - add_theme_support( 'custom-background', apply_filters( 'ipress_custom_background_args', $background_args ) ); 
-			$custom_background 		= apply_filters( 'ipress_custom_background', false );
-			$custom_background_args = (array) apply_filters( 'ipress_custom_background_args', [
-				'default-color' => apply_filters( 'ipress_default_background_color', 'ffffff' ),
-				'default-image' => apply_filters( 'ipress_default_background_image', '' )
+			/**
+			 * Enable support for custom backgrounds - default false
+			 * @see https://codex.wordpress.org/Custom_Backgrounds
+			 * $background_args = [
+			 * 	   'default-image'          => apply_filters( 'ipress_custom_background_default_image', '' ), 		// Default background image
+			 * 	   'default-color'		   	=> apply_filters( 'ipress_custom_background_default_color', 'ffffff' ),	// Default background colour applied
+			 * 	   'default-preset'         => 'default',				// Default image preset ( 'default', 'fill', 'fit', 'repeat', 'custom' ).
+			 * 	   'default-position-x'     => 'left',					// Default image x-position ( 'left', 'center', 'right' ).
+			 * 	   'default-position-y'     => 'top',					// Default image y-position ( 'top', 'center', 'bottom' ).
+			 * 	   'default-size'           => 'auto',					// Default image sizing attribute ( 'auto', 'contain', 'cover' ).
+			 * 	   'default-repeat'         => 'repeat',				// Default image repeat attribute ( 'repeat-x', 'repeat-y', 'repeat', 'no-repeat' ).
+			 * 	   'default-attachment'     => 'scroll',				// Default image attachment attribute ( 'scroll', 'fixed' ).
+			 * 	   'admin-head-callback'    => '',						// Function to be called in preview page head section.
+			 * 	   'admin-preview-callback' => '',						// Function to produce preview markup in the admin screen.
+			 * 	   'wp-head-callback'       => '_custom_background_cb',	// Function to be called in theme head section.
+			 * ];
+			 */
+
+			// Filterable custom background settings
+			$ip_custom_background 		= (bool) apply_filters( 'ipress_custom_background', false );
+			$ip_custom_background_image	= (string) apply_filters( 'ipress_custom_background_default_image', '' );
+			$ip_custom_background_color	= (string) apply_filters( 'ipress_custom_background_default_color', '#ffffff' ); 
+			$ip_custom_background_args 	= (array) apply_filters( 'ipress_custom_background_args', [
+				'default-image'	=> ( empty( $ip_custom_background_image ) ) ? '' : esc_url_raw( $ip_custom_background_image ),
+				'default-color'	=> ( empty( $ip_custom_background_color ) ) ? '' : sanitize_hex_color( $ip_custom_background_color ), 
 			] );
-			if ( true === $custom_background && ! empty( $custom_background_args ) ) {
-				add_theme_support( 'custom-background',  $custom_backround_args );
+
+			// Enable custom background support
+			if ( true === $ip_custom_background ) {
+				if ( empty( $ip_custom_background_args ) ) {
+					add_theme_support( 'custom-background' );
+				} else {
+					add_theme_support( 'custom-background',  $ip_custom_backround_args );
+				}
 			}
-			
-			// Add theme support for selective refresh for widgets
-			add_theme_support( 'customize-selective-refresh-widgets' );
-		}
 
-		/**
-		 * Check and setup default theme settings - mods & options
-		 * - Check if setting is set - left / right
-		 */
-		public function theme_settings() {
-			$ipress_layout = get_theme_mod( 'ipress_content_layout', '' );
-			if ( ! empty( $ipress_layout ) ) {
-				set_theme_mod( 'ipress_layout', $ipress_layout );
+			// Add theme support for selective refresh for widgets, default true
+			$ip_custom_selective_refresh = (bool) apply_filters( 'ipress_custom_selective_refresh', true );
+			if ( true === $ip_custom_selective_refresh ) {
+				add_theme_support( 'customize-selective-refresh-widgets' );
 			}
-		}
 
-		/**
-		 * Layout classes
-		 * Adds 'content-sidebar' and 'sidebar-content' classes to the body tag
-		 *
-		 * @param  array $classes 
-		 * @return array
-		 */
-		public function layout_class( $classes ) {
-			$content_layout	= get_theme_mod( 'ipress_content_layout' );
-			$classes[] 		= ( empty( $content_layout) ) ? '' : ( $content_layout === 'left' ) ? 'content-sidebar' : 'sidebar-content';
-
-			return $classes;
+			// Theme initialization
+			do_action( 'ipress_setup_customizer' );
 		}
 
 		//----------------------------------------------
@@ -195,268 +209,40 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 		 * Set up customizer and theme panel
 		 * - Child theme extends settings and controls
 		 *
-		 * @param object $wpm WP_Customiser_Manager
+		 * @param object $wp_customize WP_Customise_Manager
 		 */
-		public function customize_register( $wpm ) {
-
-			// Custom controls
-			require_once IPRESS_CONTROLS_DIR . '/class-customizer-checkbox-multiple.php';
+		public function customize_register( WP_Customize_Manager $wp_customize ) {
 
 			// Modifiy default controls  
-			$wpm->get_setting( 'blogname' )->transport		   = 'postMessage'; 
-			$wpm->get_setting( 'blogdescription' )->transport  = 'postMessage'; 
+			$wp_customize->get_setting( 'blogname' )->transport		   = 'postMessage'; 
+			$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage'; 
 
-			// Dynamic refresh
-			if ( isset( $wpm->selective_refresh ) ) { 
-				$wpm->selective_refresh->add_partial( 'custom_logo', [
-					'selector'		  => '.site-branding',
-					'render_callback' => [ $this, 'get_site_logo' ],
-				] );
-				$wpm->selective_refresh->add_partial( 'blogname', [ 
+			// Dynamic refresh for header partials, default true
+			$ip_customize_header_partials = (bool) apply_filters( 'ipress_customize_header_partials', true );
+			if ( isset( $wp_customize->selective_refresh ) && true === $ip_customize_header_partials ) { 
+				
+				$wp_customize->selective_refresh->add_partial( 'blogname', [ 
 					'selector'		  => '.site-title a', 
-					'render_callback' => [ $this, 'get_site_name' ], 
+					'render_callback' => function() { return get_bloginfo( 'name', 'display' ); }
 				] ); 
-				$wpm->selective_refresh->add_partial( 'blogdescription', [ 
+
+				$wp_customize->selective_refresh->add_partial( 'blogdescription', [ 
 					'selector'		  => '.site-description', 
-					'render_callback' => [ $this, 'get_site_description' ], 
+					'render_callback' => function() { return get_bloginfo( 'description', 'display' ); } 
 				] ); 
-			} 
-			 
-			// Change background image section title & priority
-			$wpm->get_section( 'background_image' )->title	   = __( 'Background', 'ipress' );
-			$wpm->get_section( 'background_image' )->priority  = 30;
 
-			// Move background color setting alongside background image
-			$wpm->get_control( 'background_color' )->section   = 'background_image';
-			$wpm->get_control( 'background_color' )->priority  = 20;
-
-			// Change header image section title & priority
-			$wpm->get_section( 'header_image' )->title		   = __( 'Header', 'ipress' );
-			$wpm->get_section( 'header_image' )->priority	   = 25;
-
-			// Change the default section titles
-			$wpm->get_section( 'colors' )->title = __( 'Theme Colours', 'ipress' );
-	 
-			// Add new Theme Panels, sections & controls
-			$wpm->add_panel( 'theme_panel', [
-				'title'		  => __( 'Theme Options', 'ipress' ),
-				'description' => __( 'Configure your theme settings', 'ipress' ),
-			] );
-
-			// Page Options
-			$content_layout	= get_theme_mod( 'ipress_content_layout' );
-			if ( ! empty( $content_layout ) ) {
-				$wpm->add_section( 'ipress_layout', [
-					'title'		=> __( 'Content Layout', 'ipress' ),
-					'panel'		=> 'theme_panel',
-				] );
-
-				$wpm->add_setting( 'ipress_layout', [
-					'default'			=> apply_filters( 'ipress_default_layout', ( is_rtl() ) ? 'left' : 'right' ),
-					'sanitize_callback' => 'ipress_sanitize_layout',
-					'transport'			=> 'postMessage',
-				] );
-
-				$wpm->add_control( 'ipress_layout', [
-					'label'		  => __( 'Page Layout', 'ipress' ),
-					'section'	  => 'ipress_layout',
-					'type'		  => 'radio',
-					'description' => __( 'Content section left or right.', 'ipress' ),
-					'choices'	  => [
-						'left'	=> __( 'Content - Sidebar', 'ipress' ),
-						'right' => __( 'Sidebar - Content', 'ipress' )
-					],
+				$wp_customize->selective_refresh->add_partial( 'custom_logo', [
+					'selector'		  => '.site-branding',
+					'render_callback' => function() { return ipress_site_title_or_logo( false ); }
 				] );
 			}
 
-			// Filterable registrations - pass customizer manager object
-			do_action( 'ipress_customize_register', $wpm );
+			// Filterable registrations - pass customizer manager object to child theme settings filter
+			do_action( 'ipress_customize_register', $wp_customize );
 		}
-
-		/**
-		 * Customizer preview scripts
-		 */
-		public function customize_preview_js() {
-			wp_enqueue_script( 'ipress-customizer', IPRESS_JS_DIR . '/customizer.js', [ 'customize-preview' ], null, true ); 
-		}
-
-		/**
-		 * Customizer controls scripts
-		 */
-		public function customize_controls_js() {}
-
-		/**
-		 * Add CSS for custom controls
-		 * 
-		 * @link https://github.com/reduxframework/kirki/
-		 */
-		public function customizer_controls_css() {
-			wp_register_style( 'ipress-customizer-controls', IPRESS_CSS_DIR . '/customizer.css', null, null, 'all' );
-			wp_enqueue_style( 'ipress-customizer-controls' );
-		}
-
-		//----------------------------------------------
-		//	Custom Theme Mods & CSS
-		//----------------------------------------------
-
-		/**
-		 * Add CSS in <head> for styles handled by the theme customizer
-		 *
-		 * - If the Customizer is active pull in the raw css. Otherwise pull in the prepared theme_mods if they exist.
-		 */
-		public function add_customizer_css() {
-			$ipress_styles = get_theme_mod( 'ipress_styles' );
-
-			if ( is_customize_preview() || ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) || false === $ipress_styles ) {
-				$css = $this->get_css();
-				if ( $css ) {
-					wp_add_inline_style( 'ipress-style', $css );
-				}
-			} else {
-				wp_add_inline_style( 'ipress-style', get_theme_mod( 'ipress_styles' ) );
-			}
-		}
-
-		/**
-		 * Get Customizer css.
-		 *
-		 * @see get_ipress_theme_mods()
-		 * @return array $styles the css
-		 */
-		public function get_css() {
-			$ipress_theme_mods 	= $this->get_ipress_theme_mods();
-			$ipress_styles 		= apply_filters( 'ipress_custom_css', '' );
-
-			return apply_filters( 'ipress_customizer_css', $ipress_styles, $ipress_theme_mods );
-		}
-
-		/**
-		 * Get all of the iPress theme mods.
-		 *
-		 * @return array $ipress_theme_mods 
-		 */
-		public function get_ipress_theme_mods() {
-			return apply_filters( 'ipress_theme_mods', [] );
-		}
-
-		/**
-		 * Set Customizer setting defaults.
-		 * These defaults need to be applied separately as child themes can filter ipredd_setting_default_values
-		 *
-		 * @param  array $wp_customize the Customizer object.
-		 * @uses   get_default_setting_values()
-		 */
-		public function edit_default_customizer_settings( $wp_customize ) {
-			$default_settings_values = $this->get_default_setting_values();
-			if ( $default_settings_values ) {
-				foreach ( $default_setting_values as $mod => $val ) {
-					$wp_customize->get_setting( $mod )->default = $val;
-				}
-			}
-		}
-		
-		/**
-		 * Returns an array of the desired default Honeycomb Options
-		 *
-		 * @return array
-		 */
-		public function get_default_setting_values() {
-			return apply_filters( 'ipress_setting_default_values', [] );
-		}
-
-		/**
-		 * Adds a value to each customizer setting if one isn't already present.
-		 *
-		 * @uses get_ipress_default_setting_values()
-		 */
-		public function default_theme_mod_values() {
-			$default_settings_values = $this->get_default_setting_values();			
-			if ( $default_settings_values ) {
-				foreach ( $default_setting_values as $mod => $val ) {
-					add_filter( 'theme_mod_' . $mod, [ $this, 'get_theme_mod_value' ], 10 );
-				}
-			}
-		}
-
-		/**
-		 * Get theme mod value.
-		 *
-		 * @param string $value
-		 * @return string
-		 */
-		public function get_theme_mod_value( $value ) {
-			$current_key	= substr( current_filter(), 10 );
-			$set_theme_mods = get_theme_mods();
-
-			if ( isset( $set_theme_mods[ $current_key ] ) ) { return $value; }
-			$values = $this->get_default_setting_values();
-
-			return isset( $values[ $current_key ] ) ? $values[ $current_key ] : $value;
-		}
-
-		/**
-		 * Assign customizer styles to theme mods.
-		 *
-		 * @return void
-		 */
-		public function set_style_theme_mods() {
-			$css = $this->get_css();
-			if ( $css ) {
-				set_theme_mod( 'ipress_styles', $css );
-			}
-		}
-
-		//----------------------------------------------
-		//	Customizer Partials
-		//----------------------------------------------
-
-		/**
-		 * Get site logo
-		 *
-		 * @return string
-		 */
-		public function get_site_logo() {
-			return ipress_site_title_or_logo( false );
-		}
-
-		/**
-		 * Get site name
-		 *
-		 * @return string
-		 */
-		public function get_site_name() {
-			return get_bloginfo( 'name', 'display' );
-		}
-
-		/**
-		 * Get site description
-		 *
-		 * @return string
-		 */
-		public function get_site_description() {
-			return get_bloginfo( 'description', 'display' );
-		}
-
 	}
 
 endif;
-
-//----------------------------------------------
-//	Customizer Functions
-//----------------------------------------------
-
-/**
- * Sanitize a radio button.
- */
-function ipress_sanitize_layout( $layout ) {
-
-	$layouts = [
-		'left'	=> __( 'Content Sidebar', 'ipress' ),
-		'right' => __( 'Sidebar Content', 'ipress' )
-	];
-
-	return ( array_key_exists( $layout, $layouts ) ) ? $layout : '';
-}
 
 // Instantiate Customizer class
 return new IPR_Customizer;

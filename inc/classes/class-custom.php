@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme specific custom post-type and taxonomy initialization.
+ * Initialize theme specific custom post-types and taxonomies.
  * 
  * @package		iPress\Includes
  * @link		http://ipress.co.uk
@@ -35,7 +35,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		/**
 		 * Post Types Errors
 		 *
-		 * @var array $post_types
+		 * @var array $post_type_errors
 		 */
 		protected $post_type_errors = [];
 
@@ -51,31 +51,31 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 */
 		public function __construct() {
 
-			// Set up theme post-types and taxonomies
-			add_action( 'init', [ $this, 'init' ], 0 );
+			// Initialize post-types and taxonomies
+			add_action( 'init', 					[ $this, 'init' ], 0 );
 
 			// Generate & register custom post-types
-			add_action( 'init', [ $this, 'register_post_types' ], 3 ); 
+			add_action( 'init', 					[ $this, 'register_post_types' ], 3 ); 
 
 			// Generate & register taxonomies
-			add_action( 'init', [ $this, 'register_taxonomies' ], 3 ); 
+			add_action( 'init', 					[ $this, 'register_taxonomies' ], 3 ); 
 
 			// Flush rewrite rules after theme activation
 			add_action( 'after_switch_theme', 		[ $this, 'flush_rewrite_rules' ] );
 
-			// Post-type & taxonomy error messages
+			// Display post-type & taxonomy error messages
 			add_action( 'admin_notices', 			[ $this, 'admin_notices' ] );
 
-			// Setup Messages Callback
+			// Callback for post update
 			add_filter( 'post_updated_messages', 	[ $this, 'messages' ] );
 
-			// Contextual screen help
+			// Contextual screen help tab content
 			add_action( 'load-edit.php', 			[ $this, 'contextual_help_tabs' ] );
 			add_action( 'load-post.php', 			[ $this, 'contextual_help_tabs' ] );
 		}
 
 		//----------------------------------------------
-		//	Initialise Variables
+		//	Initialise Post-Types and Taxonomies
 		//----------------------------------------------
 		
 		/**
@@ -98,7 +98,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		}
 		
 		//----------------------------------------------
-		//	Register Custom Post Types
+		//	Register Custom Post-Types
 		//----------------------------------------------
 
 		/**
@@ -125,7 +125,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			];
 
 			// Valid optional args - description as unique arg
-			$valid = [
+			$post_type_valid = [
 				'label', 'labels', 'public', 'exclude_from_search', 'publicly_queryable', 
 				'show_ui', 'show_in_nav_menus', 'show_in_menu',	'show_in_admin_bar', 'menu_position', 'menu_icon', 
 				'capability_type', 'capabilities', 'map_meta_cap', 'hierarchical', 'supports', 'register_meta_box_cb',
@@ -133,90 +133,119 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 				'show_in_rest', 'rest_base', 'rest_controller_class'					
 			];
 
+			// Built-in, do not use here
+			$post_type_invalid = [ '_builtin', '_edit_link' ];
+
 			// Update reserved post-types with custom values e.g. from 3rd party products
-			$post_type_reserved = apply_filters( 'ipress_custom_post_type_reserved', $post_type_reserved );
+			$ip_post_type_reserved = (array) apply_filters( 'ipress_custom_post_type_reserved', $post_type_reserved );
 
 			// Update optional args list - e.g. remove args if needed
-			$valid = apply_filters( 'ipress_custom_post_type_valid_args', $valid );
-
-			// Built-in, do not use here
-			$invalid = [ '_builtin', '_edit_link' ];
+			$ip_post_type_valid = (array) apply_filters( 'ipress_custom_post_type_valid_args', $post_type_valid );
 
 			// Iterate custom post-types...
-			foreach ( $this->post_types as $k=>$v ) {
+			foreach ( $this->post_types as $k => $v ) {
 				
 				// Basic key overrides: no spaces, translate to underscores
 				$post_type = sanitize_key( str_replace( ' ', '_', $k ) );
 
-				// Tag on post type prefix if required
-				$post_type_prefix = sanitize_text_field( apply_filters( 'ipress_' . $post_type . '_prefix', '' ) );
+				// Generate post-type prefix if required
+				$ip_post_type_prefix = (string) apply_filters( "ipress_{$post_type}_prefix", '' );
 
 				// Sanitize post-type... [a-z_-] only, with or without prefix
-				$post_type = $post_type_prefix . $post_type;
+				$post_type = ( empty( $ip_post_type_prefix ) ) ? $post_type : sanitize_key( $ip_post_type_prefix . $post_type );
 
-				// Sanity checks - reserved words and max post-type length (20)
-				if ( in_array( $post_type, $post_type_reserved ) || strlen( $post_type ) > 20 ) { 
+				// Sanity checks - reserved words and max post-type length (20 chars max)
+				if ( in_array( $post_type, $ip_post_type_reserved ) || strlen( $post_type ) > 20 ) { 
 					$this->post_type_errors[] = $post_type;
 					continue; 
 				}		 
 
-				// Set up singluar & plural
+				// Set up singluar & plural labels
 				$singular	= ( isset( $v['name'] ) && ! empty( $v['name'] ) ) 		? $v['name'] : ucwords( str_replace( [ '-', '_' ], ' ', $post_type ) );
 				$plural		= ( isset( $v['plural'] ) && ! empty( $v['plural'] ) ) 	? $v['plural'] : $singular . 's'; 
 
 				// Set up post-type labels - Rename to suit, common options here @see https://codex.wordpress.org/Function_Reference/register_post_type
-				$labels = [
-					'name'						=> sprintf( _x( '%s', 'Post type general name', 'ipress' ), $plural ),
-					'singular_name'				=> sprintf( _x( '%s', 'Post type singular name', 'ipress' ), $singular ),
-					'menu_name'					=> sprintf( _x( '%s', 'Admin menu text', 'ipress' ), $plural ),
-					'name_admin_bar'			=> sprintf( _x( '%s', 'Add new on admin bar', 'ipress' ), $singular ),
-					'add_new'					=> sprintf( _x( 'Add New', '%s', 'ipress' ), $singular ),
+				$ip_labels = (array) apply_filters( "ipress_{$post_type}_labels", [
+					'name'						=> $plural,
+					'singular_name'				=> $singular,
+					'menu_name'					=> $plural,
+					'name_admin_bar'			=> $singular,
+					'add_new'					=> __( 'Add New', 'ipress' ),
+					/* translators: %s: Add new post type */
 					'add_new_item'				=> sprintf( __( 'Add New %s', 'ipress' ), $singular ),
+					/* translators: %s: Edit post type */
 					'edit_item'					=> sprintf( __( 'Edit %s', 'ipress' ), $singular ),
+					/* translators: %s: Update post type */
+					'update_item'				=> sprintf( __( 'Update %s', 'ipress' ), $singular ),
+					/* translators: %s: New post type */
 					'new_item'					=> sprintf( __( 'New %s', 'ipress' ), $singular ),
+					/* translators: %s: View post type */
 					'view_item'					=> sprintf( __( 'View %s', 'ipress' ), $singular ),
+					/* translators: %s: View post types */
 					'view_items'				=> sprintf( __( 'View %s', 'ipress' ), $plural ),
+					/* translators: %s: Search post type */
 					'search_items'				=> sprintf( __( 'Search %s', 'ipress' ), $plural ),
+					/* translators: %s: No post type found */
 					'not_found'					=> sprintf( __( 'No %s found', 'ipress' ), $plural ),
+					/* translators: %s: No post type found in trash */
 					'not_found_in_trash'		=> sprintf( __( 'No %s found in Trash', 'ipress' ), $plural ),
+					/* translators: %s: Parent post type */
 					'parent_item_colon'			=> sprintf( __( 'Parent %s:', 'ipress' ), $singular ),
+					/* translators: %s: All post types */
 					'all_items'					=> sprintf( __( 'All %s', 'ipress' ), $plural ), 
+					/* translators: %s: Post type archives*/
 					'archives'					=> sprintf( __( '%s Archives', 'ipress' ), $singular ),
+					/* translators: %s: Post type attributes */
 					'attributes'				=> sprintf( __( '%s Attributes', 'ipress' ), $singular ),
+					/* translators: %s: Insert into post type */
 					'insert_into_item'			=> sprintf( __( 'Insert into %s', 'ipress' ), $singular ),
+					/* translators: %s: Uploaded to post type */
 					'uploaded_to_this_item' 	=> sprintf( __( 'Uploaded to this %s', 'ipress' ), $singular ),
+					/* translators: %s: Post type featured image */
 					'featured_image'			=> sprintf( __( '%s Featured Image', 'ipress' ), $singular ),
+					/* translators: %s: Set post type featured image */
 					'set_featured_image'		=> sprintf( __( 'Set %s Featured Image', 'ipress' ), $singular ),
+					/* translators: %s: Remove post type featured image */
 					'remove_featured_image' 	=> sprintf( __( 'Remove %s Featured Image', 'ipress' ), $singular ),
+					/* translators: %s: Use post type featured image */
 					'use_featured_image'		=> sprintf( __( 'Use %s Featured Image', 'ipress' ), $singular ),
+					/* translators: %s: Filter post type list */
 					'filter_items_list'			=> sprintf( __( 'Filter %s list', 'ipress' ), $plural ),
-					'items_list_navigation' 	=> sprintf( __( '%s list navigation', 'ipress' ), $plural ), 
+					/* translators: %s: Post type list */
 					'items_list'				=> sprintf( __( '%s list', 'ipress' ), $plural ),
+					/* translators: %s: Post type list navigation */
+					'items_list_navigation' 	=> sprintf( __( '%s list navigation', 'ipress' ), $plural ), 
+					/* translators: %s: Post type published */
 					'item_published'	 		=> sprintf( __( '%s published', 'ipress' ), $singular ),
+					/* translators: %s: Post type published privately */
 					'item_published_privately' 	=> sprintf( __( '%s published privately', 'ipress' ), $singular ),
+					/* translators: %s: Post type reverted to draft */
 					'item_reverted_to_draft' 	=> sprintf( __( '%s reverted to draft', 'ipress' ), $singular ),
+					/* translators: %s: Post type scheduled */
 					'item_scheduled' 			=> sprintf( __( '%s scheduled', 'ipress' ), $singular ),
+					/* translators: %s: Post type updated */
 					'item_updated' 				=> sprintf( __( '%s updated', 'ipress' ), $singular )
-				];
+				] );
 
 				// Set up post-type support - default: 'title', 'editor', 'thumbnail'
-				$supports = ( isset( $v['supports'] ) && is_array( $v['supports'] ) && ! empty( $v['supports'] ) ) ? $this->sanitize_support( $v['supports'] ) : apply_filters( 'ipress_' . $post_type . '_supports', [
+				$ip_supports = ( isset( $v['supports'] ) && is_array( $v['supports'] ) ) ? $this->sanitize_support( $v['supports'] ) 
+																						 : (array) apply_filters( "ipress_{$post_type}_supports", [
 					'title',
 					'editor',
 					'thumbnail'
 				] );
 		
 				// Set up post-type args - common options here @see https://codex.wordpress.org/Function_Reference/register_post_type
-				$args = ( isset( $v['args'] ) && is_array( $v['args'] ) && ! empty( $v['args'] ) ) ? $v['args'] : [];
+				$args = ( isset( $v['args'] ) && is_array( $v['args'] ) ) ? $v['args'] : [];
 
 				// Validate args
-				foreach ( $args as $k2=>$v2 ) {
+				foreach ( $args as $k2 => $v2 ) {
 					
 					// No built in
-					if ( in_array( $k2, $invalid ) ) { unset( $args[$k2] ); continue; }
+					if ( in_array( $k2, $post_type_invalid ) ) { unset( $args[$k2] ); continue; }
 
 					// Available args
-					if ( ! in_array( $k2, $valid ) ) { unset( $args[$k2] ); continue; }
+					if ( ! in_array( $k2, $ip_post_type_valid ) ) { unset( $args[$k2] ); continue; }
 				}
 
 				// Some sanitization: exclude_from_search : boolean
@@ -321,21 +350,22 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 
 				// Associated taxonomies... still need to explicitly register with 'register_taxonomy'
 				if ( isset( $v['taxonomies'] ) && is_array( $v['taxonomies'] ) && ! empty( $v['taxonomies'] ) ) {
-					$args['taxonomies'] = array_map( [ $this, 'sanitize_key' ], $v['taxonomies'] );
+					$args['taxonomies'] = array_map( [ $this, 'sanitize_key_with_dashes' ], $v['taxonomies'] );
 				} elseif ( isset( $args['taxonomies'] ) && is_array( $args['taxonomies'] ) && ! empty( $args['taxonomies'] ) ) {
-					$args['taxonomies'] = array_map( [ $this, 'sanitize_key' ], $args['taxonomies'] );
+					$args['taxonomies'] = array_map( [ $this, 'sanitize_key_with_dashes' ], $args['taxonomies'] );
 				}
 
 				// Merge with 
 				$args = array_merge( [
-					'labels'		=> $labels,
-					'description'	=> ( isset( $v['description'] ) && ! empty( $v['description'] ) ) ? __( $v['description'], 'ipress' ) : sprintf( __( 'This is the %s post-type', 'ipress' ), $singular ),
+					'labels'		=> $ip_labels,
+					/* translators: %s: Post type description */
+					'description'	=> ( isset( $v['description'] ) && ! empty( $v['description'] ) ) ? sanitize_text_field( $v['description'] ) : sprintf( __( 'This is the %s post-type', 'ipress' ), $singular ),
 					'public'		=> ( isset( $v['public'] ) ) ? (bool) $v['public'] : true,
-					'supports'		=> $supports
+					'supports'		=> $ip_supports
 				], $args );
 		
 				// Register new post-type
-				register_post_type( $post_type, $args );
+				register_post_type( $post_type, $args ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_register_post_type
 			}
 		}
 
@@ -376,7 +406,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			];
 
 			// Valid optional args - description as a unique arg
-			$valid = [ 
+			$taxonomy_valid = [ 
 				'label', 'labels', 'public', 'publicly_queryable', 
 				'show_ui', 'show_in_menu', 'show_in_nav_menus',
 				'show_in_rest', 'rest_base', 'rest_controller_class',
@@ -386,63 +416,78 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			];
 
 			// Update reserved taxonomies with custom values e.g. from 3rd party products
-			$taxonomy_reserved = apply_filters( 'ipress_custom_taxonomy_reserved', $taxonomy_reserved );
+			$ip_taxonomy_reserved = (array) apply_filters( 'ipress_taxonomy_reserved', $taxonomy_reserved );
 
 			// Update optional args list - e.g. remove args if needed
-			$valid = apply_filters( 'ipress_custom_post_type_valid_args', $valid );
+			$ip_taxonomy_valid = (array) apply_filters( 'ipress_taxonomy_valid_args', $taxonomy_valid );
 
 			// Built-in, do not use here
-			$invalid = [ '_builtin' ];
+			$taxonomy_invalid = [ '_builtin' ];
 
 			// Iterate taxonomies...
-			foreach ( $this->taxonomies as $k=>$v ) {
+			foreach ( $this->taxonomies as $k => $v ) {
 
 				// Sanitize taxonomy... a-z_- only
 				$taxonomy = sanitize_key( str_replace( ' ', '_', $k ) );
 
 				// Sanity checks - reserved words and maximum taxonomy length
-				if ( in_array( $taxonomy, $taxonomy_reserved ) || strlen( $taxonomy ) > 32 ) { 
+				if ( in_array( $taxonomy, $ip_taxonomy_reserved ) || strlen( $taxonomy ) > 32 ) { 
 					$this->taxonomy_errors[] = $taxonomy;
 					continue; 
 				}
 
 				// Set up singular & plural
 				$singular	 = ( isset( $v['name'] ) && ! empty( $v['name'] ) ) 	? $v['name'] : ucwords( str_replace( [ '_', '-' ], ' ', $taxonomy ) );
-				$plural		 = ( isset( $v['plural'] ) && !empty( $v['plural'] ) ) 	? $v['plural'] : $singular . 's'; 
+				$plural		 = ( isset( $v['plural'] ) && ! empty( $v['plural'] ) )	? $v['plural'] : $singular . 's'; 
 
 				// Set up taxonomy labels
-				$labels = [
-					'name'							=> sprintf( _x( '%s', 'ipress' ), $plural ), 
-					'singular_name'					=> sprintf( _x( '%s', 'ipress' ), $singular ), 
-					'menu_name'						=> sprintf( __( '%s', 'ipress' ), $singular ), 
+				$ip_labels = (array) apply_filters( "ipress_{$taxonomy}_labels", [
+					'name'							=> $plural, 
+					'singular_name'					=> $singular, 
+					'menu_name'						=> $singular, 
+					/* translators: %s: All taxonomy terms*/
 					'all_items'						=> sprintf( __( 'All %s', 'ipress' ), $plural ), 
+					/* translators: %s: Edit taxonomy term*/
 					'edit_item'						=> sprintf( __( 'Edit %s', 'ipress' ), $singular ), 
+					/* translators: %s: View taxonomy term*/
 					'view_item'						=> sprintf( __( 'View %s', 'ipress' ), $singular ), 
+					/* translators: %s: Update taxonomy term*/
 					'update_item'					=> sprintf( __( 'Update %s', 'ipress' ), $singular ), 
+					/* translators: %s: Add new taxonomy term*/
 					'add_new_item'					=> sprintf( __( 'Add New %s', 'ipress' ), $singular ), 
+					/* translators: %s: New taxonomy name */
 					'new_item_name'					=> sprintf( __( 'New %s Name', 'ipress' ), $singular ), 
+					/* translators: %s: Parent taxonomy */
 					'parent_item'					=> sprintf( __( 'Parent %s', 'ipress' ), $singular ), 
+					/* translators: %s: Parent taxonomy: */
 					'parent_item_colon'				=> sprintf( __( 'Parent %s:', 'ipress' ), $singular ), 
+					/* translators: %s: Search taxonomy terms*/
 					'search_items'					=> sprintf( __( 'Search %s', 'ipress' ), $plural ), 
+					/* translators: %s: Popular taxonomy terms */
 					'popular_items'					=> sprintf( __( 'Popular %s', 'ipress' ), $plural ), 
+					/* translators: %s: No Taxonomy terms found*/
 					'not_found'						=> sprintf( __( 'No %s found', 'ipress' ), $plural ), 
+					/* translators: %s: Back to taxonomy */
 					'back_to_items'					=> sprintf( __( '&#8617; Back to %s', 'ipress' ), $plural ), 
+					/* translators: %s: Separate taxonomy terms */
 					'separate_items_with_commas' 	=> sprintf( __( 'Separate %s with commas', 'ipress' ), $plural ), 
+					/* translators: %s: Add or remove taxonomy term */
 					'add_or_remove_items'		 	=> sprintf( __( 'Add or remove %s', 'ipress' ), $plural ), 
-					'choose_from_the_most_used'  	=> sprintf( __( 'Chose from the most used %s', 'ipress' ), $plural ) 
-				];
+					/* translators: %s: Most used taxonomy terms */
+					'choose_from_the_most_used'  	=> sprintf( __( 'Choose from the most used %s', 'ipress' ), $plural ) 
+				] );
 										
 				// Set up taxonomy args
-				$args = ( isset( $v['args'] ) && is_array( $v['args'] ) && ! empty( $v['args'] ) ) ? $v['args'] : [];
+				$args = ( isset( $v['args'] ) && is_array( $v['args'] ) ) ? $v['args'] : [];
 
 				// Validate args
-				foreach ( $args as $k2=>$v2 ) {
+				foreach ( $args as $k2 => $v2 ) {
 					
 					// No built in
-					if ( in_array( $k2, $invalid ) ) { unset( $args[$k2] ); continue; }
+					if ( in_array( $k2, $taxonomy_invalid ) ) { unset( $args[$k2] ); continue; }
 
 					// Available args
-					if ( ! in_array( $k2, $valid ) ) { unset( $args[$k2] ); continue; }
+					if ( ! in_array( $k2, $ip_taxonomy_valid ) ) { unset( $args[$k2] ); continue; }
 				}
 
 				// Some sanitization: publicly_queryable : boolean
@@ -528,18 +573,19 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 
 				// Construct args
 				$args = array_merge( [
-					'labels'		=> $labels,
+					'labels'		=> $ip_labels,
 					'public'		=> ( isset( $v['public'] ) ) ? (bool) $v['public'] : true,
-					'description'	=> ( isset( $v['description'] ) && ! empty( $v['description'] ) ) ? __( $v['description'], 'ipress' ) : sprintf( __( 'This is the %s taxonomy', 'ipress' ), $singular ),
+					/* translators: %s: Taxonomy description */
+					'description'	=> ( isset( $v['description'] ) && ! empty( $v['description'] ) ) ? sanitize_text_field( $v['description'] ) : sprintf( __( 'This is the %s taxonomy', 'ipress' ), $singular ),
 				], $args );
 
 				// Assign to post-types?
 				if ( isset( $v['post_types'] ) ) {
-					$post_types = ( is_array( $v['post_types'] ) ) ? array_map( [ $this, 'sanitize_key' ], $v['post_types'] ) : sanitize_key( str_replace( ' ', '_', $v['post_types'] ) );
+					$post_types = ( is_array( $v['post_types'] ) ) ? array_map( [ $this, 'sanitize_key_with_dashes' ], $v['post_types'] ) : sanitize_key( str_replace( ' ', '_', $v['post_types'] ) );
 				} else { $post_types = []; }
 
 				// Register taxonomy
-				register_taxonomy( $taxonomy, $post_types, $args );
+				register_taxonomy( $taxonomy, $post_types, $args ); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_register_taxonomy
 			}	
 		}
 
@@ -553,12 +599,12 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		protected function taxonomy_columns() {
 
 			// Taxonomy columns & filters
-			foreach ( $this->taxonomies as $k=>$v ) {
+			foreach ( $this->taxonomies as $k => $v ) {
 
 				// Assign to post-types required
 				if ( isset( $v['post_types'] ) ) {
 
-					// Sanitize post types
+					// Sanitize post-types
 					$post_types = ( is_array( $v['post_types'] ) ) ? $v['post_types'] : (array) $v['post_types'];
 
 					// Sanitize taxonomy... a-z_- only
@@ -576,7 +622,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 								// Sanitize post-type... a-z_- only
 								$post_type = sanitize_key( str_replace( ' ', '_', $post_type ) );
 
-								add_filter( 'manage_edit-' . $post_type . '_sortable_columns', [ $this, 'sortable_columns' ] ); 
+								add_filter( "manage_edit-{$post_type}_sortable_columns", [ $this, 'sortable_columns' ] ); 
 								add_filter( 'posts_clauses', [ $this, 'sort_column' ], 10, 2 );
 							}
 						}
@@ -595,12 +641,12 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * Make filter column sortable
 		 * 
 		 * @param	array $columns
-		 * @return	array
+		 * @return	array $columns
 		 */
 		public function sortable_columns( $columns ) {
 
 			// Taxonomy columns & filters
-			foreach ( $this->taxonomies as $k=>$v ) {
+			foreach ( $this->taxonomies as $k => $v ) {
 
 				// Post-type taxonomy column
 				if ( isset( $v['column'] ) && true === $v['column'] ) {
@@ -631,7 +677,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * 
 		 * @return array 
 		 */ 
-		public function sort_column( $pieces, $query ) { 
+		public function sort_column( $pieces, WP_Query $query ) { 
 
 			global $wpdb; 
 
@@ -643,7 +689,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			if ( is_admin() && $query->is_main_query() ) {
 
 				// Taxonomy columns & filters
-				foreach ( $this->taxonomies as $k=>$v ) {
+				foreach ( $this->taxonomies as $k => $v ) {
 
 					// Filter?
 					if ( isset( $v['filter'] ) && true === $v['filter'] ) {
@@ -683,15 +729,13 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		/**
 		 * Add taxonomy type post list filtering
 		 * - Called via restrict_manage_posts action
-		 *
-		 * @return void
 		 */
 		public function post_type_filter() {
 
 			global $typenow, $wp_query; 
 
 			// Iterate taxonomies
-			foreach ( $this->taxonomies as $k=>$v ) {
+			foreach ( $this->taxonomies as $k => $v ) {
 
 				// Sanitize taxonomy... a-z_- only
 				$taxonomy = sanitize_key( str_replace( ' ', '_', $k ) );
@@ -699,7 +743,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 				// Assign to post-types required
 				if ( isset( $v['post_types'] ) ) {
 					
-					// Sanitize post types
+					// Sanitize post-types
 					$post_types = ( is_array( $v['post_types'] ) ) ? $v['post_types'] : (array) $v['post_types'];
 				  
 					// Get post-types
@@ -727,6 +771,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 						// Dropdown select
 						wp_dropdown_categories(
 							[ 
+								/* translators: %s: Show all taxonomy terms */
 								'show_option_all' =>  sprintf( __( 'Show All %s', 'ipress' ), $current_taxonomy->label ), 
 								'taxonomy'		  =>  $taxonomy,	 
 								'name'			  =>  $current_taxonomy->name, 
@@ -747,10 +792,9 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * Filter query for post_type taxonomy
 		 * Called via parse_query filter
 		 *
-		 * @param object $query
-		 * @return void
+		 * @param object $query WP_Query
 		 */
-		public function post_type_filter_query( $query ) {
+		public function post_type_filter_query( WP_Query $query ) {
 
 			global $pagenow; 
 
@@ -761,7 +805,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			$vars = &$query->query_vars;
 
 			// Iterate taxonomies
-			foreach ( $this->taxonomies as $k=>$v ) {
+			foreach ( $this->taxonomies as $k => $v ) {
 
 				// Sanitize taxonomy... a-z_- only
 				$taxonomy = sanitize_key( str_replace( ' ', '_', $k ) );
@@ -784,7 +828,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		public function flush_rewrite_rules() { 
 			$this->register_post_types();
 			$this->register_taxonomies();
-			flush_rewrite_rules(); 
+			flush_rewrite_rules(); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_flush_rewrite_rules
 		}
 
 		//----------------------------------------------
@@ -797,14 +841,18 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		public function admin_notices() {
 			
 			// Post-Type Errors
-			if ( !empty( $this->post_type_errors ) ) {
-				$message = sprintf( __( 'Error: Bad Post Types [%s].', 'ipress' ), join( ', ', $this->post_type_errors ) ); 
+			if ( ! empty( $this->post_type_errors ) ) {
+				$message = sprintf( 
+					/* translators: %s: Post type errors */
+					__( 'Error: Bad Post Types [%s].', 'ipress' ), join( ', ', $this->post_type_errors ) ); 
 				echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', esc_html( $message ) ); 
 			}
 
 			// Taxonomy Errors
-			if ( !empty( $this->taxonomy_errors ) ) {
-				$message = sprintf( __( 'Error: Bad Taxonomies [%s].', 'ipress' ), join( ', ', $this->taxonomy_errors ) );
+			if ( ! empty( $this->taxonomy_errors ) ) {
+				$message = sprintf( 
+					/* translators: %s: Taxonomy errors */
+					__( 'Error: Bad Taxonomies [%s].', 'ipress' ), join( ', ', $this->taxonomy_errors ) );
 				echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', esc_html( $message ) ); 
 			}
 		}
@@ -847,16 +895,16 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			// Get current screen
 			$screen = get_current_screen();
 
-			// Test valid post types
+			// Test valid post-types
 			if ( ! in_array( $screen->id, $this->post_types ) ) { return; }
 
 			// Get help types
-			$help_types = (array) apply_filters( 'ipress_post_type_help', [] );
-			if ( empty( $help_types ) ) { return; }
+			$ip_help_types = (array) apply_filters( "ipress_{$screen->id}_help", [] );
+			if ( empty( $ip_help_types ) ) { return; }
 
 			// Get right help
-			if ( ! array_key_exists( $screen->id, $help_types[$screen->id] ) ) { return; }
-			$help_tabs = $help_types[$screen->id];
+			if ( ! array_key_exists( $screen->id, $ip_help_types[$screen->id] ) ) { return; }
+			$help_tabs = $ip_help_types[$screen->id];
 
 			// Construct tabs from array
 			foreach ( $help_tabs as $help_tab ) {
@@ -874,15 +922,15 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param 	string	$key
 		 * @return	string
 		 */
-		protected function sanitize_key( $key ) {
+		protected function sanitize_key_with_dashes( $key ) {
 			return sanitize_key( str_replace( ' ', '_', $key ) );
 		}
 
 		/**
 		 * Sanitize support
 		 *
-		 * @param 	mixed	$support
-		 * @return	bool
+		 * @param 	array	$support
+		 * @return	array	$support
 		 */
 		private function sanitize_support( &$support ) {
 
@@ -893,7 +941,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			];
 
 			// Sanitize
-			foreach ( $support as $k=>$v ) {
+			foreach ( $support as $k => $v ) {
 				if ( ! in_array( $v, $supports ) ) { unset( $support[$k] ); }
 			}
 
@@ -907,7 +955,6 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param 	mixed	$caps
 		 * @param	boolean	$meta
 		 * @param	boolean	$term
-		 * @return 	void
 		 */
 		private function sanitize_capabilities( &$caps, $meta = false, $term = false ) {
 
@@ -927,10 +974,10 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			];	
 	
 			// Set capabilities
-			$capabilities = ( true === $term ) ? $term_capabilities : ( true === $meta ) ? array_merge( $meta_caps, $post_capabilities ) : $post_capabilities;
+			$capabilities = ( true === $term ) ? $term_capabilities : ( ( true === $meta ) ? array_merge( $meta_caps, $post_capabilities ) : $post_capabilities );
 
 			// Sanitize
-			foreach ( $caps as $k=>$v ) {
+			foreach ( $caps as $k => $v ) {
 				if ( ! in_array( $k, $capabilities ) ) { unset( $caps[$k] ); }
 			}
 		}
@@ -939,7 +986,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * Sanitize argument as bool
 		 *
 		 * @param 	mixed	$arg
-		 * @return	bool
+		 * @return	bool	$arg
 		 */
 		private function sanitize_bool( $arg ) {
 			return (bool) $arg;
@@ -948,7 +995,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		/**
 		 * Sanitize argument as bool or string
 		 *
-		 * @param 	mixed	$arg
+		 * @param 	mixed		$arg
 		 * @return	bool|string
 		 */
 		private function sanitize_string_or_bool( $arg ) {
@@ -968,11 +1015,13 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		/**
 		 * Sanitize argument as integer
 		 *
-		 * @param 	mixed	$arg
-		 * @return	bool
+		 * @param 	mixed		$arg
+		 * @param 	bool		$null
+		 * @param 	integer		$integer
+		 * @return	integer|null
 		 */
-		private function sanitize_integer( $arg ) {
-			return ( is_integer( $arg ) ) ? absint( $arg ) : null;
+		private function sanitize_integer( $arg, $null = true, $integer = 0 ) {
+			return ( is_integer( $arg ) ) ? absint( $arg ) : ( ( $null ) ? null : absint( $integer ) );
 		}
 
 		/**

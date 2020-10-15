@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework						
  * ==========================================================
  *
- * Theme functions & functionality
+ * Theme navigation functions & functionality.
  * 
  * @package		iPress\Functions
  * @link		http://ipress.uk
@@ -14,23 +14,23 @@
 //----------------------------------------------
 //	Menu & Navigation
 // 
-// - ipress_has_nav_menu
+// - ipress_is_nav_location
 // - ipress_has_nav_location_menu
 // - ipress_has_menu
 // - ipress_get_nav_menu_items
 //----------------------------------------------
 
-if ( ! function_exists( 'ipress_has_nav_menu' ) ) :
+if ( ! function_exists( 'ipress_is_nav_location' ) ) :
 
 	/**
 	 * Determine if a theme supports a particular menu location 
 	 * - Case sensitive, so camel-case location
-	 * - Alternative to has_nav_menu
 	 *
-	 * @param  string $location
-	 * @return boolean 
+	 * @see		has_nav_menu()
+	 * @param  	string $location
+	 * @return 	boolean 
 	 */
-	function ipress_has_nav_menu( $location ) {
+	function ipress_is_nav_location( $location ) {
 
 		// Set the menu name
 		if ( empty( $location ) ) { return false; }
@@ -54,7 +54,7 @@ if ( ! function_exists( 'ipress_has_nav_location_menu' ) ) :
 	 * @param	string $route slug or name default name
 	 * @return boolean 
 	 */
-	function ipress_has_nav_location_menu( $location, $menu, $route='name' ) {
+	function ipress_has_nav_location_menu( $location, $menu, $route = 'name' ) {
 
 		// Set the menu name
 		if ( empty( $location ) || empty( $menu ) ) { return false; }
@@ -69,7 +69,7 @@ if ( ! function_exists( 'ipress_has_nav_location_menu' ) ) :
 		$term = get_term( (int) $locations[$location], 'nav_menu' );
 
 		// Test menu
-		return ( 'slug' == $route ) ? ( $term->slug === $menu ) : ( $term->name === $menu ); 
+		return ( 'slug' === $route ) ? ( $term->slug === $menu ) : ( $term->name === $menu ); 
 	}
 endif;
 

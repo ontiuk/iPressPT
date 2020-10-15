@@ -7,672 +7,384 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-15 10:26+0100\n"
-"PO-Revision-Date: 2019-04-15 14:34+0100\n"
+"POT-Creation-Date: 2020-10-06 19:44+0100\n"
+"PO-Revision-Date: 2020-10-06 22:34+0100\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.4.1\n"
 "Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: sv\n"
 
-#: comments.php:25
+#: inc/template-tags.php:262
 #, php-format
-msgctxt "comments title"
-msgid "One thought on &ldquo;%2$s&rdquo;"
-msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
-msgstr[0] ""
-msgstr[1] ""
+msgid "By <span class=\"author vcard\"><a href=\"%1$s\">%2$s</a></span>"
+msgstr "Förbi <span class=\"author vcard\"><a href=\"%1$s\">%2$s</a></span>"
 
-#: comments.php:49
-msgid "Comments are closed."
-msgstr ""
-
-#: index.php:31
-msgid "Our Latest Posts"
-msgstr ""
-
-#: search.php:33
-#, php-format
-msgid "Search: %s Results for <span>%s</span>"
-msgstr ""
-
-#: searchform.php:15
-msgctxt "label"
-msgid "Search for:"
-msgstr ""
-
-#: searchform.php:16
-msgctxt "placeholder"
-msgid "Search &hellip;"
-msgstr ""
-
-#: searchform.php:17
-msgctxt "ipress"
-msgid "Search"
-msgstr ""
-
-#: searchform.php:17
-msgctxt "submit button"
-msgid "Search"
-msgstr ""
-
-#: inc/config.php:24
-msgid "Error: Could not retrieve theme config."
-msgstr ""
-
-#: inc/template-functions.php:234
-msgctxt "Next post"
-msgid "Next"
-msgstr ""
-
-#: inc/template-functions.php:235
-msgctxt "Previous post"
-msgid "Previous"
-msgstr ""
-
-#: inc/template-tags.php:151
+#: inc/template-tags.php:316
 #, php-format
 msgid ""
-"by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%s\">%s</a></"
-"span>"
+"By <span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-link\" "
+"rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></span>"
 msgstr ""
+"By <span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-link\" "
+"rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></span>"
 
-#: inc/template-tags.php:169
+#: inc/template-tags.php:358
 #, php-format
-msgctxt "post author"
-msgid ""
-"by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%s\">%s</a></"
-"span>"
-msgstr ""
+msgid "Posted on <a href=\"%1$s\" rel=\"bookmark\">%2$s</a>"
+msgstr "Publicerat den <a href=\"%1$s\" rel=\"bookmark\">%2$s</a>"
 
-#: inc/template-tags.php:203
-#, php-format
-msgctxt "post date"
-msgid "Posted on <a href=\"%s\" rel=\"bookmark\">%s</a>"
-msgstr ""
-
-#: inc/template-tags.php:219 inc/template-tags.php:224
-#: inc/template-tags.php:381 inc/template-tags.php:397
-msgid ", "
-msgstr ""
-
-#: inc/template-tags.php:221
-#, php-format
-msgid "Posted in %1$s"
-msgstr ""
-
-#: inc/template-tags.php:226
-#, php-format
-msgid "Tagged %1$s"
-msgstr ""
-
-#: inc/template-tags.php:306
-#, php-format
-msgid "Edit<span class=\"screen-reader-text\"> \"%s\"</span>"
-msgstr ""
-
-#: inc/template-tags.php:370
-msgid "Written by"
-msgstr ""
-
-#: inc/template-tags.php:384
+#: inc/template-tags.php:415 inc/template-tags.php:606
 msgid "Posted in"
-msgstr ""
+msgstr "Inlagd i"
 
-#: inc/template-tags.php:400
-msgid "Tagged"
-msgstr ""
+#: inc/template-tags.php:418 inc/template-tags.php:625
+msgid "Tagged in"
+msgstr "Taggad i"
 
-#: inc/template-tags.php:414
+#: inc/template-tags.php:521
+#, php-format
+msgid "Edit <span class=\"screen-reader-text\">\"%s\"</span>"
+msgstr "Redigera <span class=\"screen-reader-text\">%s</span>"
+
+#: inc/template-tags.php:588
+msgid "Written by"
+msgstr "Skriven av"
+
+#: inc/template-tags.php:640
 msgid "Comments"
-msgstr ""
+msgstr "Kommentarer"
 
-#: inc/template-tags.php:415
-msgid "Leave a comment"
-msgstr ""
-
-#: inc/template-tags.php:415 inc/shortcodes/post.php:318
-msgid "1 Comment"
-msgstr ""
-
-#: inc/template-tags.php:415 inc/shortcodes/post.php:317
-msgid "% Comments"
-msgstr ""
-
-#: inc/classes/class-compat.php:87
+#: inc/classes/class-compat.php:97
 #, php-format
 msgid ""
-"PHP version <strong>%s</strong> is required You are using <strong>%s</"
+"PHP version <strong>%1$s</strong> is required You are using <strong>%2$s</"
 "strong>. Please update or contact your hosting company."
 msgstr ""
+"PHP-version <strong>%1$s </strong> krävs Du använder <strong>%2$s</"
+"strong>. Vänligen uppdatera eller kontakta ditt webbhotell."
 
-#: inc/classes/class-compat.php:112 inc/classes/class-compat.php:122
-#: inc/classes/class-compat.php:132
+#: inc/classes/class-compat.php:128 inc/classes/class-compat.php:144
+#: inc/classes/class-compat.php:161
 #, php-format
 msgid ""
-"iPress requires at least WordPress version %s. You are running version %s."
-msgstr ""
+"iPress requires at least WordPress version %1$s. You are running version "
+"%2$s."
+msgstr "iPress kräver minst WordPress-version %1$s. Du kör version %2$s."
 
-#: inc/classes/class-compat.php:144
+#: inc/classes/class-compat.php:174
 msgid "iPress Parent Theme is active. Please use a Child Theme."
-msgstr ""
+msgstr "iPress Parent Theme är aktivt. Använd ett tema för barn."
 
-#: inc/classes/class-custom.php:179
-#, php-format
-msgctxt "Post type general name"
-msgid "%s"
-msgstr ""
+#: inc/classes/class-custom.php:173
+msgid "Add New"
+msgstr "Lägg till ny"
 
-#: inc/classes/class-custom.php:180
+#: inc/classes/class-custom.php:175 inc/classes/class-custom.php:457
 #, php-format
-msgctxt "Post type singular name"
-msgid "%s"
-msgstr ""
+msgid "Add New %s"
+msgstr "Lägg till ny %s"
+
+#: inc/classes/class-custom.php:177 inc/classes/class-custom.php:451
+#, php-format
+msgid "Edit %s"
+msgstr "Redigera %s"
+
+#: inc/classes/class-custom.php:179 inc/classes/class-custom.php:455
+#, php-format
+msgid "Update %s"
+msgstr "Uppdatering %s"
 
 #: inc/classes/class-custom.php:181
 #, php-format
-msgctxt "Admin menu text"
-msgid "%s"
-msgstr ""
-
-#: inc/classes/class-custom.php:182
-#, php-format
-msgctxt "Add new on admin bar"
-msgid "%s"
-msgstr ""
-
-#: inc/classes/class-custom.php:183
-msgctxt "%s"
-msgid "Add New"
-msgstr ""
-
-#: inc/classes/class-custom.php:184 inc/classes/class-custom.php:281
-#, php-format
-msgid "Add New %s"
-msgstr ""
-
-#: inc/classes/class-custom.php:185 inc/classes/class-custom.php:278
-#, php-format
-msgid "Edit %s"
-msgstr ""
-
-#: inc/classes/class-custom.php:186
-#, php-format
 msgid "New %s"
-msgstr ""
+msgstr "Ny %s"
 
-#: inc/classes/class-custom.php:187 inc/classes/class-custom.php:188
-#: inc/classes/class-custom.php:279
+#: inc/classes/class-custom.php:183 inc/classes/class-custom.php:185
+#: inc/classes/class-custom.php:453
 #, php-format
 msgid "View %s"
-msgstr ""
+msgstr "Se %s"
 
-#: inc/classes/class-custom.php:189 inc/classes/class-custom.php:285
+#: inc/classes/class-custom.php:187 inc/classes/class-custom.php:465
 #, php-format
 msgid "Search %s"
-msgstr ""
+msgstr "Sök %s"
 
-#: inc/classes/class-custom.php:190 inc/classes/class-custom.php:287
+#: inc/classes/class-custom.php:189 inc/classes/class-custom.php:469
 #, php-format
 msgid "No %s found"
-msgstr ""
+msgstr "Inga %s hittades"
 
 #: inc/classes/class-custom.php:191
 #, php-format
 msgid "No %s found in Trash"
-msgstr ""
+msgstr "Inga %s hittades i papperskorgen"
 
-#: inc/classes/class-custom.php:192 inc/classes/class-custom.php:284
+#: inc/classes/class-custom.php:193 inc/classes/class-custom.php:463
 #, php-format
 msgid "Parent %s:"
-msgstr ""
+msgstr "Förälder %s:"
 
-#: inc/classes/class-custom.php:193 inc/classes/class-custom.php:277
+#: inc/classes/class-custom.php:195 inc/classes/class-custom.php:449
 #, php-format
 msgid "All %s"
-msgstr ""
-
-#: inc/classes/class-custom.php:194
-#, php-format
-msgid "%s Archives"
-msgstr ""
-
-#: inc/classes/class-custom.php:195
-#, php-format
-msgid "%s Attributes"
-msgstr ""
-
-#: inc/classes/class-custom.php:196
-#, php-format
-msgid "Insert into %s"
-msgstr ""
+msgstr "Alla %s"
 
 #: inc/classes/class-custom.php:197
 #, php-format
-msgid "Uploaded to this %s"
-msgstr ""
-
-#: inc/classes/class-custom.php:198
-#, php-format
-msgid "%s Featured Image"
-msgstr ""
+msgid "%s Archives"
+msgstr "%s Arkiv"
 
 #: inc/classes/class-custom.php:199
 #, php-format
-msgid "Set %s Featured Image"
-msgstr ""
-
-#: inc/classes/class-custom.php:200
-#, php-format
-msgid "Remove %s Featured Image"
-msgstr ""
+msgid "%s Attributes"
+msgstr "%s Attribut"
 
 #: inc/classes/class-custom.php:201
 #, php-format
-msgid "Use %s Featured Image"
-msgstr ""
-
-#: inc/classes/class-custom.php:202
-#, php-format
-msgid "Filter %s list"
-msgstr ""
+msgid "Insert into %s"
+msgstr "Sätt i %s"
 
 #: inc/classes/class-custom.php:203
 #, php-format
-msgid "%s list navigation"
-msgstr ""
+msgid "Uploaded to this %s"
+msgstr "Laddat upp till detta %s"
 
-#: inc/classes/class-custom.php:204
+#: inc/classes/class-custom.php:205
+#, php-format
+msgid "%s Featured Image"
+msgstr "%s Utvald bild"
+
+#: inc/classes/class-custom.php:207
+#, php-format
+msgid "Set %s Featured Image"
+msgstr "Ställ in %s Utvald bild"
+
+#: inc/classes/class-custom.php:209
+#, php-format
+msgid "Remove %s Featured Image"
+msgstr "Ta bort %s Utvald bild"
+
+#: inc/classes/class-custom.php:211
+#, php-format
+msgid "Use %s Featured Image"
+msgstr "Använd %s Utvald bild"
+
+#: inc/classes/class-custom.php:213
+#, php-format
+msgid "Filter %s list"
+msgstr "Filtrera %s-lista"
+
+#: inc/classes/class-custom.php:215
 #, php-format
 msgid "%s list"
-msgstr ""
+msgstr "%s lista"
 
-#: inc/classes/class-custom.php:274 inc/classes/class-custom.php:275
+#: inc/classes/class-custom.php:217
 #, php-format
-msgctxt "ipress"
-msgid "%s"
-msgstr ""
+msgid "%s list navigation"
+msgstr "%s lista navigering"
 
-#: inc/classes/class-custom.php:276 inc/classes/class-custom.php:301
-#: inc/shortcodes/post.php:74 inc/shortcodes/post.php:107
-#: inc/shortcodes/post.php:138 inc/shortcodes/post.php:170
+#: inc/classes/class-custom.php:219
 #, php-format
-msgid "%s"
-msgstr ""
+msgid "%s published"
+msgstr "%s publicerat"
 
-#: inc/classes/class-custom.php:280
+#: inc/classes/class-custom.php:221
 #, php-format
-msgid "Update %s"
-msgstr ""
+msgid "%s published privately"
+msgstr "%s publiceras privat"
 
-#: inc/classes/class-custom.php:282
+#: inc/classes/class-custom.php:223
+#, php-format
+msgid "%s reverted to draft"
+msgstr "%s återgått till utkast"
+
+#: inc/classes/class-custom.php:225
+#, php-format
+msgid "%s scheduled"
+msgstr "%s planerad"
+
+#: inc/classes/class-custom.php:227
+#, php-format
+msgid "%s updated"
+msgstr "%s uppdaterad"
+
+#: inc/classes/class-custom.php:362
+#, php-format
+msgid "This is the %s post-type"
+msgstr "Detta är %s posttyp"
+
+#: inc/classes/class-custom.php:459
 #, php-format
 msgid "New %s Name"
-msgstr ""
+msgstr "Nytt %s namn"
 
-#: inc/classes/class-custom.php:283
+#: inc/classes/class-custom.php:461
 #, php-format
 msgid "Parent %s"
-msgstr ""
+msgstr "Förälder %s"
 
-#: inc/classes/class-custom.php:286
+#: inc/classes/class-custom.php:467
 #, php-format
 msgid "Popular %s"
-msgstr ""
+msgstr "Populära %s"
 
-#: inc/classes/class-custom.php:288
+#: inc/classes/class-custom.php:471
 #, php-format
 msgid "&#8617; Back to %s"
-msgstr ""
+msgstr "&#8617; Tillbaka till %s"
 
-#: inc/classes/class-custom.php:289
+#: inc/classes/class-custom.php:473
 #, php-format
 msgid "Separate %s with commas"
-msgstr ""
+msgstr "Separera %s med komma-tecken"
 
-#: inc/classes/class-custom.php:290
+#: inc/classes/class-custom.php:475
 #, php-format
 msgid "Add or remove %s"
-msgstr ""
+msgstr "Lägg till eller ta bort %s"
 
-#: inc/classes/class-custom.php:291
+#: inc/classes/class-custom.php:477
 #, php-format
-msgid "Chose from the most used %s"
-msgstr ""
+msgid "Choose from the most used %s"
+msgstr "Välj bland de mest använda %s"
 
-#: inc/classes/class-custom.php:494
+#: inc/classes/class-custom.php:579
+#, php-format
+msgid "This is the %s taxonomy"
+msgstr "Detta är %s taxonomi"
+
+#: inc/classes/class-custom.php:775
 #, php-format
 msgid "Show All %s"
-msgstr ""
+msgstr "Visa alla %s"
 
-#: inc/classes/class-custom.php:564
+#: inc/classes/class-custom.php:847
 #, php-format
 msgid "Error: Bad Post Types [%s]."
-msgstr ""
+msgstr "Fel: Dåliga inläggstyper [%s]."
 
-#: inc/classes/class-custom.php:570
+#: inc/classes/class-custom.php:855
 #, php-format
 msgid "Error: Bad Taxonomies [%s]."
-msgstr ""
+msgstr "Fel: Dåliga taxonomier [%s]."
 
-#: inc/classes/class-customizer.php:221
-msgid "Background"
-msgstr ""
-
-#: inc/classes/class-customizer.php:229
-msgid "Header"
-msgstr ""
-
-#: inc/classes/class-customizer.php:233
-msgid "Theme Colours"
-msgstr ""
-
-#: inc/classes/class-customizer.php:237
-msgid "Theme Options"
-msgstr ""
-
-#: inc/classes/class-customizer.php:238
-msgid "Configure your theme settings"
-msgstr ""
-
-#: inc/classes/class-customizer.php:243
-msgid "Content Layout"
-msgstr ""
-
-#: inc/classes/class-customizer.php:254
-msgid "Page Layout"
-msgstr ""
-
-#: inc/classes/class-customizer.php:257
-msgid "Content section left or right."
-msgstr ""
-
-#: inc/classes/class-customizer.php:259
-msgid "Content - Sidebar"
-msgstr ""
-
-#: inc/classes/class-customizer.php:260
-msgid "Sidebar - Content"
-msgstr ""
-
-#: inc/classes/class-customizer.php:446
-msgid "Content Sidebar"
-msgstr ""
-
-#: inc/classes/class-customizer.php:447
-msgid "Sidebar Content"
-msgstr ""
-
-#: inc/classes/class-dashboard.php:57
-#, php-format
-msgid "%s "
-msgid_plural "%s "
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/classes/class-images.php:62
+#: inc/classes/class-images.php:65
 msgid "Image in Post"
-msgstr ""
+msgstr "Bild i posten"
 
-#: inc/classes/class-images.php:63
+#: inc/classes/class-images.php:66
 msgid "Original size"
-msgstr ""
+msgstr "Originalstorlek"
 
-#: inc/classes/class-init.php:191
+#: inc/classes/class-init.php:127
 msgid "<strong>ERROR</strong>: Stop guessing!"
-msgstr ""
+msgstr "<strong>FEL</strong>: Sluta gissa!"
 
-#: inc/classes/class-layout.php:155
-msgid "View Article"
-msgstr ""
+#: inc/classes/class-layout.php:188
+msgid "[Read more...]"
+msgstr "[Läs mer...]"
 
 #: inc/classes/class-sidebars.php:69
 msgid "Primary Sidebar"
-msgstr ""
+msgstr "Primär sidofält"
 
 #: inc/classes/class-sidebars.php:70
-msgid "This is the primary sidebar for two-column and full-width layouts."
-msgstr ""
+msgid "This is the primary sidebar."
+msgstr "Detta är det primära sidofältet."
 
-#: inc/classes/class-sidebars.php:83
+#: inc/classes/class-sidebars.php:85
 #, php-format
 msgid "Footer %d"
-msgstr ""
+msgstr "Sidfot %d"
 
-#: inc/classes/class-sidebars.php:84
+#: inc/classes/class-sidebars.php:87
 #, php-format
 msgid "Footer sidebar area %d."
-msgstr ""
+msgstr "Sidfältets sidfält %d."
 
-#: inc/classes/class-sidebars.php:122
+#: inc/classes/class-sidebars.php:127
 #, php-format
 msgid "This is the %s sidebar description"
-msgstr ""
+msgstr "Detta är %s sidofältbeskrivning"
 
-#: inc/classes/class-theme.php:124
+#: inc/classes/class-theme.php:133
 msgid "Primary Menu"
-msgstr ""
+msgstr "Primärmeny"
+
+#: inc/functions/pagination.php:38 inc/functions/pagination.php:72
+msgid "&larr; Older"
+msgstr "&larr; Äldre"
+
+#: inc/functions/pagination.php:39 inc/functions/pagination.php:73
+msgid "Newer &rarr;"
+msgstr "Nyare &rarr;"
 
 #: inc/functions/pagination.php:115
 msgid "Prev"
-msgstr ""
+msgstr "Föregående"
 
 #: inc/functions/pagination.php:116
 msgid "Next"
-msgstr ""
+msgstr "Nästa"
 
 #: inc/functions/pagination.php:189
 msgid "Previous Page"
-msgstr ""
+msgstr "Föregående sida"
 
 #: inc/functions/pagination.php:206
 msgid "Current page"
-msgstr ""
+msgstr "Nuvarande sida"
 
 #: inc/functions/pagination.php:223
 msgid "Next Page"
-msgstr ""
+msgstr "Nästa sida"
 
-#: inc/shortcodes/category.php:35
+#: inc/shortcodes/category.php:55
 msgid "Tagged With: "
-msgstr ""
+msgstr "Taggad med: "
 
-#: inc/shortcodes/category.php:67 inc/shortcodes/category.php:102
+#: inc/shortcodes/category.php:95 inc/shortcodes/category.php:136
 msgid "Filed Under: "
-msgstr ""
+msgstr "Sparad i: "
 
-#: inc/shortcodes/links.php:38
+#: inc/shortcodes/links.php:44
 msgid "Return to top"
-msgstr ""
+msgstr "Återgå till toppen"
 
-#: inc/shortcodes/links.php:66
-msgid "&#x000A9;"
-msgstr ""
-
-#: inc/shortcodes/links.php:105
+#: inc/shortcodes/links.php:122
 msgid "iPress"
-msgstr ""
+msgstr "iPress"
 
-#: inc/shortcodes/links.php:155
+#: inc/shortcodes/links.php:182
 msgid "Log in"
-msgstr ""
+msgstr "Logga in"
 
-#: inc/shortcodes/links.php:156
+#: inc/shortcodes/links.php:183
 msgid "Log out"
-msgstr ""
+msgstr "Logga ut"
 
-#: inc/shortcodes/post.php:36
+#: inc/shortcodes/post.php:54
 msgid "(Edit)"
-msgstr ""
+msgstr "(Redigera)"
 
-#: inc/shortcodes/post.php:85
+#: inc/shortcodes/post.php:122
 msgid "ago"
-msgstr ""
+msgstr "sedan"
 
-#: inc/shortcodes/post.php:319
+#: inc/shortcodes/post.php:413
+msgid "% Comments"
+msgstr "%d Kommentarer"
+
+#: inc/shortcodes/post.php:414
+msgid "1 Comment"
+msgstr "1 Kommentar"
+
+#: inc/shortcodes/post.php:415
 msgid "Leave a Comment"
-msgstr ""
-
-#: templates/footer/site-credit.php:17
-#, php-format
-msgid "Theme %1$s by %2$s."
-msgstr ""
-
-#: templates/global/404.php:20
-msgid "Oops! That page can&rsquo;t be found."
-msgstr ""
-
-#: templates/global/404.php:21
-msgid "Return home?"
-msgstr ""
-
-#: templates/global/404.php:25
-msgid "Nothing found at this location."
-msgstr ""
-
-#: templates/global/content-none.php:21
-msgid "Nothing to display."
-msgstr ""
-
-#: templates/global/content-none.php:31
-#, php-format
-msgid ""
-"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
-msgstr ""
-
-#: templates/global/content-none.php:44
-msgid ""
-"Sorry, nothing matched your search terms. Please try again with different "
-"keywords."
-msgstr ""
-
-#: templates/global/content-none.php:49
-msgid ""
-"We can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can "
-"help."
-msgstr ""
-
-#: templates/global/skip-links.php:14
-msgid "Skip to navigation"
-msgstr ""
-
-#: templates/global/skip-links.php:15
-msgid "Skip to content"
-msgstr ""
-
-#: templates/global/breadcrumbs/archive-cpt.php:24
-#: templates/global/breadcrumbs/archive.php:18
-#: templates/global/breadcrumbs/author.php:18
-#: templates/global/breadcrumbs/category.php:18
-#: templates/global/breadcrumbs/date.php:31
-#: templates/global/breadcrumbs/home.php:18
-#: templates/global/breadcrumbs/page.php:18
-#: templates/global/breadcrumbs/search.php:18
-#: templates/global/breadcrumbs/single.php:18
-#: templates/global/breadcrumbs/tag.php:19
-#: templates/global/breadcrumbs/taxonomy.php:55
-msgid "Home"
-msgstr ""
-
-#: templates/global/breadcrumbs/archive.php:19
-msgid "Archive"
-msgstr ""
-
-#: templates/global/breadcrumbs/author.php:19
-msgid "Author"
-msgstr ""
-
-#: templates/global/breadcrumbs/category.php:19
-msgid "Category"
-msgstr ""
-
-#: templates/global/breadcrumbs/date.php:18
-msgctxt "yearly archives date format"
-msgid "Y"
-msgstr ""
-
-#: templates/global/breadcrumbs/date.php:21
-msgctxt "monthly archives date format"
-msgid "F Y"
-msgstr ""
-
-#: templates/global/breadcrumbs/date.php:24
-msgctxt "daily archives date format"
-msgid "F j, Y"
-msgstr ""
-
-#: templates/global/breadcrumbs/search.php:19
-msgid "Search"
-msgstr ""
-
-#: templates/global/breadcrumbs/tag.php:20
-msgid "Tag"
-msgstr ""
-
-#: templates/global/breadcrumbs/taxonomy.php:18
-msgctxt "post format archive title"
-msgid "Asides"
-msgstr ""
-
-#: templates/global/breadcrumbs/taxonomy.php:21
-msgctxt "post format archive title"
-msgid "Galleries"
-msgstr ""
-
-#: templates/global/breadcrumbs/taxonomy.php:24
-msgctxt "post format archive title"
-msgid "Images"
-msgstr ""
-
-#: templates/global/breadcrumbs/taxonomy.php:27
-msgctxt "post format archive title"
-msgid "Videos"
-msgstr ""
-
-#: templates/global/breadcrumbs/taxonomy.php:30
-msgctxt "post format archive title"
-msgid "Quotes"
-msgstr ""
-
-#: templates/global/breadcrumbs/taxonomy.php:33
-msgctxt "post format archive title"
-msgid "Links"
-msgstr ""
-
-#: templates/global/breadcrumbs/taxonomy.php:36
-msgctxt "post format archive title"
-msgid "Statuses"
-msgstr ""
-
-#: templates/global/breadcrumbs/taxonomy.php:39
-msgctxt "post format archive title"
-msgid "Audio"
-msgstr ""
-
-#: templates/global/breadcrumbs/taxonomy.php:42
-msgctxt "post format archive title"
-msgid "Chats"
-msgstr ""
-
-#: templates/loop/content.php:22 templates/single/content.php:24
-#, php-format
-msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
-msgstr ""
-
-#: templates/loop/content.php:33 templates/page/content.php:23
-#: templates/single/content.php:35
-msgid "Pages:"
-msgstr ""
-
-#: templates/loop/header.php:19
-msgctxt "post"
-msgid "Featured"
-msgstr ""
-
-#: templates/page/footer.php:21
-#, php-format
-msgid "Edit <span class=\"screen-reader-text\">%s</span>"
-msgstr ""
+msgstr "Lämna en kommentar"

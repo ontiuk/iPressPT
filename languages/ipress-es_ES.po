@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-06 19:44+0100\n"
-"PO-Revision-Date: 2020-10-06 22:30+0100\n"
+"PO-Revision-Date: 2020-10-06 22:24+0100\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,13 +16,12 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 "Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: fi\n"
+"Language: es\n"
 
 #: inc/template-tags.php:262
 #, php-format
 msgid "By <span class=\"author vcard\"><a href=\"%1$s\">%2$s</a></span>"
-msgstr ""
-"Mennessä <span class=\"author vcard\"><a href=\"%1$s\">%2$s</a></span>"
+msgstr "Por <span class=\"author vcard\"><a href=\"%1$s\">%2$s</a></span>"
 
 #: inc/template-tags.php:316
 #, php-format
@@ -30,35 +29,34 @@ msgid ""
 "By <span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-link\" "
 "rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></span>"
 msgstr ""
-"Mennessä <span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-"
-"link\" rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></"
-"span>"
+"Por<span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-link\" "
+"rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></span>"
 
 #: inc/template-tags.php:358
 #, php-format
 msgid "Posted on <a href=\"%1$s\" rel=\"bookmark\">%2$s</a>"
-msgstr "Lähetetty <a href=\"%1$s\" rel=\"bookmark\">%2$s</a>"
+msgstr "Publicado en <a href=\"%1$s\" rel=\"bookmark\">%2$s</a>"
 
 #: inc/template-tags.php:415 inc/template-tags.php:606
 msgid "Posted in"
-msgstr "Lähetetty"
+msgstr "Publicado en"
 
 #: inc/template-tags.php:418 inc/template-tags.php:625
 msgid "Tagged in"
-msgstr "Merkitty"
+msgstr "Etiquetado en"
 
 #: inc/template-tags.php:521
 #, php-format
 msgid "Edit <span class=\"screen-reader-text\">\"%s\"</span>"
-msgstr "Muokata <span class=\"screen-reader-text\">\"%s\"</span>"
+msgstr "Editar<span class=\"screen-reader-text\">\"%s\"</span>"
 
 #: inc/template-tags.php:588
 msgid "Written by"
-msgstr "Kirjoittanut"
+msgstr "Escrito por"
 
 #: inc/template-tags.php:640
 msgid "Comments"
-msgstr "Kommentit"
+msgstr "Comentarios"
 
 #: inc/classes/class-compat.php:97
 #, php-format
@@ -66,8 +64,9 @@ msgid ""
 "PHP version <strong>%1$s</strong> is required You are using <strong>%2$s</"
 "strong>. Please update or contact your hosting company."
 msgstr ""
-"Vaaditaan PHP-versio <strong>%1$s</strong> Käytät <strong>%2$s</strong>. "
-"Päivitä tai ota yhteyttä hosting-yritykseesi."
+"Se requiere la versión de PHP <strong>%1$s</strong> Está utilizando "
+"<strong>%2$s</strong>. Actualice o póngase en contacto con su empresa de "
+"alojamiento."
 
 #: inc/classes/class-compat.php:128 inc/classes/class-compat.php:144
 #: inc/classes/class-compat.php:161
@@ -75,289 +74,291 @@ msgstr ""
 msgid ""
 "iPress requires at least WordPress version %1$s. You are running version "
 "%2$s."
-msgstr "iPress vaatii ainakin WordPress-version %1$s. Käytät versiota %2$s."
+msgstr ""
+"iPress requiere al menos la versión de WordPress %1$s. Estás ejecutando la "
+"version %2$s."
 
 #: inc/classes/class-compat.php:174
 msgid "iPress Parent Theme is active. Please use a Child Theme."
-msgstr "iPress Pääteema on aktiivinen. Käytä lasten teemaa."
+msgstr "El tema principal de iPress está activo. Utilice un tema infantil."
 
 #: inc/classes/class-custom.php:173
 msgid "Add New"
-msgstr "Lisää uusi"
+msgstr "Añadir nuevo"
 
 #: inc/classes/class-custom.php:175 inc/classes/class-custom.php:457
 #, php-format
 msgid "Add New %s"
-msgstr "Lisää uusi %s"
+msgstr "Añadir nuevo %s"
 
 #: inc/classes/class-custom.php:177 inc/classes/class-custom.php:451
 #, php-format
 msgid "Edit %s"
-msgstr "Muokata %s"
+msgstr "Editar %s"
 
 #: inc/classes/class-custom.php:179 inc/classes/class-custom.php:455
 #, php-format
 msgid "Update %s"
-msgstr "Päivittää %s"
+msgstr "Actualización %s"
 
 #: inc/classes/class-custom.php:181
 #, php-format
 msgid "New %s"
-msgstr "Uusi %s"
+msgstr "Nuevo %s"
 
 #: inc/classes/class-custom.php:183 inc/classes/class-custom.php:185
 #: inc/classes/class-custom.php:453
 #, php-format
 msgid "View %s"
-msgstr "Näkymä %s"
+msgstr "Ver %s"
 
 #: inc/classes/class-custom.php:187 inc/classes/class-custom.php:465
 #, php-format
 msgid "Search %s"
-msgstr "Hae %s"
+msgstr "Buscar %s"
 
 #: inc/classes/class-custom.php:189 inc/classes/class-custom.php:469
 #, php-format
 msgid "No %s found"
-msgstr "%s ei löytynyt"
+msgstr "No se encontró %s"
 
 #: inc/classes/class-custom.php:191
 #, php-format
 msgid "No %s found in Trash"
-msgstr "Roskakorista ei löytynyt %s"
+msgstr "No se encontraron %s en la basura"
 
 #: inc/classes/class-custom.php:193 inc/classes/class-custom.php:463
 #, php-format
 msgid "Parent %s:"
-msgstr "Vanhempi %s:"
+msgstr "Padres %s:"
 
 #: inc/classes/class-custom.php:195 inc/classes/class-custom.php:449
 #, php-format
 msgid "All %s"
-msgstr "Kaikki %s"
+msgstr "Todos los %s"
 
 #: inc/classes/class-custom.php:197
 #, php-format
 msgid "%s Archives"
-msgstr "%s Arkisto"
+msgstr "%s Archivos"
 
 #: inc/classes/class-custom.php:199
 #, php-format
 msgid "%s Attributes"
-msgstr "%s Määritteet"
+msgstr "%s Atributos"
 
 #: inc/classes/class-custom.php:201
 #, php-format
 msgid "Insert into %s"
-msgstr "Laittaa sisään %s"
+msgstr "Insertar en %s"
 
 #: inc/classes/class-custom.php:203
 #, php-format
 msgid "Uploaded to this %s"
-msgstr "Ladattu tähän %s"
+msgstr "Subido a este %s"
 
 #: inc/classes/class-custom.php:205
 #, php-format
 msgid "%s Featured Image"
-msgstr "%s Esitelty kuva"
+msgstr "%s Imagen destacada"
 
 #: inc/classes/class-custom.php:207
 #, php-format
 msgid "Set %s Featured Image"
-msgstr "Aseta esitelty kuva %s"
+msgstr "Establecer %s Imagen destacada"
 
 #: inc/classes/class-custom.php:209
 #, php-format
 msgid "Remove %s Featured Image"
-msgstr "Poista %s esitelty kuva"
+msgstr "Eliminar %s Imagen destacada"
 
 #: inc/classes/class-custom.php:211
 #, php-format
 msgid "Use %s Featured Image"
-msgstr "Käytä esiteltyä kuvaa %s"
+msgstr "Use %s Imagen destacada"
 
 #: inc/classes/class-custom.php:213
 #, php-format
 msgid "Filter %s list"
-msgstr "Suodata %s luettelo"
+msgstr "Filtrar la lista %s"
 
 #: inc/classes/class-custom.php:215
 #, php-format
 msgid "%s list"
-msgstr "%s lista"
+msgstr "lista %s"
 
 #: inc/classes/class-custom.php:217
 #, php-format
 msgid "%s list navigation"
-msgstr "%s luettelonavigointi"
+msgstr "%s navegación de lista"
 
 #: inc/classes/class-custom.php:219
 #, php-format
 msgid "%s published"
-msgstr "%s julkaistu"
+msgstr "% s publicado"
 
 #: inc/classes/class-custom.php:221
 #, php-format
 msgid "%s published privately"
-msgstr "%s julkaistu yksityisesti"
+msgstr "%s publicado en privado"
 
 #: inc/classes/class-custom.php:223
 #, php-format
 msgid "%s reverted to draft"
-msgstr "%s palautettu luonnokseen"
+msgstr "%s revertido a borrador"
 
 #: inc/classes/class-custom.php:225
 #, php-format
 msgid "%s scheduled"
-msgstr "%s suunniteltu"
+msgstr "%s programado"
 
 #: inc/classes/class-custom.php:227
 #, php-format
 msgid "%s updated"
-msgstr "%s päivitetty"
+msgstr "%s actualizado"
 
 #: inc/classes/class-custom.php:362
 #, php-format
 msgid "This is the %s post-type"
-msgstr "Tämä on %s jälkityyppi"
+msgstr "Este es el tipo de publicación %s"
 
 #: inc/classes/class-custom.php:459
 #, php-format
 msgid "New %s Name"
-msgstr "Uusi %s nimi"
+msgstr "Nuevo %s Nombre"
 
 #: inc/classes/class-custom.php:461
 #, php-format
 msgid "Parent %s"
-msgstr "Vanhempi%s"
+msgstr "Padres %s"
 
 #: inc/classes/class-custom.php:467
 #, php-format
 msgid "Popular %s"
-msgstr "Suosittu %s"
+msgstr "Popular %s"
 
 #: inc/classes/class-custom.php:471
 #, php-format
 msgid "&#8617; Back to %s"
-msgstr "&#8617; Takaisin %s"
+msgstr "&#8617; De regreso %s"
 
 #: inc/classes/class-custom.php:473
 #, php-format
 msgid "Separate %s with commas"
-msgstr "Erota %s pilkuilla"
+msgstr "Separe %s con comas"
 
 #: inc/classes/class-custom.php:475
 #, php-format
 msgid "Add or remove %s"
-msgstr "Lisää tai poista %s"
+msgstr "Agregar o eliminar %s"
 
 #: inc/classes/class-custom.php:477
 #, php-format
 msgid "Choose from the most used %s"
-msgstr "Valitse eniten käytetyistä %s"
+msgstr "Elija entre los %s más utilizados"
 
 #: inc/classes/class-custom.php:579
 #, php-format
 msgid "This is the %s taxonomy"
-msgstr "Tämä on %s taksonomia"
+msgstr "Esta es la taxonomía %s"
 
 #: inc/classes/class-custom.php:775
 #, php-format
 msgid "Show All %s"
-msgstr "Näytä kaikki %s"
+msgstr "Mostrar todo %s"
 
 #: inc/classes/class-custom.php:847
 #, php-format
 msgid "Error: Bad Post Types [%s]."
-msgstr "Virhe: Huonot postityypit [%s]."
+msgstr "Error: Tipos de publicación incorrectos [%s]."
 
 #: inc/classes/class-custom.php:855
 #, php-format
 msgid "Error: Bad Taxonomies [%s]."
-msgstr "Virhe: Huonot taksonomiat [%s]."
+msgstr "Error: Taxonomías incorrectas [%s]."
 
 #: inc/classes/class-images.php:65
 msgid "Image in Post"
-msgstr "Kuva postitse"
+msgstr "Imagen en la publicación"
 
 #: inc/classes/class-images.php:66
 msgid "Original size"
-msgstr "Alkuperäinen koko"
+msgstr "Tamaño original"
 
 #: inc/classes/class-init.php:127
 msgid "<strong>ERROR</strong>: Stop guessing!"
-msgstr "<strong>VIRHE</strong>:Lopeta arvaaminen!"
+msgstr "<strong>ERROR</strong>: ¡Deja de adivinar!"
 
 #: inc/classes/class-layout.php:188
 msgid "[Read more...]"
-msgstr "[Lue lisää...]"
+msgstr "[Lee mas...]"
 
 #: inc/classes/class-sidebars.php:69
 msgid "Primary Sidebar"
-msgstr "Ensisijainen sivupalkki"
+msgstr "Barra lateral primaria"
 
 #: inc/classes/class-sidebars.php:70
 msgid "This is the primary sidebar."
-msgstr "Tämä on ensisijainen sivupalkki."
+msgstr "Esta es la barra lateral principal."
 
 #: inc/classes/class-sidebars.php:85
 #, php-format
 msgid "Footer %d"
-msgstr "Alatunniste %d"
+msgstr "Pie de página %d"
 
 #: inc/classes/class-sidebars.php:87
 #, php-format
 msgid "Footer sidebar area %d."
-msgstr "Alatunnisteen sivupalkin alue %d."
+msgstr "Área de la barra lateral del pie de página %d."
 
 #: inc/classes/class-sidebars.php:127
 #, php-format
 msgid "This is the %s sidebar description"
-msgstr "Tämä on %s sivupalkin kuvaus"
+msgstr "Esta es la descripción de la barra lateral %s"
 
 #: inc/classes/class-theme.php:133
 msgid "Primary Menu"
-msgstr "Päävalikko"
+msgstr "Menú Primaria"
 
 #: inc/functions/pagination.php:38 inc/functions/pagination.php:72
 msgid "&larr; Older"
-msgstr "&larr; Vanhemmat"
+msgstr "&larr; Mayor"
 
 #: inc/functions/pagination.php:39 inc/functions/pagination.php:73
 msgid "Newer &rarr;"
-msgstr "Uudemmat&rarr;"
+msgstr "Más Nuevo &rarr;"
 
 #: inc/functions/pagination.php:115
 msgid "Prev"
-msgstr "Edellinen"
+msgstr "Anterior"
 
 #: inc/functions/pagination.php:116
 msgid "Next"
-msgstr "Seuraava"
+msgstr "Próximo"
 
 #: inc/functions/pagination.php:189
 msgid "Previous Page"
-msgstr "Edellinen sivu"
+msgstr "Pagina anterior"
 
 #: inc/functions/pagination.php:206
 msgid "Current page"
-msgstr "Current page"
+msgstr "Página actual"
 
 #: inc/functions/pagination.php:223
 msgid "Next Page"
-msgstr "Seuraava sivu"
+msgstr "Siguiente página"
 
 #: inc/shortcodes/category.php:55
 msgid "Tagged With: "
-msgstr "Merkitty: "
+msgstr "Etiquetado con: "
 
 #: inc/shortcodes/category.php:95 inc/shortcodes/category.php:136
 msgid "Filed Under: "
-msgstr "Jätetty alle: "
+msgstr "Archivado debajo: "
 
 #: inc/shortcodes/links.php:44
 msgid "Return to top"
-msgstr "Palaa alkuun"
+msgstr "Volver a la cima"
 
 #: inc/shortcodes/links.php:122
 msgid "iPress"
@@ -365,28 +366,28 @@ msgstr "iPress"
 
 #: inc/shortcodes/links.php:182
 msgid "Log in"
-msgstr "Kirjaudu sisään"
+msgstr "Iniciar sesión"
 
 #: inc/shortcodes/links.php:183
 msgid "Log out"
-msgstr "Kirjautua ulos"
+msgstr "Cerrar sesión"
 
 #: inc/shortcodes/post.php:54
 msgid "(Edit)"
-msgstr "(Muokata)"
+msgstr "(Editar)"
 
 #: inc/shortcodes/post.php:122
 msgid "ago"
-msgstr "sitten"
+msgstr "ago"
 
 #: inc/shortcodes/post.php:413
 msgid "% Comments"
-msgstr "% Kommentit"
+msgstr "% Comentarios"
 
 #: inc/shortcodes/post.php:414
 msgid "1 Comment"
-msgstr "1 kommentti"
+msgstr "1 Comentario"
 
 #: inc/shortcodes/post.php:415
 msgid "Leave a Comment"
-msgstr "Jätä kommentti"
+msgstr "Deja un comentario"

@@ -19,21 +19,18 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 	final class IPR_Init {
 
 		/**
-		 * Class constructor. Set up hooks
+		 * Class constructor
 		 */
 		public function __construct() {
 
 			// Clean up the messy WordPress header
-			add_action( 'init', [ $this, 'clean_header' ] );
+			add_action( 'init', 	[ $this, 'clean_header' ] );
 
 			// Remove the bloody awful emojicons! Worse than Pokemon!
-			add_action( 'init', [ $this, 'disable_emojicons' ] );
-
-			// Remove the admin bars
-			add_action( 'init', [ $this, 'admin_bar' ] );
+			add_action( 'init', 	[ $this, 'disable_emojicons' ] );
 
 			// Add a pingback url for articles if pings active
-			add_action( 'wp_head', [ $this, 'pingback_header' ] );	  
+			add_action( 'wp_head', 	[ $this, 'pingback_header' ] );	  
 		}
 
 		//----------------------------------------------
@@ -44,17 +41,17 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 		 * Clean the WordPress Header
 		 * - The WordPress head contains multiple meta & link records,
 		 * - many of which are not required, are detrimental, and slow loading
-		 * - All are removed by default. Comment out/remove entries to selectively remove features
+		 * - Activate and filterable options to selectively remove features
 		 */
 		public function clean_header() {
 		
 			// Due process
-			$do_clean = apply_filters( 'ipress_header_clean', false );
-			if ( ! $do_clean ) { return; }
+			$ip_header_clean = (bool) apply_filters( 'ipress_header_clean', false );
+			if ( true !== $ip_header_clean ) { return; }
 
 			// Remove feed & rsd links
-			$do_links = apply_filters( 'ipress_header_links', false );
-			if ( $do_links ) {
+			$ip_header_links = (bool) apply_filters( 'ipress_header_links', false );
+			if ( true === $ip_header_links ) {
 				
 				// Post & comment feeds    
 				remove_action( 'wp_head', 'feed_links', 2 );
@@ -73,8 +70,8 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 			}
 
 			// Remove index & rel links
-			$do_index = apply_filters( 'ipress_header_index', false );
-			if ( $do_index ) {
+			$ip_header_index = (bool) apply_filters( 'ipress_header_index', false );
+			if ( true === $ip_header_index ) {
 	
 				// Remove meta robots tag from wp_head
 				remove_action( 'wp_head', 'noindex', 1 );
@@ -92,42 +89,45 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 				remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 ); 
 			}
 
-			// Remove WP XHTML generator
-			$do_gen = apply_filters( 'ipress_header_generator', false );
-			if ( $do_gen ) {				
+			// Remove WordPress XHTML generator
+			$ip_header_generator = (bool) apply_filters( 'ipress_header_generator', false );
+			if ( true === $ip_header_generator ) {				
 				add_filter( 'the_generator', [ $this, 'disable_version' ] );
 				remove_action( 'wp_head', 'wp_generator' ); 
 			}
 
-			// Remove Versioning from scripts	 
-			$do_version = apply_filters( 'ipress_header_version', false );
-			if ( $do_version ) {
+			// Remove versioning from scripts	 
+			$ip_header_version = (bool) apply_filters( 'ipress_header_version', false );
+			if ( true === $ip_header_version ) {
 				add_filter( 'style_loader_src', [ $this, 'loader_src' ], 9999, 10, 2 ); 
 				add_filter( 'script_loader_src', [ $this, 'loader_src' ], 9999, 10, 2 );
 			}
 
-			// Clean CSS tags - from enqueued stylesheet
-			$do_css = apply_filters( 'ipress_header_css', false );
-			if ( $do_css ) {
+			// Clean CSS tags from enqueued stylesheet
+			$ip_header_css = (bool) apply_filters( 'ipress_header_css', false );
+			if ( true === $ip_header_css ) {
 				add_filter( 'style_loader_tag', [ $this, 'style_remove' ] );
 			}
 
-			// Remove inline Recent Comment Styles from wp_head()
-			$do_comments = apply_filters( 'ipress_header_comments', false );
-			if ( $do_comments ) {
+			// Remove inline recent comment styles from wp_head()
+			$ip_header_comments = (bool) apply_filters( 'ipress_header_comments', false );
+			if ( true === $ip_header_comments ) {
 				add_action( 'widgets_init', [ $this, 'head_comments' ] );
 			}
 
 			// Canonical refereneces
-			$do_canon = apply_filters( 'ipress_header_canonical', false );
-			if ( $do_canon ) {
+			$ip_header_canonical = (bool) apply_filters( 'ipress_header_canonical', false );
+			if ( true === $ip_header_canonical ) {
 				remove_action( 'wp_head', 'rel_canonical' );  
 			}
 
 			// Show less info to users on failed login for security.
-			$do_login = apply_filters( 'ipress_header_login', false );
-			if ( $do_login ) {
-				add_filter( 'login_errors', [ $this, 'login_info' ] );	
+			$ip_header_login = (bool) apply_filters( 'ipress_header_login', false );
+			if ( true === $ip_header_login ) {
+				$ip_login_info = (string) apply_filters( 'ipress_login_info', __( '<strong>ERROR</strong>: Stop guessing!', 'ipress' ) );
+				if ( ! empty( $ip_login_info ) ) {
+					add_filter( 'login_errors', esc_html( $ip_login_info ) );	
+				}
 			}
 		}
 
@@ -157,8 +157,8 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 		 * @param	string
 		 * @return	string
 		 */
-		public function style_remove($tag) {
-			return preg_replace('~\s+type=["\'][^"\']++["\']~', '', $tag);
+		public function style_remove( $tag ) {
+			return preg_replace( '~\s+type=["\'][^"\']++["\']~', '', $tag );
 		}
 
 		/**
@@ -182,15 +182,6 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 			}
 		}
 
-		/**
-		 * Show less info to users on failed login for security
-		 *
-		 * @return string
-		 */
-		public function login_info() {
-			return apply_filters( 'ipress_login_info', __( '<strong>ERROR</strong>: Stop guessing!', 'ipress' ) );
-		}
-
 		//----------------------------------------------
 		//	Features
 		//----------------------------------------------
@@ -201,17 +192,17 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 		public function disable_emojicons() { 
 
 			// Ok, we know you really want to do this!
-			$do_disable = apply_filters( 'ipress_disable_emojicons', true );
-			if ( ! $do_disable ) { return; }
+			$ip_disable_emojicons = (bool) apply_filters( 'ipress_disable_emojicons', true );
+			if ( true !== $ip_disable_emojicons ) { return; }
 
 			// Remove head/foot styles & scripts	
-			remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-			remove_action( 'wp_print_styles', 'print_emoji_styles' );
-			remove_action( 'admin_print_styles', 'print_emoji_styles' );	
-			remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
-			remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );	
-			remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+			remove_action( 'wp_head', 				'print_emoji_detection_script', 7 );
+			remove_action( 'admin_print_scripts', 	'print_emoji_detection_script' );
+			remove_action( 'wp_print_styles', 		'print_emoji_styles' );
+			remove_action( 'admin_print_styles', 	'print_emoji_styles' );	
+			remove_filter( 'the_content_feed', 		'wp_staticize_emoji' );
+			remove_filter( 'comment_text_rss', 		'wp_staticize_emoji' );	
+			remove_filter( 'wp_mail', 				'wp_staticize_emoji_for_email' );
 
 			// Editor functionality
 			add_filter( 'tiny_mce_plugins', [ $this, 'disable_emojis_tinymce' ] );
@@ -228,42 +219,11 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 		} 
 
 		/**
-		 * Hide the Admin Bar
-		 */
-		public function admin_bar() {
-
-			// Ok, how much? all, users, false
-			$do_hide = apply_filters( 'ipress_admin_bar', false );
-			if ( ! $do_hide ) { return; }
-
-			// admin bar - All Users
-			if ( $do_hide === 'all' ) { $this->hide_adminbar( true ); }
-		
-			// admin bar - Non Admin Users Only
-			if ( $do_hide === 'users' ) { $this->hide_adminbar( false ); }
-		}
-
-		/**
-		 *	Remove adminbar for non-admin logged in users
-		 *
-		 *	@param boolean $all
-		 */
-		private function hide_adminbar( $all ) {
-
-			// All users or logged in non-admin users
-			if ( $all ) { 
-				add_filter( 'show_admin_bar', '__return_false' );
-			} else { 
-				if ( !current_user_can( 'administrator' ) && !is_admin() ) { add_filter( 'show_admin_bar', '__return_false' ); }
-			}
-		}
-
-		/**
 		 * Add a pingback url for articles if pings active
 		 */
 		public function pingback_header() {
 			if ( is_singular() && pings_open() ) {
-				echo sprintf( '<link rel="pingback" href="%s">', get_bloginfo( 'pingback_url' ) );
+				echo sprintf( '<link rel="pingback" href="%s">', esc_url ( get_bloginfo( 'pingback_url' ) ) );
 			}
 		}
 	}

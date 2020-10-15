@@ -14,31 +14,34 @@
 if ( ! class_exists( 'IPR_Compat' ) ) :
 
 	/**
-	 * Initialise and set up theme compatibility functionality
+	 * Initialise and set up theme compatibility functionality.
 	 *
-	 * - WP Version Check
-	 * - PHP Version Check
+	 * - WP version check
+	 * - PHP version check
+	 * - Child theme check
 	 */ 
 	final class IPR_Compat {
 
 		/**
 		 * Versioning error
 		 *
-		 * @var $version_error default false
+		 * @var boolean $version_error default false
 		 */
 		private $version_error = false;
 
 		/**
-		 * Class Constructor
+		 * Class constructor
 		 */
 		public function __construct() {
 
-			// Set up versioning
-			$ipress_theme_php 	= apply_filters( 'ipress_theme_php', IPRESS_THEME_PHP );
-			$ipress_theme_wp	= apply_filters( 'ipress_theme_wp', IPRESS_THEME_WP );
+			global $wp_version;
 
-			// PHP versioning check
-			if ( version_compare( phpversion(), $ipress_theme_php, '<' ) ) {
+			// Set up versioning
+			$ip_theme_php 	= (string) apply_filters( 'ipress_theme_php', IPRESS_THEME_PHP );
+			$ip_theme_wp	= (string) apply_filters( 'ipress_theme_wp', IPRESS_THEME_WP );
+
+			// PHP versioning check, using operator, bool return
+			if ( version_compare( phpversion(), $ip_theme_php, '<' ) ) {
 
 				// Prevent switching & activation 
 				add_action( 'after_switch_theme', [ $this, 'switch_theme_php' ] );
@@ -47,17 +50,17 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 				$this->version_error = true;
 			}
 
-			// WP versioning check
-			if ( version_compare( $GLOBALS['wp_version'], $ipress_theme_wp, '<' ) ) {
+			// WP versioning check, using operator, bool return
+			if ( version_compare( $wp_version, $ip_theme_wp, '<' ) ) {
 				
 				// Prevent switching & activation 
-				add_action( 'after_switch_theme', [ $this, 'switch_theme_wp' ] );
+				add_action( 'after_switch_theme',	[ $this, 'switch_theme_wp' ] );
 				
 				// Prevent the customizer from being loaded
-				add_action( 'load-customize.php', [ $this, 'theme_customizer' ] );
+				add_action( 'load-customize.php', 	[ $this, 'theme_customizer' ] );
 
 				// Prevent the theme preview from being loaded
-				add_action( 'template_redirect', [ $this, 'theme_preview' ] );
+				add_action( 'template_redirect', 	[ $this, 'theme_preview' ] );
 
 				// Set the version error
 				$this->version_error = true;
@@ -88,7 +91,11 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 		 * Adds a message for unsuccessful theme switch if version prior to theme required
 		 */
 		public function version_notice_php() {
-			$message = sprintf( __( 'PHP version <strong>%s</strong> is required You are using <strong>%s</strong>. Please update or contact your hosting company.', 'ipress' ), phpversion(), IPRESS_THEME_PHP );
+
+			$message = sprintf( 
+				/* translators: 1. Required PHP version, 2. Current PHP version. */
+				__( 'PHP version <strong>%1$s</strong> is required You are using <strong>%2$s</strong>. Please update or contact your hosting company.', 'ipress' ), phpversion(), IPRESS_THEME_PHP );
+
 			echo sprintf( '<div class="notice notice-warning"><p>%s</p></div>', esc_html( $message ) );
 		}
 
@@ -113,27 +120,46 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 		 * @global string $wp_version WordPress version
 		 */
 		public function version_notice_wp() {
-			$message = sprintf( __( 'iPress requires at least WordPress version %s. You are running version %s.', 'ipress' ), IPRESS_THEME_WP, $GLOBALS['wp_version'] );
+
+			global $wp_version;
+
+			$message = sprintf( 
+				/* translators: 1. Required WordPress version, 2. Current WordPress version. */
+				__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress' ), IPRESS_THEME_WP, $wp_version );
+
 			echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', esc_html( $message ) );
 		}
 
 		/**
 		 * Prevents the Customizer from being loaded on WordPress versions prior to theme required
 		 *
-		 * @global string $wp_version WordPress version.
+		 * @global string $wp_version WordPress version
 		 */
 		public function theme_customizer() {
-			wp_die( sprintf( __( 'iPress requires at least WordPress version %s. You are running version %s.', 'ipress' ), IPRESS_THEME_WP, $GLOBALS['wp_version'] ), '', [ 'back_link' => true ] );
+
+			global $wp_version;
+
+			$message = sprintf( 
+				/* translators: 1. Required WordPress version, 2. Current WordPress version. */
+				__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress' ), IPRESS_THEME_WP, $wp_version );
+
+			wp_die( esc_html( $message ), '', [ 'back_link' => true ] );
 		}
 
 		/**
 		 * Prevents the Theme Preview from being loaded on WordPress versions prior to theme required
 		 * 
-		 * @global string $wp_version WordPress version.
+		 * @global string $wp_version WordPress version
 		 */
 		public function theme_preview() {
+
+			global $wp_version;
+
 			if ( isset( $_GET['preview'] ) ) {
-				wp_die( sprintf( __( 'iPress requires at least WordPress version %s. You are running version %s.', 'ipress' ), IPRESS_THEME_WP, $GLOBALS['wp_version'] ) );
+				$message = sprintf( 
+					/* translators: 1. Required WordPress version, 2. Current WordPress version. */
+					__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress' ), IPRESS_THEME_WP, $wp_version );
+				wp_die( esc_html( $message ) );
 			}
 		}
 
@@ -154,9 +180,11 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 		//----------------------------------------------
 
 		/**
-		 * Get the version error state
+		 * Get the version error
+		 *
+		 * @return string
 		 */
-		public function get_error() {
+		public function get_error() : string {
 			return $this->version_error;
 		}
 	}
