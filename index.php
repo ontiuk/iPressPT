@@ -1,16 +1,16 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework						
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Main fallback template displaying generic posts list.
- * 
+ *
  * @see https://codex.wordpress.org/Template_Hierarchy
  *
- * @package		iPress\Templates
- * @link		http://ipress.uk
- * @license		GPL-2.0+
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 ?>
 
@@ -22,7 +22,9 @@
 
 	<?php do_action( 'ipress_archive_before' ); ?>
 
-	<?php while ( have_posts() ) : the_post(); ?>
+	<?php while ( have_posts() ) : ?>
+
+		<?php the_post(); ?>
 
 		<header class="page-header">
 			<h2><?php the_title(); ?></h2>
@@ -40,4 +42,4 @@
 
 <?php do_action( 'ipress_after_main_content' ); ?>
 
-<?php get_footer();
+<?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

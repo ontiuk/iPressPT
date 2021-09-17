@@ -18,3 +18,13 @@
 * (12 August 2020)		1.5.0  	Microdate template schema optional, moved to schema class, replace with json-ld structured data as per google recommendation
 * (05 October 2020)		1.6.0 	Various optimisations & tweaks
 * (09 October 2020)		1.7.0 	Template folder restructure, optimizations & tweaks
+* (06 July 2021)		1.8.0 	Optimisations & tweaks
+* (12 July 2021)		1.8.1 	Refactor customizer class code for theme setup
+* (16 July 2021)		1.8.2 	Add WooCommerce functionality, 4.5 minimum
+* (21 July 2021)		1.9.0 	Enhanced WooCommerce functionality
+* (26 July 2021)		2.0.0 	Tidy up. Remove shortcodes to be replaced via blocks extension in 2.x
+* (08 August 2021)		2.0.1 	Tidy up more. Remove functionality to be replaced via extension in 2.x
+* (08 August 2021)		2.0.2 	Update minimum requirements for Woocommerce to 5.x
+* (21 August 2021)		2.0.3 	Various optimisations and tidying-up. Refresh translations
+* (31 August 2021)		2.0.4 	Theme review updates
+* (17 September 2021)	2.1.0 	Class name changes & core phpcs tidyup
