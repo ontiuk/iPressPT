@@ -11,6 +11,9 @@
  * @license GPL-2.0+
  */
 
+// Deny unauthorised access
+defined( 'ABSPATH' ) ||	exit;
+
 if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 	/**
@@ -118,13 +121,13 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			if ( true === $ip_custom_header ) {
 
 				// Set up default header image
-				$ip_custom_header_image = (string) apply_filters( 'ipress_custom_header_default_image', get_stylesheet_directory_uri() . '/assets/images/header.png' );
+				$ip_custom_header_default_image = (string) apply_filters( 'ipress_custom_header_default_image', get_stylesheet_directory_uri() . '/assets/images/header.png' );
 
 				// Set up custom header args if required
 				$ip_custom_header_args = (array) apply_filters(
 					'ipress_custom_header_args',
 					[
-						'default-image' => ( empty( $ip_custom_header_image ) ) ? '' : esc_url_raw( $ip_custom_header_image ),
+						'default-image' => ( empty( $ip_custom_header_default_image ) ) ? '' : esc_url_raw( $ip_custom_header_default_image ),
 						'header-text'   => false,
 						'width'         => 1600,
 						'height'        => 325,
@@ -213,17 +216,17 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			if ( true === $ip_custom_background ) {
 
 				// Set up a custm background image
-				$ip_custom_background_image = (string) apply_filters( 'ipress_custom_background_default_image', '' );
+				$ip_custom_background_default_image = (string) apply_filters( 'ipress_custom_background_default_image', '' );
 
 				// Set up a default background colour
-				$ip_custom_background_color = (string) apply_filters( 'ipress_custom_background_default_color', '#ffffff' );
+				$ip_custom_background_default_color = (string) apply_filters( 'ipress_custom_background_default_color', '#ffffff' );
 
 				// Set up the default background image args from above
 				$ip_custom_background_args = (array) apply_filters(
 					'ipress_custom_background_args',
 					[
-						'default-image' => ( empty( $ip_custom_background_image ) ) ? '' : esc_url_raw( $ip_custom_background_image ),
-						'default-color' => ( empty( $ip_custom_background_color ) ) ? '' : sanitize_hex_color( $ip_custom_background_color ),
+						'default-image' => ( empty( $ip_custom_background_default_image ) ) ? '' : esc_url_raw( $ip_custom_background_default_image ),
+						'default-color' => ( empty( $ip_custom_background_default_color ) ) ? '' : sanitize_hex_color( $ip_custom_background_default_color ),
 					]
 				);
 
@@ -301,7 +304,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 				);
 			}
 
-			// Filterable registrations - pass customizer manager object to child theme settings filter
+			// Plugable registrations - pass customizer manager object to child theme settings filter
 			do_action( 'ipress_customize_register', $wp_customize );
 		}
 	}

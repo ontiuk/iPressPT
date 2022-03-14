@@ -11,10 +11,13 @@
  * @license GPL-2.0+
  */
 
+// Deny unauthorised access
+defined( 'ABSPATH' ) ||	exit;
+
 if ( ! class_exists( 'IPR_Init' ) ) :
 
 	/**
-	 * Set up core WordPress theme features
+	 * Set up core WordPress features
 	 */
 	final class IPR_Init {
 
@@ -105,10 +108,11 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 				add_filter( 'script_loader_src', [ $this, 'loader_src' ], 9999, 10, 2 );
 			}
 
-			// Clean CSS tags from enqueued stylesheet
+			// Clean CSS tags from enqueued stylesheets & gallery
 			$ip_header_css = (bool) apply_filters( 'ipress_header_css', false );
 			if ( true === $ip_header_css ) {
 				add_filter( 'style_loader_tag', [ $this, 'style_remove' ] );
+				add_filter( 'gallery_style', [ $this, 'style_remove' ] );
 			}
 
 			// Remove inline recent comment styles from wp_head()

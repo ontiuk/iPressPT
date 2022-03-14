@@ -4,9 +4,9 @@ iPress PT - WordPress Theme Framework
 === iPress Parent Theme ===
 Contributors: tifosi
 Requires at least: 5.3
-Tested up to: 5.8
-Requires PHP: 7.2
-Stable tag: 2.1.0
+Tested up to: 5.9
+Requires PHP: 7.4
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,8 +27,8 @@ this uses best practices in WordPress theme development to create a configurable
 - Lots of helpful stuff: helper functions, shortcodes, menus, extensions etc.
 
 Note: this was intended primarily a development version for personal & client e-commerce projects. 
-It contains a very basic css structure. This can be readily replaced, all or in part, by structured framework such as Bootstrap. 
-This is done through the iPress Child Theme. All styling & templating is transferred to the Child Theme.
+It contains a very basic css structure. This can be readily replaced, all or in part, by structured framework such as Bootstrap or Tailwind. 
+This is done through the iPress Child Theme. All styling & templating is delegated to the Child Theme.
 
 == Installation ==
 
@@ -63,8 +63,8 @@ iPress RD
 iPress RD2
 
 Upcoming:
-iPressNG	- iPress Angular Theme Framework. Custom theme for use with the Angular Framework with particular reference to the WP REST API.
 iPressRX	- iPress React Theme Framework. Custom theme for use with the React Framework with particular reference to the WP REST API.
+iPressNG	- iPress Angular Theme Framework. Custom theme for use with the Angular Framework with particular reference to the WP REST API.
 iPress Extensions - Additional modular framework functionality 
 
 == Copyright ==
@@ -85,8 +85,9 @@ GNU General Public License for more details.
 
 /
 |-CHANGELOG.md
-|-favicon.ico
+|-footer.php
 |-functions.php
+|-header.php
 |-index.php
 |-README.md
 |-screenshot.jpg
@@ -97,26 +98,26 @@ GNU General Public License for more details.
 | 	|-customizer.php
 | 	|-functions.php
 | 	|-/classes
-| 		|-class-compat.php
-| 		|-class-custom.php
-| 		|-class-customizer.php
-| 		|-class-images.php
-| 		|-class-init.php
-| 		|-class-layout.php
-| 		|-class-load-scripts.php
-| 		|-class-load-styles.php
-| 		|-class-login.php
-| 		|-class-multisite.php
-| 		|-class-navigation.php
-| 		|-class-page.php
-| 		|-class-rewrites.php
-| 		|-class-sidebars.php
-| 		|-class-theme.php
-| 		|-class-widgets.php
+| 		|-class-ipr-compat.php
+| 		|-class-ipr-custom.php
+| 		|-class-ipr-customizer.php
+| 		|-class-ipr-images.php
+| 		|-class-ipr-init.php
+| 		|-class-ipr-layout.php
+| 		|-class-ipr-load-scripts.php
+| 		|-class-ipr-load-styles.php
+| 		|-class-ipr-login.php
+| 		|-class-ipr-multisite.php
+| 		|-class-ipr-navigation.php
+| 		|-class-ipr-page.php
+| 		|-class-ipr-rewrites.php
+| 		|-class-ipr-sidebars.php
+| 		|-class-ipr-theme.php
+| 		|-class-ipr-widgets.php
 | 	|-/controls
-| 		|-class-arbitrary.php
-| 		|-class-checkbox-multiple.php
-| 		|-class-seperator.php
+| 		|-class-ipr-arbitrary-control.php
+| 		|-class-ipr-checkbox-multiple-control.php
+| 		|-class-ipr-seperator-control.php
 | 	|-/functions
 |		|-content.php
 |		|-image.php
@@ -129,7 +130,9 @@ GNU General Public License for more details.
 == Structure: Files & Templates ==
 
 /
+|- footer.php
 |- functions.php
+|- header.php
 |- index.php
 |- style.css
 
@@ -158,7 +161,7 @@ Action: Initialise functionality before loading files & after defining constants
 'ipress_config'
 Action: Initialise functionality before loading config file
 
-class-compat.php
+class-ipr-compat.php
 ------------------
 Initialise and set up theme compatibility functionality.
 
@@ -170,7 +173,7 @@ Initialise and set up theme compatibility functionality.
 - Filter: Set minimum WP requirements.
 - Default: IPRESS_THEME_WP defined in bootstrap.php.
 
-class-custom.php 
+class-ipr-custom.php 
 ------------------
 Initialize theme specific custom post-types and taxonomies. In general custompost-types and taxonomies should be created
 using a plugin, so that their creation is theme agnostic. However it is sometimes the case that these are specific to the
@@ -199,7 +202,7 @@ theme and integral to it's functionality so they can be more tightly linked to t
 - Return: []
 
 'ipress_{$post-type}_prefix'
-- Filter: Generate a prefix for a custom post-type a-z, hyphen, underscore.
+- Filter: Generate a prefix for a custom post-type ( a-z, hyphen, underscore ).
 - Default: ''
 - Return: string
 
@@ -238,9 +241,17 @@ theme and integral to it's functionality so they can be more tightly linked to t
 - Default: []
 - Return: []
 
-class-customizer.php
+class-ipr-customizer.php
 ---------------------
 Initialize theme WordPress theme customizer features & enable theme support via customizer.
+
+'ipress_setup_customizer'
+- Action: Additional customizer theme settings. 
+- Hook: 'after_theme_setup'
+
+'ipress_customize_register'
+- Action: Additional customizer settings. Uses the current WP Customizer instance. 
+- Hook: 'customize_register'
 
 'ipress_custom_logo';
 - Filter: Enable custom_logo theme support. Hooked into after_theme_setup action.
@@ -312,15 +323,7 @@ Initialize theme WordPress theme customizer features & enable theme support via 
 - Default: boolean, true
 - Return boolean.
 
-'ipress_setup_customizer'
-- Action: Additional customizer theme settings. 
-- Hook: 'after_theme_setup'
-
-'ipress_customize_register'
-- Action: Additional customizer settings. Uses the current WP Customizer instance. 
-- Hook: 'customize_register'
-
-class-images.php
+class-ipr-images.php
 -----------------
 Initialize theme custom images & core images functionality.
 
@@ -338,7 +341,7 @@ Initialize theme custom images & core images functionality.
 
 'ipress_upload_mimes'
 - Filter: Add / Remove Mime type support for file uploads.
-- Default: [ 'svg' => 'mime/type' ], add SVG support
+- Default: [ 'svg', 'svgz' ], add SVG support
 - Return: []
 - Hook: 'upload_mimes'
 
@@ -354,7 +357,7 @@ Initialize theme custom images & core images functionality.
 - Return: []
 - Hook: 'avatar_defaults'
 
-class-init.php
+class-ipr-init.php
 -------------------
 Initialisation theme header fuctionality with core WordPress features.
 
@@ -415,7 +418,7 @@ Initialisation theme header fuctionality with core WordPress features.
 - Return: boolean
 - Hook: 'init'
 
-class-layout.php
+class-ipr-layout.php
 -------------------
 Initialize theme layout features with core WordPress functionality.
 
@@ -439,7 +442,7 @@ Initialize theme layout features with core WordPress functionality.
 - Default: string, html
 - Return: string
 
-class-load-scripts.php
+class-ipr-load-scripts.php
 -----------------------
 Initialize theme and plugin scripts.
 
@@ -491,7 +494,7 @@ Initialize theme and plugin scripts.
 - Return: string
 - Hook: 'admin_footer'
 
-class-load-styles.php
+class-ipr-load-styles.php
 -----------------------
 Initialize theme and plugin styles and fonts.
 
@@ -534,7 +537,7 @@ Initialize theme and plugin styles and fonts.
 - Return: string
 - Hook: 'admin_head'
 
-class-login.php
+class-ipr-login.php
 -------------------
 Initialisation login page custom features and redirects
 
@@ -558,7 +561,7 @@ ipress_login_logout_page'
 - Default: boolean, false, uses WP login page.
 - Return: string
 
-class-multisite.php
+class-ipr-multisite.php
 -------------------
 Initialize MultiSite features if theme is multisite enabled.
 
@@ -577,7 +580,7 @@ Initialize MultiSite features if theme is multisite enabled.
 - Default: [], generics sites list
 - Return: []
 
-class-navigation.php
+class-ipr-navigation.php
 -------------------
 Initialisation theme navigation features.
 
@@ -598,7 +601,7 @@ Initialisation theme navigation features.
 - Return: string
 - Hook: 'navigation_markup_template'
 
-class-page.php
+class-ipr-page.php
 -------------------
 Initialize theme page tag & excerpt support.
 
@@ -626,7 +629,7 @@ Initialize theme page tag & excerpt support.
 - Return: []
 - Hook: 'pre_get_posts'
 
-class-rewrites.php
+class-ipr-rewrites.php
 -------------------
 Initialize theme rewrites and query_vars.
 
@@ -636,7 +639,7 @@ Initialize theme rewrites and query_vars.
 - Return: []
 - Hook: 'query_vars'
 
-class-sidebars.php
+class-ipr-sidebars.php
 -------------------
 Initialize theme sidebars and widget areas.
 
@@ -645,7 +648,7 @@ Initialize theme sidebars and widget areas.
 - Default: [ 'before_widget', 'after_widget', 'before_title', 'after_title', 'class' ]		
 - Return: []
 
-'ipress_sidebar_{sidebar-id}_defaults'
+'ipress_sidebar_{sidebar['id']}_defaults'
 - Filter: Dynamic sidebar defaults - takes sidebar defaults and sidebar ID.
 - Default: [ 'primary', 'header' ]
 - Return: []
@@ -670,9 +673,13 @@ Initialize theme sidebars and widget areas.
 - Default: []
 - Return: []
 
-class-theme.php
+class-ipr-theme.php
 -------------------
 Initialize core theme settings.
+
+'ipress_setup'
+- Action: Trigger additional setup functionality
+- Hook: 'after_theme_setup'
 
 'ipress_content_width'
 - Filter: Set default content width for image manipulation, px.
@@ -780,8 +787,8 @@ Initialize core theme settings.
 - Default: []
 - Return: []
 
-class-widgets.php
--------------------
+class-ipr-widgets.php
+-----------------------
 Initialisation and register theme widgets.
 
 'ipress_widgets'
@@ -789,3 +796,144 @@ Initialisation and register theme widgets.
 - Default: []
 - Return: []
 - Hook: 'widgets_init'
+
+functions.php
+---------------
+
+'ipress_post-image' 
+	'ipress_post_image_args'
+	- Filter: Default parameters used by ipress_post_image()
+	- Default: []
+	- Return: []
+
+	'ipress_pre_post_image'
+	- Filter: Allow child theme to short-circuit this function
+	- Default: []
+	- Return: []
+
+pagination.php
+----------------
+
+'ipress_prev_next_posts_nav'
+	'ipress_next_nav_link'
+	- Filter: Nav link next 
+	- Default: '&larr; Older'
+	- Return: ''
+	
+	'ipress_prev_nav_link'
+	- Filter: Nav link prev
+	- Default: 'Newer &rarr;'
+	- Return: ''
+
+	'ipress_paginate_links'
+	- Filter: Additional pagination class
+	- Default: ''
+	- Return: ''
+	
+'ipress_prev_next_post_nav'
+	'ipress_single_next_nav_link'
+	- Filter: Nav link next 
+	- Default: '&larr; Older'
+	- Return: ''
+	
+	'ipress_single_prev_nav_link'
+	- Filter: Nav link prev 
+	- Default: 'Newer &rarr;'
+	- Return: ''
+
+	'ipress_paginate_links'
+	- Filter: Additional pagination class
+	- Default: ''
+	- Return: ''
+
+'ipress_post_link_nav'
+	'ipress_single_next_nav_link'
+	- Filter: Nav link next 
+	- Default: '&larr; %title'
+	- Return: ''
+	
+	'ipress_single_prev_nav_link'
+	- Filter: Nav link prev 
+	- Default: '%title &rarr;'
+	- Return: ''
+
+	'ipress_paginate_links'
+	- Filter: Additional pagination class
+	- Default: ''
+	- Return: ''
+
+'ipress_post_navigation'
+	'ipress_post_navigation_args'
+	- Filter: Set pagination args
+	- Default: [ 'next_text'. 'prev_text ]
+	- Return: []
+
+	'ipress_paginate_links'
+	- Filter: Additional pagination class
+	- Default: ''
+	- Return: ''
+
+'ipress_loop_navigation'
+	'ipress_loop_navigation_args'
+	- Filter: Set pagination args
+	- Default: [ 'next_text'. 'prev_text ]
+	- Return: []
+
+	'ipress_paginate_links'
+	- Filter: Additional pagination class
+	- Default: ''
+	- Return: ''
+
+'ipress_pagination'
+	'ipress_paginate_links_args'
+	- Filter: Set pagination links args
+	- Default: [], Codex set list of args
+	- Return: []
+
+template.php
+--------------
+
+'ipress_header_style'
+	- Filter: Filterable output
+	- Default: []
+	- Return: []
+
+'ipress_homepage_style'
+	- Inline style?
+	- Default: false
+	- Return: boolean
+
+'ipress_homepage_style'
+	- Filter: Filterable output
+	- Default: []
+	- Return: []
+
+'ipress_header_image_class'
+	- Filter: Set header image class/es
+	- Default: ''
+	- Return: ''
+
+'ipress_site_title_logo_args'
+	- Filter: Filterable site logo & title arguments
+	- Default: []
+	- Return: []
+
+'ipress_site_title_logo'
+	- Filter: Filterable site logo & title markup
+	- Default: []
+	- Return: []
+
+'ipress_site_description_args'
+	- Filter: Filterable site logo & title arguments
+	- Default: []
+	- Return: []
+
+'ipress_post_date_html'
+	- Filter: Allowed html tags for this functionality
+	- Default: []
+	- Return: []
+
+'ipress_post_author_html'
+	- Filter: Allowed html tags for this functionality
+	- Default: []
+	- Return: []

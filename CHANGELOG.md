@@ -28,3 +28,6 @@
 * (21 August 2021)		2.0.3 	Various optimisations and tidying-up. Refresh translations
 * (31 August 2021)		2.0.4 	Theme review updates
 * (17 September 2021)	2.1.0 	Class name changes & core phpcs tidyup
+* (17 September 2021)	2.1.1 	Add gallery style to head cleanup
+* (07 January 2022)		2.1.2	Refactor header template & functionality
+* (07 March 2022)		2.1.3	Additional pagination functionality
