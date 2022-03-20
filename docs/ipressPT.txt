@@ -1,0 +1,69 @@
+iPressPT - Theme Framework
+===========================
+
+Structure: Folders & Files
+-------------------------------
+/
+|-favicon.ico
+|-functions.php
+|-index.php
+|-README.md
+|-screenshot.jpg
+|-style.css
+|-/inc
+|	|-bootstrap.php
+| 	|-config.php
+| 	|-functions.php
+| 	|-/classes
+| 		|-class-compat.php
+| 		|-class-custom.php
+| 		|-class-customizer.php
+| 		|-class-images.php
+| 		|-class-init.php
+| 		|-class-layout.php
+| 		|-class-load-scripts.php
+| 		|-class-load-styles.php
+| 		|-class-login.php
+| 		|-class-multisite.php
+| 		|-class-navigation.php
+| 		|-class-page.php
+| 		|-class-rewrite.php
+| 		|-class-sidebars.php
+| 		|-class-theme.php
+| 		|-class-widgets.php
+| 	|-/functions
+|		|-content.php
+|		|-image.php
+|		|-navigation.php
+|		|-pagination.php
+|		|-template.php
+|		|-user.php
+| 	|-/languages
+
+Structure: Files & Templates
+-------------------------------
+/
+|- CHANGELOG.md
+|- functions.php
+|- index.php
+|- README.md
+|- screenshot.jpg
+|- style.css
+
+Hooks & Classes
+-----------------
+
+index.php
+actions:
+	ipress_before_main_content
+	ipress_archive_before
+	ipress_archive_after
+	ipress_sidebar
+	ipress_after_main_content	
+main class: index-page
+
+bootstrap.php
+actions:
+	ipress_bootstrap
+	ipress_init
+	ipress_config

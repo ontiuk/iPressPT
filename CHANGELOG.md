@@ -31,3 +31,4 @@
 * (17 September 2021)	2.1.1 	Add gallery style to head cleanup
 * (07 January 2022)		2.1.2	Refactor header template & functionality
 * (07 March 2022)		2.1.3	Additional pagination functionality
+* (20 March 2022)		2.1.4	Move i18n to child theme is possible
