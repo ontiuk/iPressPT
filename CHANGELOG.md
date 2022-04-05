@@ -32,3 +32,4 @@
 * (07 January 2022)		2.1.2	Refactor header template & functionality
 * (07 March 2022)		2.1.3	Additional pagination functionality
 * (20 March 2022)		2.1.4	Move i18n to child theme is possible
+* (05 April 2022)		2.2.0	Refactor Custom Post-Type & Taxonomy functionality
