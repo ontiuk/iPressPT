@@ -22,23 +22,18 @@ do_action( 'ipress_bootstrap' );
 
 // Theme Name & Versioning
 define( 'IPRESS_THEME_NAME', 'iPress' );
-define( 'IPRESS_THEME_WP',   5.6 );  // WordPress minimum version required
-define( 'IPRESS_THEME_PHP',  7.4 );  // Server PHP minimum version required
+define( 'IPRESS_THEME_WP', 6.2 ); // WordPress minimum version required
+define( 'IPRESS_THEME_PHP', 8.1 ); // Server PHP minimum version required
 
 // Directory Structure
-define( 'IPRESS_DIR',           get_parent_theme_file_path() );
-define( 'IPRESS_INCLUDES_DIR',  IPRESS_DIR . '/inc' );
-define( 'IPRESS_LANG_DIR',      IPRESS_DIR . '/languages' );
-
-// Includes Directory Structure
-define( 'IPRESS_CLASSES_DIR',   IPRESS_INCLUDES_DIR . '/classes' );
-define( 'IPRESS_CONTROLS_DIR',  IPRESS_INCLUDES_DIR . '/controls' );
-define( 'IPRESS_FUNCTIONS_DIR', IPRESS_INCLUDES_DIR . '/functions' );
+define( 'IPRESS_DIR', get_parent_theme_file_path() );
+define( 'IPRESS_INCLUDES_DIR', IPRESS_DIR . '/inc' );
+define( 'IPRESS_LANG_DIR', IPRESS_DIR . '/languages' );
 
 // Directory Paths
-define( 'IPRESS_URL',           get_parent_theme_file_uri() );
-define( 'IPRESS_INCLUDES_URL',  IPRESS_URL . '/inc' );
-define( 'IPRESS_LANG_URL',      IPRESS_URL . '/languages' );
+define( 'IPRESS_URL', get_parent_theme_file_uri() );
+define( 'IPRESS_INCLUDES_URL', IPRESS_URL . '/inc' );
+define( 'IPRESS_LANG_URL', IPRESS_URL . '/languages' );
 
 //----------------------------------------------
 //	Theme Compatibility & Versioning
@@ -52,11 +47,27 @@ if ( true === $ipress_compat->get_error() ) { return; }
 //	Includes - Functions, Customizer
 //----------------------------------------------
 
-// Functions
 require_once IPRESS_INCLUDES_DIR . '/functions.php';
-
-// Customizer: custom controls
 require_once IPRESS_INCLUDES_DIR . '/customizer.php';
+
+//----------------------------------------------
+//	Includes - Classes
+//----------------------------------------------
+
+// Load scripts, styles & fonts
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-load-scripts.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-load-styles.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-load-fonts.php';
+
+// Core functionality
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-init.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-navigation.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-images.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-login.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-rewrites.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-sidebars.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-widgets.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-page.php';
 
 //----------------------------------------------
 //	Init
@@ -69,66 +80,31 @@ do_action( 'ipress_init' );
 global $ipress;
 
 // Set theme & version
-$ipress->theme   = wp_get_theme( IPRESS_THEME_NAME );
+$ipress->theme = wp_get_theme( IPRESS_THEME_NAME );
 $ipress->version = $ipress->theme['Version'];
 
 // Theme setup & customizer functionality
-$ipress->main       = require_once IPRESS_CLASSES_DIR . '/class-ipr-theme.php';
-$ipress->customizer = require_once IPRESS_CLASSES_DIR . '/class-ipr-customizer.php';
+$ipress->main = require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-theme.php';
+$ipress->customizer = require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-customizer.php';
 
 // Tag on Child Theme data, should be defined by now
 if ( is_child_theme() ) {
-	$ipress->child_theme   = wp_get_theme( IPRESS_CHILD_THEME_NAME );
+	$ipress->child_theme = wp_get_theme( IPRESS_CHILD_THEME_NAME );
 	$ipress->child_version = $ipress->child_theme['Version'];
 }
 
 // Multisite?
 if ( is_multisite() ) {
-	$ipress->multisite = require_once IPRESS_CLASSES_DIR . '/class-ipr-multisite.php';
+	$ipress->multisite = require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-multisite.php';
 }
-
-//----------------------------------------------
-//	Includes - Classes
-//----------------------------------------------
-
-// Load scripts & styles
-require_once IPRESS_CLASSES_DIR . '/class-ipr-load-scripts.php';
-require_once IPRESS_CLASSES_DIR . '/class-ipr-load-styles.php';
-
-// Theme header setup
-require_once IPRESS_CLASSES_DIR . '/class-ipr-init.php';
-
-// Layout template functions
-require_once IPRESS_CLASSES_DIR . '/class-ipr-layout.php';
-
-// Mavigation functions
-require_once IPRESS_CLASSES_DIR . '/class-ipr-navigation.php';
-
-// Images & Media template functions
-require_once IPRESS_CLASSES_DIR . '/class-ipr-images.php';
-
-// Login Redirect template functions
-require_once IPRESS_CLASSES_DIR . '/class-ipr-login.php';
-
-// Rewrites template functions
-require_once IPRESS_CLASSES_DIR . '/class-ipr-rewrites.php';
-
-// Sidebars functionality
-require_once IPRESS_CLASSES_DIR . '/class-ipr-sidebars.php';
-
-// Widgets functionality
-require_once IPRESS_CLASSES_DIR . '/class-ipr-widgets.php';
-
-// Page Support: actions & filters
-require_once IPRESS_CLASSES_DIR . '/class-ipr-page.php';
 
 //----------------------------------------------------------
 //	Initialize Custom Post Types & Taxonomies
 //----------------------------------------------------------
 
-// Custom Post-Types & Taxonomies
-require_once IPRESS_CLASSES_DIR . '/class-ipr-post-type.php';
-require_once IPRESS_CLASSES_DIR . '/class-ipr-taxonomy.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-custom.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-post-type.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-taxonomy.php';
 
 //----------------------------------------------
 //	Parent Theme Configuration

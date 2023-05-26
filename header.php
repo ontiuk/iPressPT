@@ -5,7 +5,6 @@
  * ==========================================================
  *
  * @see     https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
  * @package iPress\Templates
  * @link    http://ipress.uk
  * @license GPL-2.0+
@@ -15,6 +14,7 @@
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="profile" href="<?php echo set_url_scheme('http://gmpg.org/xfn/11'); ?>">
 	<?php wp_head(); ?>
 </head>
 

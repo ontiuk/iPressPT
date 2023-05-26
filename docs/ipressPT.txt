@@ -4,15 +4,18 @@ iPressPT - Theme Framework
 Structure: Folders & Files
 -------------------------------
 /
-|-favicon.ico
+|-footer.php
 |-functions.php
+|-header.php
 |-index.php
+|-CHANGELOG.md
 |-README.md
 |-screenshot.jpg
 |-style.css
 |-/inc
 |	|-bootstrap.php
 | 	|-config.php
+| 	|-customizer.php
 | 	|-functions.php
 | 	|-/classes
 | 		|-class-compat.php
@@ -20,31 +23,45 @@ Structure: Folders & Files
 | 		|-class-customizer.php
 | 		|-class-images.php
 | 		|-class-init.php
-| 		|-class-layout.php
+| 		|-class-load-fonts.php
 | 		|-class-load-scripts.php
 | 		|-class-load-styles.php
 | 		|-class-login.php
 | 		|-class-multisite.php
 | 		|-class-navigation.php
 | 		|-class-page.php
+| 		|-class-post-type.php
 | 		|-class-rewrite.php
 | 		|-class-sidebars.php
+| 		|-class-taxonomy.php
 | 		|-class-theme.php
 | 		|-class-widgets.php
+| 	|-/customizer
+|	 	|-functions.php
+|	 	|-/controls
+|	 		|-/css
+|	 			|-customizer.css
+|	 		|-/js
+|			|-class-ipr-arbitrary-control.php
+|			|-class-ipr-checkbox-multiple.php
+|			|-class-ipr-separator-control.php
+|			|-class-ipr-title-control.php
 | 	|-/functions
 |		|-content.php
 |		|-image.php
 |		|-navigation.php
 |		|-pagination.php
-|		|-template.php
 |		|-user.php
-| 	|-/languages
+|-/languages
+|-/docs
 
 Structure: Files & Templates
 -------------------------------
 /
 |- CHANGELOG.md
+|- footer.php
 |- functions.php
+|- header.php
 |- index.php
 |- README.md
 |- screenshot.jpg
@@ -56,8 +73,7 @@ Hooks & Classes
 index.php
 actions:
 	ipress_before_main_content
-	ipress_archive_before
-	ipress_archive_after
+	ipress_after_main_content	
 	ipress_sidebar
 	ipress_after_main_content	
 main class: index-page
@@ -67,3 +83,131 @@ actions:
 	ipress_bootstrap
 	ipress_init
 	ipress_config
+
+class-ipr-compat.php
+filters:
+	ipress_theme_php
+	ipress_theme_wp
+
+class-ipr-customizer.php
+action:
+	ipress_customize_register
+	ipress_setup_customizer
+filters:
+	ipress_custom_logo_args
+	ipress_custom_header
+	ipress_custom_header_default_image
+	ipress_custom_header_args
+	ipress_custom_header_uploads
+	ipress_default_headers
+	ipress_default_header_args
+	ipress_custom_background
+	ipress_custom_background_default_image
+	ipress_custom_background_default_color
+	ipress_custom_background_args
+	ipress_custom_selective_refresh
+	ipress_customize_header_partials
+	ipress_customize_register_control_type
+	ipress_customize_register_section_type
+
+class-ipr-images.php
+filters:
+	ipress_media_images
+	ipress_media_images_sizes
+	ipress_upload_mimes
+	ipress_custom_mimes_restricted
+	ipress_custom_gravatar
+
+class-ipr-init.php
+filters:
+	ipress_header_clean
+	ipress_header_links
+	ipress_header_index
+	ipress_header_generator
+	ipress_header_version
+	ipress_header_comments
+	ipress_header_canonical
+	ipress_disable_emojicons
+	ipress_body_class
+
+class-ipr-navigation.php
+filters:
+	ipress_nav_clean
+	ipress_nav_css_attr
+	ipress_navigation_markup_template
+
+class-ipr-page.php
+filters:
+	ipress_page_excerpt
+	ipress_page_tags
+	ipress_page_tags_query
+	ipress_search_post_types
+
+class-ipr-post-type.php
+filters:
+	ipress_post_types
+	ipress_post_type_reserved
+	ipress_post_type_valid_args
+	ipress_{$post_type}_prefix
+	ipress_{$post_type}_labels
+	ipress_{$post_type}_supports
+	ipress_post_type_messages
+
+class-ipr-rewrites.php
+filters:
+	ipress_query_vars
+	
+class-ipr-sidebars.php
+filters:
+	ipress_sidebar_defaults
+	ipress_footer_sidebars
+	ipress_custom_sidebars
+	ipress_footer_sidebar_rows
+	ipress_footer_sidebar_areas
+	ipress_sidebar_{$sidebar['id']}_defaults
+	ipress_default_sidebars
+
+class-ipr-taxonomy.php
+filters:
+	ipress_taxonomies
+	ipress_taxonomy_reserved
+	ipress_taxonomy_valid_args
+	ipress_{$taxonomy}_labels
+
+class-ipr-theme.php
+action:
+	ipress_setup
+filters:
+	ipress_content_width
+	ipress_post_thumbnails_post_types
+	ipress_post_thumbnail_size
+	ipress_image_size_default
+	ipress_add_image_size
+	ipress_big_image_size
+	ipress_nav_menus
+	ipress_html5
+	ipress_post_formats
+	ipress_theme_support
+	ipress_remove_theme_support
+	ipress_custom_title_tag
+	ipress_document_title_separator
+	ipress_home_doctitle_append
+	ipress_doctitle_separator
+	ipress_append_site_name
+
+class-ipr-widgets.php
+filters:
+	ipress_widgets
+
+images.php
+filters:
+	ipress_post_image_args
+	ipress_pre_post_image
+
+pagination.php
+filters:
+	ipress_next_nav_link
+	ipress_prev_nav_link
+	ipress_paginate_links
+
+

@@ -17,6 +17,3 @@ include_once IPRESS_INCLUDES_DIR . '/functions/image.php';
 include_once IPRESS_INCLUDES_DIR . '/functions/navigation.php';
 include_once IPRESS_INCLUDES_DIR . '/functions/pagination.php';
 include_once IPRESS_INCLUDES_DIR . '/functions/user.php';
-
-// Load template functions
-include_once IPRESS_INCLUDES_DIR . '/functions/template.php';

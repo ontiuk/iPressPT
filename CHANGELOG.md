@@ -33,3 +33,10 @@
 * (07 March 2022)		2.1.3	Additional pagination functionality
 * (20 March 2022)		2.1.4	Move i18n to child theme is possible
 * (05 April 2022)		2.2.0	Refactor Custom Post-Type & Taxonomy functionality
+* (06 April 2022)		2.2.1	Refactor theme & sidebar functionality
+* (16 May 2022)			2.2.2	Extended scripts & styles functionality
+* (17 May 2022)			2.2.3	Refactor theme and init functionality
+* (10 August 2022)		2.2.4	Remove blocks hiding functionality, replacing with extension
+* (28 November 2022)	2.4.0	Refinements and optimisation
+* (23 May 2023)			2.5.0	Increased versioning for WordPress, WooCommerce, & PHP
+* (24 May 2023)			2.6.0	Refactored Singleton instantiation via Registry class. Refactored REST class. Refactored custom post-type & taxonomy classses

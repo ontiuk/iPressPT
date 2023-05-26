@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 	/**
 	 * Initialise and set up Customizer features
 	 */
-	final class IPR_Customizer {
+	final class IPR_Customizer extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Core WordPress functionality
 			add_action( 'after_setup_theme', [ $this, 'setup_theme' ], 12 );
@@ -41,7 +41,6 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			//----------------------------------------------------------------
 			// Customizer Support & Layout
 			//
-			// Set up core customizer driven theme support & functionality
 			// - add_theme_support( 'custom-logo' )
 			// - add_theme_support( 'custom-header' )
 			// - register_default_headers()
@@ -65,30 +64,17 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			 * No width & height sets full flexibility support
 			 */
 
-			// Filterable custom logo settings, custom logo is enabled by default in customizer
-			$ip_custom_logo = (bool) apply_filters( 'ipress_custom_logo', true );
-
-			// Enable custom logo support
-			if ( true === $ip_custom_logo ) {
-
-				// Set up the custom args if required
-				$ip_custom_logo_args = (array) apply_filters(
-					'ipress_custom_logo_args',
-					[
-						'width'       => 200,
-						'height'      => 133,
-						'flex-width'  => true,
-						'flex-height' => true,
-					]
-				);
-
-				// Add theme support, with args if set
-				if ( empty( $ip_custom_logo_args ) ) {
-					add_theme_support( 'custom-logo' );
-				} else {
-					add_theme_support( 'custom-logo', $ip_custom_logo_args );
-				}
-			}
+			// Custom logo settings, custom logo is enabled by default in customizer
+			$ip_custom_logo_args = (array) apply_filters(
+				'ipress_custom_logo_args',
+				[
+					'width'       => 200,
+					'height'      => 133,
+					'flex-width'  => true,
+					'flex-height' => true,
+				]
+			);
+			add_theme_support( 'custom-logo', $ip_custom_logo_args );
 
 			/**
 			 * Enable support for custom headers within customizer and theme
@@ -96,7 +82,6 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			 * @see https://developer.wordpress.org/themes/functionality/custom-headers/
 			 * 
 			 * $header_args = [
-			 *   // Default header image to display
 			 *   'default-image'          => apply_filters( 'ipress_custom_header_default_image', get_stylesheet_directory_uri() . '/assets/images/header.png' ),
 			 *   'header-text'            => true,              // Display the header text along with the image.
 			 *   'default-text-color'     => '000',             // Header text color default.
@@ -116,8 +101,6 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Filterable custom header setttings, no width & height sets full flexibility, custom header is disabled by default
 			$ip_custom_header = (bool) apply_filters( 'ipress_custom_header', false );
-
-			// Enable custom header support
 			if ( true === $ip_custom_header ) {
 
 				// Set up default header image
@@ -135,57 +118,49 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 						'flex-height'   => true,
 					]
 				);
-
-				// Add theme support, with args if set
-				if ( empty( $ip_custom_header_args ) ) {
-					add_theme_support( 'custom-header' );
-				} else {
-					add_theme_support( 'custom-header', $ip_custom_header_args );
-				}
+				add_theme_support( 'custom-header', $ip_custom_header_args );
 
 				// Force custom header uploads, requires custom headers to be active
 				$ip_custom_header_uploads = (bool) apply_filters( 'ipress_custom_header_uploads', false );
 				if ( true === $ip_custom_header_uploads ) {
 					add_theme_support( 'custom-header-uploads' );
 				}
-			}
 
-			/**
-			 * Register default headers
-			 *
-			 * @see https://codex.wordpress.org/Function_Reference/register_default_headers
-			 *
-			 * register_default_headers(
-			 *   apply_filters(
-			 *     'ipress_default_header_args',
-			 *     [
-			 *       'default-image-1' => [
-			 *         'url'           => '%s/assets/images/header.jpg',
-			 *         'thumbnail_url' => '%s/assets/images/header.jpg',
-			 *         'description'   => __( 'Default Header Image', 'ipress' ),
-			 *       ],
-			 *       'default-image-2' => [
-			 *         'url'           => '%s/assets/images/header-alt.jpg',
-			 *         'thumbnail_url' => '%s/assets/images/header-alt.jpg',
-			 *         'description'   => __( 'Default Header Image Alt', 'ipress' ),
-			 *       ],
-			 *     ]
-			 *   )
-			 * );
-			 */
+				/**
+				 * Register default headers
+				 *
+				 * @see https://codex.wordpress.org/Function_Reference/register_default_headers
+				 *
+				 * register_default_headers(
+				 *   apply_filters(
+				 *     'ipress_default_header_args',
+				 *     [
+				 *       'default-image-1' => [
+				 *         'url'           => '%s/assets/images/header.jpg',
+				 *         'thumbnail_url' => '%s/assets/images/header.jpg',
+				 *         'description'   => __( 'Default Header Image', 'ipress' ),
+				 *       ],
+				 *       'default-image-2' => [
+				 *         'url'           => '%s/assets/images/header-alt.jpg',
+				 *         'thumbnail_url' => '%s/assets/images/header-alt.jpg',
+				 *         'description'   => __( 'Default Header Image Alt', 'ipress' ),
+				 *       ],
+				 *     ]
+				 *   )
+				 * );
+				 */
 
-			// Filterable default header settings
-			$ip_default_headers = (bool) apply_filters( 'ipress_default_headers', false );
+				// Filterable default header settings
+				$ip_default_headers = (bool) apply_filters( 'ipress_default_headers', false );
+				if ( true === $ip_default_headers ) {
 
-			// Register default header
-			if ( true === $ip_default_headers ) {
+					// Set up default header args
+					$ip_default_header_args = (array) apply_filters( 'ipress_default_header_args', [] );
 
-				// Set up default header args
-				$ip_default_header_args = (array) apply_filters( 'ipress_default_header_args', [] );
-
-				// Register default headers if set
-				if ( ! empty( $ip_default_header_args ) ) {
-					register_default_headers( $ip_default_header_args );
+					// Register default headers if set
+					if ( $ip_default_header_args ) {
+						register_default_headers( $ip_default_header_args );
+					}
 				}
 			}
 
@@ -211,8 +186,6 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Filterable custom background settings
 			$ip_custom_background = (bool) apply_filters( 'ipress_custom_background', false );
-
-			// Enable custom background support
 			if ( true === $ip_custom_background ) {
 
 				// Set up a custm background image
@@ -229,13 +202,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 						'default-color' => ( empty( $ip_custom_background_default_color ) ) ? '' : sanitize_hex_color( $ip_custom_background_default_color ),
 					]
 				);
-
-				// Add theme support, with args if available
-				if ( empty( $ip_custom_background_args ) ) {
-					add_theme_support( 'custom-background' );
-				} else {
-					add_theme_support( 'custom-background', $ip_custom_backround_args );
-				}
+				add_theme_support( 'custom-background', $ip_custom_backround_args );
 			}
 
 			// Add theme support for selective refresh for widgets, default true
@@ -254,15 +221,20 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 		/**
 		 * Set up customizer and theme panel
+		 *
 		 * - Child theme extends settings and controls
 		 *
 		 * @param object $wp_customize WP_Customise_Manager
 		 */
 		public function customize_register( WP_Customize_Manager $wp_customize ) {
 
-			// Modifiy default controls
-			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
+			// Modify default controls
+			$wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
 			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+			$wp_customize->get_setting( 'custom_logo' )->transport = 'refresh';
+
+			// Register Control Types for dynamic JS access
+			$wp_customize->register_control_type( 'IPR_Checkbox_Multiple_Control' );
 
 			// Dynamic refresh for header partials, default true
 			$ip_customize_header_partials = (bool) apply_filters( 'ipress_customize_header_partials', true );
@@ -274,7 +246,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 				$wp_customize->selective_refresh->add_partial(
 					'blogname',
 					[
-						'selector'        => '.site-title a',
+						'selector' => '.site-title a',
 						'render_callback' => function() {
 							return get_bloginfo( 'name', 'display' );
 						},
@@ -285,7 +257,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 				$wp_customize->selective_refresh->add_partial(
 					'blogdescription',
 					[
-						'selector'        => '.site-description',
+						'selector' => '.site-description',
 						'render_callback' => function() {
 							return get_bloginfo( 'description', 'display' );
 						},
@@ -296,12 +268,28 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 				$wp_customize->selective_refresh->add_partial(
 					'custom_logo',
 					[
-						'selector'        => '.site-branding',
+						'selector' => '.site-branding',
 						'render_callback' => function() {
 							return ipress_site_title_or_logo( false );
 						},
 					]
 				);
+			}
+
+			// Register external customizer control types
+			$ip_customize_register_control_type = (array) apply_filters( 'ipress_customize_register_control_type', [] );
+			if ( $ip_customize_register_control_type ) {
+				array_walk( $ip_customize_register_control_type, function( $control, $k ) use ( $wp_customize ) {
+					$wp_customize->register_control_type( $control );
+				} );
+			}	
+
+			// Register external customizer section types
+			$ip_customize_register_section_type = (array) apply_filters( 'ipress_customize_register_section_type', [] );
+			if ( $ip_customize_register_section_type ) {
+				array_walk( $ip_customize_register_section_type, function( $section, $k ) use ( $wp_customize ) {
+					$wp_customize->register_control_type( $section );
+				} );
 			}
 
 			// Plugable registrations - pass customizer manager object to child theme settings filter
@@ -312,4 +300,4 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 endif;
 
 // Instantiate Customizer class
-return new IPR_Customizer;
+return IPR_Customizer::Init();
