@@ -40,4 +40,7 @@
 * (28 November 2022)	2.4.0	Refinements and optimisation
 * (23 May 2023)			2.5.0	Increased versioning for WordPress, WooCommerce, & PHP
 * (24 May 2023)			2.6.0	Refactored Singleton instantiation via Registry class. Refactored REST class. Refactored custom post-type & taxonomy classses
-* (31 May 2023)			2.6.1	Additional configuration option to hide comments functionality
+* (31 May 2023)			2.6.1	Addidional configuration option to hide comments functionality
+* (26 June 2023)		2.6.2	Refactor header templates & hooked functionality
+* (18 July 2023)		2.6.3	Refactor customizer controls for dynamic JS
+* (18 July 2023)		2.6.4	Minor updates & sync with standalone theme.

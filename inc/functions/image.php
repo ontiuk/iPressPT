@@ -20,7 +20,6 @@
 // ipress_image_sizes
 // ipress_get_post_attachement
 // ipress_post_thumbnail_url
-// ipress_site_title_or_logo
 // ipress_hex2rgb
 // ipress_hex_is_light
 //----------------------------------------------

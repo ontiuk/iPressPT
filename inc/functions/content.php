@@ -18,6 +18,7 @@
 // ipress_is_index
 // ipress_is_subpage
 // ipress_is_tree
+// ipress_get_link_url
 // ipress_canonical_url
 // ipress_paged_post_url
 // ipress_get_permalink_by_page
@@ -100,6 +101,23 @@ if ( ! function_exists( 'ipress_is_tree' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ipress_get_link_url' ) ) {
+	
+	/**
+	 * Return the post URL, defaults to the post permalink if no URL is found in the post
+	 *
+	 * @see get_url_in_content()
+	 * @return string
+	 */
+	function ipress_get_link_url() {
+		
+		$has_url = get_url_in_content( get_the_content() );
+
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core filter name.
+		return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
+	}
+}
+
 if ( ! function_exists( 'ipress_canonical_url' ) ) :
 
 	/**
@@ -163,7 +181,7 @@ if ( ! function_exists( 'ipress_paged_post_url' ) ) :
 	 * @global $wp_rewrite
 	 * @param int $page_id The page number to generate the URL from
 	 * @param int $post_id The post ID
-	 * @return string $url
+	 * @return string $url Unescaped URL
 	 */
 	function ipress_paged_post_url( $page_id, $post_id = 0 ) {
 
