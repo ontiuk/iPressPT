@@ -113,7 +113,7 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 			// Validate new mimes against restrictions
 			$ip_upload_mimes = array_filter( $ip_upload_mimes, function( $mime, $key ) use ( $ip_restricted ) {
 				return ( in_array( $key, $ip_restricted ) && ! current_user_can( 'manage_options' ) ) ? false : true;
-			} );
+			}, ARRAY_FILTER_USE_BOTH );
 
 			// Add the file extension to the current mimes
 			array_walk( $ip_upload_mimes, function( $mime, $key ) use ( &$mimes ) {
