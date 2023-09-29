@@ -43,4 +43,5 @@
 * (31 May 2023)			2.6.1	Addidional configuration option to hide comments functionality
 * (26 June 2023)		2.6.2	Refactor header templates & hooked functionality
 * (18 July 2023)		2.6.3	Refactor customizer controls for dynamic JS
-* (18 July 2023)		2.6.4	Minor updates & sync with standalone theme.
+* (18 July 2023)		2.6.4	Minor updates & sync with standalone theme
+* (29 Septemper 2023)	2.7.0	Additional updates & refinements for production version

@@ -448,8 +448,8 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 				[
 					'name'                     => $plural,
 					'singular_name'            => $singular,
-					'menu_item'                => $plural,
-					'add_new'                  => sprintf( _x( 'Add %s', $singular, 'ipress' ), $singular ),
+					'menu_name'                => $plural,
+					'add_new'                  => sprintf( __( 'Add %s', 'ipress' ), $singular ),
 					'add_new_item'             => sprintf( __( 'Add New %s', 'ipress' ), $singular ),
 					'edit_item'                => sprintf( __( 'Edit %s', 'ipress' ), $singular ),
 					'new_item'                 => sprintf( __( 'New %s', 'ipress' ), $singular ),
@@ -477,8 +477,8 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 					'item_reverted_to_draft'   => sprintf( __( '%s reverted to draft', 'ipress' ), $singular ),
 					'item_scheduled'           => sprintf( __( '%s scheduled', 'ipress' ), $singular ),
 					'item_updated'             => sprintf( __( '%s updated', 'ipress' ), $singular ),
-					'item_link'                => sprintf( _x( '%s Link', 'navigation link block title' ), $singular ) ,
-					'item_link_description'    => sprintf( _x( 'A link to a %s.', 'navigation link block description' ), $singular )
+					'item_link'                => sprintf( _x( '%s Link', 'navigation link block title', 'ipress' ), $singular ),
+					'item_link_description'    => sprintf( _x( 'A link to a %s.', 'navigation link block description', 'ipress' ), $singular )
 				] 
 			);
 		}

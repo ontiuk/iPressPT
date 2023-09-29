@@ -7,18 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-20 16:47+0000\n"
-"PO-Revision-Date: 2022-03-20 16:57+0000\n"
+"POT-Creation-Date: 2023-09-22 15:20+0100\n"
+"PO-Revision-Date: 2023-09-22 17:05+0100\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
-"Last-Translator: \n"
-"Language: sv\n"
+"X-Generator: Poedit 3.3.2\n"
 
-#: inc/classes/class-ipr-compat.php:105
+#: inc/classes/class-ipr-compat.php:106
 #, php-format
 msgid ""
 "PHP version <strong>%1$s</strong> is required You are using <strong>%2$s</"
@@ -27,321 +26,295 @@ msgstr ""
 "PHP-version <strong>%1$s </strong> krävs Du använder <strong>%2$s</"
 "strong>. Vänligen uppdatera eller kontakta ditt webbhotell."
 
-#: inc/classes/class-ipr-compat.php:139 inc/classes/class-ipr-compat.php:158
-#: inc/classes/class-ipr-compat.php:178
+#: inc/classes/class-ipr-compat.php:141 inc/classes/class-ipr-compat.php:161
+#: inc/classes/class-ipr-compat.php:184
 #, php-format
 msgid ""
 "iPress requires at least WordPress version %1$s. You are running version "
 "%2$s."
 msgstr "iPress kräver minst WordPress-version %1$s. Du kör version %2$s."
 
-#: inc/classes/class-ipr-compat.php:195
+#: inc/classes/class-ipr-compat.php:201
 msgid "iPress Parent Theme is active. Please use a Child Theme."
 msgstr "iPress Parent Theme är aktivt. Använd ett tema för barn."
 
-#: inc/classes/class-ipr-custom.php:215
-msgid "Add New"
-msgstr "Lägg till ny"
-
-#: inc/classes/class-ipr-custom.php:217 inc/classes/class-ipr-custom.php:597
-#, php-format
-msgid "Add New %s"
-msgstr "Lägg till ny %s"
-
-#: inc/classes/class-ipr-custom.php:219 inc/classes/class-ipr-custom.php:591
-#, php-format
-msgid "Edit %s"
-msgstr "Redigera %s"
-
-#: inc/classes/class-ipr-custom.php:221 inc/classes/class-ipr-custom.php:595
-#, php-format
-msgid "Update %s"
-msgstr "Uppdatering %s"
-
-#: inc/classes/class-ipr-custom.php:223
-#, php-format
-msgid "New %s"
-msgstr "Ny %s"
-
-#: inc/classes/class-ipr-custom.php:225 inc/classes/class-ipr-custom.php:227
-#: inc/classes/class-ipr-custom.php:593
-#, php-format
-msgid "View %s"
-msgstr "Se %s"
-
-#: inc/classes/class-ipr-custom.php:229 inc/classes/class-ipr-custom.php:605
-#, php-format
-msgid "Search %s"
-msgstr "Sök %s"
-
-#: inc/classes/class-ipr-custom.php:231 inc/classes/class-ipr-custom.php:609
-#, php-format
-msgid "No %s found"
-msgstr "Inga %s hittades"
-
-#: inc/classes/class-ipr-custom.php:233
-#, php-format
-msgid "No %s found in Trash"
-msgstr "Inga %s hittades i papperskorgen"
-
-#: inc/classes/class-ipr-custom.php:235 inc/classes/class-ipr-custom.php:603
-#, php-format
-msgid "Parent %s:"
-msgstr "Förälder %s:"
-
-#: inc/classes/class-ipr-custom.php:237 inc/classes/class-ipr-custom.php:589
-#, php-format
-msgid "All %s"
-msgstr "Alla %s"
-
-#: inc/classes/class-ipr-custom.php:239
-#, php-format
-msgid "%s Archives"
-msgstr "%s Arkiv"
-
-#: inc/classes/class-ipr-custom.php:241
-#, php-format
-msgid "%s Attributes"
-msgstr "%s Attribut"
-
-#: inc/classes/class-ipr-custom.php:243
-#, php-format
-msgid "Insert into %s"
-msgstr "Sätt i %s"
-
-#: inc/classes/class-ipr-custom.php:245
-#, php-format
-msgid "Uploaded to this %s"
-msgstr "Laddat upp till detta %s"
-
-#: inc/classes/class-ipr-custom.php:247
-#, php-format
-msgid "%s Featured Image"
-msgstr "%s Utvald bild"
-
-#: inc/classes/class-ipr-custom.php:249
-#, php-format
-msgid "Set %s Featured Image"
-msgstr "Ställ in %s Utvald bild"
-
-#: inc/classes/class-ipr-custom.php:251
-#, php-format
-msgid "Remove %s Featured Image"
-msgstr "Ta bort %s Utvald bild"
-
-#: inc/classes/class-ipr-custom.php:253
-#, php-format
-msgid "Use %s Featured Image"
-msgstr "Använd %s Utvald bild"
-
-#: inc/classes/class-ipr-custom.php:255
-#, php-format
-msgid "Filter %s list"
-msgstr "Filtrera %s-lista"
-
-#: inc/classes/class-ipr-custom.php:257
-#, php-format
-msgid "%s list"
-msgstr "%s lista"
-
-#: inc/classes/class-ipr-custom.php:259
-#, php-format
-msgid "%s list navigation"
-msgstr "%s lista navigering"
-
-#: inc/classes/class-ipr-custom.php:261
-#, php-format
-msgid "%s published"
-msgstr "%s publicerat"
-
-#: inc/classes/class-ipr-custom.php:263
-#, php-format
-msgid "%s published privately"
-msgstr "%s publiceras privat"
-
-#: inc/classes/class-ipr-custom.php:265
-#, php-format
-msgid "%s reverted to draft"
-msgstr "%s återgått till utkast"
-
-#: inc/classes/class-ipr-custom.php:267
-#, php-format
-msgid "%s scheduled"
-msgstr "%s planerad"
-
-#: inc/classes/class-ipr-custom.php:269
-#, php-format
-msgid "%s updated"
-msgstr "%s uppdaterad"
-
-#: inc/classes/class-ipr-custom.php:414
-#, php-format
-msgid "This is the %s post-type"
-msgstr "Detta är %s posttyp"
-
-#: inc/classes/class-ipr-custom.php:599
-#, php-format
-msgid "New %s Name"
-msgstr "Nytt %s namn"
-
-#: inc/classes/class-ipr-custom.php:601
-#, php-format
-msgid "Parent %s"
-msgstr "Förälder %s"
-
-#: inc/classes/class-ipr-custom.php:607
-#, php-format
-msgid "Popular %s"
-msgstr "Populära %s"
-
-#: inc/classes/class-ipr-custom.php:611
-#, php-format
-msgid "&#8617; Back to %s"
-msgstr "&#8617; Tillbaka till %s"
-
-#: inc/classes/class-ipr-custom.php:613
-#, php-format
-msgid "Separate %s with commas"
-msgstr "Separera %s med komma-tecken"
-
-#: inc/classes/class-ipr-custom.php:615
-#, php-format
-msgid "Add or remove %s"
-msgstr "Lägg till eller ta bort %s"
-
-#: inc/classes/class-ipr-custom.php:617
-#, php-format
-msgid "Choose from the most used %s"
-msgstr "Välj bland de mest använda %s"
-
-#: inc/classes/class-ipr-custom.php:727
-#, php-format
-msgid "This is the %s taxonomy"
-msgstr "Detta är %s taxonomi"
-
-#: inc/classes/class-ipr-custom.php:935
-#, php-format
-msgid "Show All %s"
-msgstr "Visa alla %s"
-
-#: inc/classes/class-ipr-custom.php:1012
+#: inc/classes/class-ipr-custom.php:65
 #, php-format
 msgid "Error: Bad Post Types [%s]."
 msgstr "Fel: Dåliga inläggstyper [%s]."
 
-#: inc/classes/class-ipr-custom.php:1024
+#: inc/classes/class-ipr-custom.php:78
 #, php-format
 msgid "Error: Bad Taxonomies [%s]."
 msgstr "Fel: Dåliga taxonomier [%s]."
 
-#: inc/classes/class-ipr-init.php:133
-msgid "<strong>ERROR</strong>: Stop guessing!"
-msgstr "<strong>FEL</strong>: Sluta gissa!"
+#: inc/classes/class-ipr-load-scripts.php:103
+msgid "Script settings should be set via initialisation function"
+msgstr "Skriptinställningar bör ställas in via initialiseringsfunktionen"
 
-#: inc/classes/class-ipr-sidebars.php:91
+#: inc/classes/class-ipr-load-styles.php:104
+msgid "Style settings should be set via initialisation function"
+msgstr "Stilinställningar bör ställas in via initialiseringsfunktionen"
+
+#: inc/classes/class-ipr-post-type.php:428
+#, php-format
+msgid "This is the %s post-type"
+msgstr "Detta är %s posttyp"
+
+#: inc/classes/class-ipr-post-type.php:452
+#, php-format
+msgid "Add %s"
+msgstr "Lägg till %s"
+
+#: inc/classes/class-ipr-post-type.php:453
+#: inc/classes/class-ipr-taxonomy.php:503
+#, php-format
+msgid "Add New %s"
+msgstr "Lägg till ny %s"
+
+#: inc/classes/class-ipr-post-type.php:454
+#: inc/classes/class-ipr-taxonomy.php:500
+#, php-format
+msgid "Edit %s"
+msgstr "Redigera %s"
+
+#: inc/classes/class-ipr-post-type.php:455
+#, php-format
+msgid "New %s"
+msgstr "Ny %s"
+
+#: inc/classes/class-ipr-post-type.php:456
+#: inc/classes/class-ipr-post-type.php:457
+#: inc/classes/class-ipr-taxonomy.php:501
+#, php-format
+msgid "View %s"
+msgstr "Se %s"
+
+#: inc/classes/class-ipr-post-type.php:458
+#: inc/classes/class-ipr-taxonomy.php:507
+#, php-format
+msgid "Search %s"
+msgstr "Sök %s"
+
+#: inc/classes/class-ipr-post-type.php:459
+#: inc/classes/class-ipr-taxonomy.php:512
+#, php-format
+msgid "No %s found"
+msgstr "Inga %s hittades"
+
+#: inc/classes/class-ipr-post-type.php:460
+#, php-format
+msgid "No %s found in Trash"
+msgstr "Inga %s hittades i papperskorgen"
+
+#: inc/classes/class-ipr-post-type.php:461
+#: inc/classes/class-ipr-taxonomy.php:506
+#, php-format
+msgid "Parent %s:"
+msgstr "Förälder %s:"
+
+#: inc/classes/class-ipr-post-type.php:462
+#: inc/classes/class-ipr-taxonomy.php:499
+#, php-format
+msgid "All %s"
+msgstr "Alla %s"
+
+#: inc/classes/class-ipr-post-type.php:463
+#, php-format
+msgid "%s Archives"
+msgstr "%s Arkiv"
+
+#: inc/classes/class-ipr-post-type.php:464
+#, php-format
+msgid "%s Attributes"
+msgstr "%s Attribut"
+
+#: inc/classes/class-ipr-post-type.php:465
+#, php-format
+msgid "Insert into %s"
+msgstr "Sätt i %s"
+
+#: inc/classes/class-ipr-post-type.php:466
+#, php-format
+msgid "Uploaded to this %s"
+msgstr "Laddat upp till detta %s"
+
+#: inc/classes/class-ipr-post-type.php:467
+#, php-format
+msgid "%s Featured Image"
+msgstr "%s Utvald bild"
+
+#: inc/classes/class-ipr-post-type.php:468
+#, php-format
+msgid "Set %s Featured Image"
+msgstr "Ställ in %s Utvald bild"
+
+#: inc/classes/class-ipr-post-type.php:469
+#, php-format
+msgid "Remove %s Featured Image"
+msgstr "Ta bort %s Utvald bild"
+
+#: inc/classes/class-ipr-post-type.php:470
+#, php-format
+msgid "Use %s Featured Image"
+msgstr "Använd %s Utvald bild"
+
+#: inc/classes/class-ipr-post-type.php:471
+#, php-format
+msgid "Filter %s list"
+msgstr "Filtrera %s-lista"
+
+#: inc/classes/class-ipr-post-type.php:472
+#, php-format
+msgid "Filter %s by date"
+msgstr "Filtrera %s efter datum"
+
+#: inc/classes/class-ipr-post-type.php:473
+#, php-format
+msgid "%s list navigation"
+msgstr "%s lista navigering"
+
+#: inc/classes/class-ipr-post-type.php:474
+#, php-format
+msgid "%s list"
+msgstr "%s lista"
+
+#: inc/classes/class-ipr-post-type.php:475
+#, php-format
+msgid "%s published"
+msgstr "%s publicerat"
+
+#: inc/classes/class-ipr-post-type.php:476
+#, php-format
+msgid "%s published privately"
+msgstr "%s publiceras privat"
+
+#: inc/classes/class-ipr-post-type.php:477
+#, php-format
+msgid "%s reverted to draft"
+msgstr "%s återgått till utkast"
+
+#: inc/classes/class-ipr-post-type.php:478
+#, php-format
+msgid "%s scheduled"
+msgstr "%s planerad"
+
+#: inc/classes/class-ipr-post-type.php:479
+#, php-format
+msgid "%s updated"
+msgstr "%s uppdaterad"
+
+#: inc/classes/class-ipr-post-type.php:480
+#, php-format
+msgctxt "navigation link block title"
+msgid "%s Link"
+msgstr "%s länk"
+
+#: inc/classes/class-ipr-post-type.php:481
+#, php-format
+msgctxt "navigation link block description"
+msgid "A link to a %s."
+msgstr "En länk till en %s."
+
+#: inc/classes/class-ipr-sidebars.php:112
 #, php-format
 msgid "Footer %d"
 msgstr "Sidfot %d"
 
-#: inc/classes/class-ipr-sidebars.php:93
+#: inc/classes/class-ipr-sidebars.php:114
 #, php-format
 msgid "Footer sidebar area %d."
 msgstr "Sidfältets sidfält %d."
 
-#: inc/classes/class-ipr-sidebars.php:138
+#: inc/classes/class-ipr-sidebars.php:149
 #, php-format
 msgid "This is the %s sidebar description"
 msgstr "Detta är %s sidofältbeskrivning"
 
-#: inc/functions/pagination.php:45 inc/functions/pagination.php:89
+#: inc/classes/class-ipr-taxonomy.php:477
+#, php-format
+msgid "This is the %s taxonomy"
+msgstr "Detta är %s taxonomi"
+
+#: inc/classes/class-ipr-taxonomy.php:502
+#, php-format
+msgid "Update %s"
+msgstr "Uppdatering %s"
+
+#: inc/classes/class-ipr-taxonomy.php:504
+#, php-format
+msgid "New %s Name"
+msgstr "Nytt %s namn"
+
+#: inc/classes/class-ipr-taxonomy.php:505
+#, php-format
+msgid "Parent %s"
+msgstr "Förälder %s"
+
+#: inc/classes/class-ipr-taxonomy.php:508
+#, php-format
+msgid "Popular %s"
+msgstr "Populära %s"
+
+#: inc/classes/class-ipr-taxonomy.php:509
+#, php-format
+msgid "Separate %s with commas"
+msgstr "Separera %s med komma-tecken"
+
+#: inc/classes/class-ipr-taxonomy.php:510
+#, php-format
+msgid "Add or remove %s"
+msgstr "Lägg till eller ta bort %s"
+
+#: inc/classes/class-ipr-taxonomy.php:511
+#, php-format
+msgid "Choose from the most used %s"
+msgstr "Välj bland de mest använda %s"
+
+#: inc/classes/class-ipr-taxonomy.php:513
+#, php-format
+msgid "&#8617; Back to %s"
+msgstr "&#8617; Tillbaka till %s"
+
+#: inc/classes/class-ipr-taxonomy.php:709
+#, php-format
+msgid "Show All %s"
+msgstr "Visa alla %s"
+
+#: inc/customizer/functions.php:264
+msgid "Comma separated list of category IDs only."
+msgstr "Kommaseparerad lista med endast kategori-ID."
+
+#: inc/functions/pagination.php:67
 msgid "&larr; Older"
 msgstr "&larr; Äldre"
 
-#: inc/functions/pagination.php:46 inc/functions/pagination.php:90
+#: inc/functions/pagination.php:68
 msgid "Newer &rarr;"
 msgstr "Nyare &rarr;"
 
-#: inc/functions/pagination.php:149
-msgid "&larr; %title"
-msgstr "&larr; %title"
-
-#: inc/functions/pagination.php:150
-msgid "%title &rarr;"
-msgstr "%title &rarr;"
-
-#: inc/functions/pagination.php:213 inc/functions/pagination.php:254
-msgid "Next post"
-msgstr "Nästa inlägg"
-
-#: inc/functions/pagination.php:214 inc/functions/pagination.php:255
-msgid "Previous post"
-msgstr "Tidigare inlägg"
-
-#: inc/functions/pagination.php:254
-msgctxt "Next post"
+#: inc/functions/pagination.php:78 inc/functions/pagination.php:133
+#: inc/functions/pagination.php:198 inc/functions/pagination.php:253
+#: inc/functions/pagination.php:321 inc/functions/pagination.php:473
 msgid "Next"
 msgstr "Nästa"
 
-#: inc/functions/pagination.php:255
-msgctxt "Previous post"
+#: inc/functions/pagination.php:86 inc/functions/pagination.php:132
+#: inc/functions/pagination.php:199 inc/functions/pagination.php:254
+#: inc/functions/pagination.php:322 inc/functions/pagination.php:436
 msgid "Previous"
 msgstr "Tidigare"
 
-#: inc/functions/pagination.php:304
-msgid "Prev"
-msgstr "Föregående"
-
-#: inc/functions/pagination.php:305
+#: inc/functions/pagination.php:253 inc/functions/pagination.php:321
+msgctxt "Next Post"
 msgid "Next"
 msgstr "Nästa"
 
-#: inc/functions/pagination.php:394
-msgid "Previous Page"
-msgstr "Föregående sida"
+#: inc/functions/pagination.php:254 inc/functions/pagination.php:322
+msgctxt "Previous Post"
+msgid "Previous"
+msgstr "Tidigare"
 
-#: inc/functions/pagination.php:411
+#: inc/functions/pagination.php:452
 msgid "Current page"
 msgstr "Nuvarande sida"
-
-#: inc/functions/pagination.php:428
-msgid "Next Page"
-msgstr "Nästa sida"
-
-#: inc/functions/template.php:327
-msgid "Posted on"
-msgstr "Inlagd i"
-
-#: inc/functions/template.php:368
-#, php-format
-msgid "Posted on <a href=\"%1$s\" rel=\"bookmark\">%2$s</a>"
-msgstr "Publicerat den <a href=\"%1$s\" rel=\"bookmark\">%2$s</a>"
-
-#: inc/functions/template.php:431
-#, php-format
-msgid ""
-"By <span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-link\" "
-"rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></span>"
-msgstr ""
-"By <span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-link\" "
-"rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></span>"
-
-#: inc/functions/template.php:559
-#, php-format
-msgid "Edit <span class=\"screen-reader-text\">\"%s\"</span>"
-msgstr "Redigera <span class=\"screen-reader-text\">%s</span>"
-
-#: inc/functions/template.php:643
-msgid "Written by"
-msgstr "Skriven av"
-
-#: inc/functions/template.php:665
-msgid "Posted in"
-msgstr "Inlagd i"
-
-#: inc/functions/template.php:688
-msgid "Tagged in"
-msgstr "Taggad i"
-
-#: inc/functions/template.php:711
-msgid "Comments"
-msgstr "Kommentarer"

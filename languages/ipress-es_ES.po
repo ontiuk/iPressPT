@@ -7,18 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-20 16:47+0000\n"
-"PO-Revision-Date: 2022-03-20 16:55+0000\n"
+"POT-Creation-Date: 2023-09-22 15:20+0100\n"
+"PO-Revision-Date: 2023-09-22 16:48+0100\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
-"Last-Translator: \n"
-"Language: es\n"
+"X-Generator: Poedit 3.3.2\n"
 
-#: inc/classes/class-ipr-compat.php:105
+#: inc/classes/class-ipr-compat.php:106
 #, php-format
 msgid ""
 "PHP version <strong>%1$s</strong> is required You are using <strong>%2$s</"
@@ -28,323 +27,301 @@ msgstr ""
 "<strong>%2$s</strong>. Actualice o póngase en contacto con su empresa de "
 "alojamiento."
 
-#: inc/classes/class-ipr-compat.php:139 inc/classes/class-ipr-compat.php:158
-#: inc/classes/class-ipr-compat.php:178
+#: inc/classes/class-ipr-compat.php:141 inc/classes/class-ipr-compat.php:161
+#: inc/classes/class-ipr-compat.php:184
 #, php-format
 msgid ""
 "iPress requires at least WordPress version %1$s. You are running version "
 "%2$s."
 msgstr ""
-"iPress requiere al menos la versión de WordPress %1$s. Estás ejecutando la "
-"version %2$s."
+"iPress requiere al menos la versión de WordPress %1$s. Estás ejecutando "
+"la version %2$s."
 
-#: inc/classes/class-ipr-compat.php:195
+#: inc/classes/class-ipr-compat.php:201
 msgid "iPress Parent Theme is active. Please use a Child Theme."
 msgstr "El tema principal de iPress está activo. Utilice un tema infantil."
 
-#: inc/classes/class-ipr-custom.php:215
-msgid "Add New"
-msgstr "Añadir nuevo"
-
-#: inc/classes/class-ipr-custom.php:217 inc/classes/class-ipr-custom.php:597
-#, php-format
-msgid "Add New %s"
-msgstr "Añadir nuevo %s"
-
-#: inc/classes/class-ipr-custom.php:219 inc/classes/class-ipr-custom.php:591
-#, php-format
-msgid "Edit %s"
-msgstr "Editar %s"
-
-#: inc/classes/class-ipr-custom.php:221 inc/classes/class-ipr-custom.php:595
-#, php-format
-msgid "Update %s"
-msgstr "Actualización %s"
-
-#: inc/classes/class-ipr-custom.php:223
-#, php-format
-msgid "New %s"
-msgstr "Nuevo %s"
-
-#: inc/classes/class-ipr-custom.php:225 inc/classes/class-ipr-custom.php:227
-#: inc/classes/class-ipr-custom.php:593
-#, php-format
-msgid "View %s"
-msgstr "Ver %s"
-
-#: inc/classes/class-ipr-custom.php:229 inc/classes/class-ipr-custom.php:605
-#, php-format
-msgid "Search %s"
-msgstr "Buscar %s"
-
-#: inc/classes/class-ipr-custom.php:231 inc/classes/class-ipr-custom.php:609
-#, php-format
-msgid "No %s found"
-msgstr "No se encontró %s"
-
-#: inc/classes/class-ipr-custom.php:233
-#, php-format
-msgid "No %s found in Trash"
-msgstr "No se encontraron %s en la basura"
-
-#: inc/classes/class-ipr-custom.php:235 inc/classes/class-ipr-custom.php:603
-#, php-format
-msgid "Parent %s:"
-msgstr "Padres %s:"
-
-#: inc/classes/class-ipr-custom.php:237 inc/classes/class-ipr-custom.php:589
-#, php-format
-msgid "All %s"
-msgstr "Todos los %s"
-
-#: inc/classes/class-ipr-custom.php:239
-#, php-format
-msgid "%s Archives"
-msgstr "%s Archivos"
-
-#: inc/classes/class-ipr-custom.php:241
-#, php-format
-msgid "%s Attributes"
-msgstr "%s Atributos"
-
-#: inc/classes/class-ipr-custom.php:243
-#, php-format
-msgid "Insert into %s"
-msgstr "Insertar en %s"
-
-#: inc/classes/class-ipr-custom.php:245
-#, php-format
-msgid "Uploaded to this %s"
-msgstr "Subido a este %s"
-
-#: inc/classes/class-ipr-custom.php:247
-#, php-format
-msgid "%s Featured Image"
-msgstr "%s Imagen destacada"
-
-#: inc/classes/class-ipr-custom.php:249
-#, php-format
-msgid "Set %s Featured Image"
-msgstr "Establecer %s Imagen destacada"
-
-#: inc/classes/class-ipr-custom.php:251
-#, php-format
-msgid "Remove %s Featured Image"
-msgstr "Eliminar %s Imagen destacada"
-
-#: inc/classes/class-ipr-custom.php:253
-#, php-format
-msgid "Use %s Featured Image"
-msgstr "Use %s Imagen destacada"
-
-#: inc/classes/class-ipr-custom.php:255
-#, php-format
-msgid "Filter %s list"
-msgstr "Filtrar la lista %s"
-
-#: inc/classes/class-ipr-custom.php:257
-#, php-format
-msgid "%s list"
-msgstr "lista %s"
-
-#: inc/classes/class-ipr-custom.php:259
-#, php-format
-msgid "%s list navigation"
-msgstr "%s navegación de lista"
-
-#: inc/classes/class-ipr-custom.php:261
-#, php-format
-msgid "%s published"
-msgstr "% s publicado"
-
-#: inc/classes/class-ipr-custom.php:263
-#, php-format
-msgid "%s published privately"
-msgstr "%s publicado en privado"
-
-#: inc/classes/class-ipr-custom.php:265
-#, php-format
-msgid "%s reverted to draft"
-msgstr "%s revertido a borrador"
-
-#: inc/classes/class-ipr-custom.php:267
-#, php-format
-msgid "%s scheduled"
-msgstr "%s programado"
-
-#: inc/classes/class-ipr-custom.php:269
-#, php-format
-msgid "%s updated"
-msgstr "%s actualizado"
-
-#: inc/classes/class-ipr-custom.php:414
-#, php-format
-msgid "This is the %s post-type"
-msgstr "Este es el tipo de publicación %s"
-
-#: inc/classes/class-ipr-custom.php:599
-#, php-format
-msgid "New %s Name"
-msgstr "Nuevo %s Nombre"
-
-#: inc/classes/class-ipr-custom.php:601
-#, php-format
-msgid "Parent %s"
-msgstr "Padres %s"
-
-#: inc/classes/class-ipr-custom.php:607
-#, php-format
-msgid "Popular %s"
-msgstr "Popular %s"
-
-#: inc/classes/class-ipr-custom.php:611
-#, php-format
-msgid "&#8617; Back to %s"
-msgstr "&#8617; De regreso %s"
-
-#: inc/classes/class-ipr-custom.php:613
-#, php-format
-msgid "Separate %s with commas"
-msgstr "Separe %s con comas"
-
-#: inc/classes/class-ipr-custom.php:615
-#, php-format
-msgid "Add or remove %s"
-msgstr "Agregar o eliminar %s"
-
-#: inc/classes/class-ipr-custom.php:617
-#, php-format
-msgid "Choose from the most used %s"
-msgstr "Elija entre los %s más utilizados"
-
-#: inc/classes/class-ipr-custom.php:727
-#, php-format
-msgid "This is the %s taxonomy"
-msgstr "Esta es la taxonomía %s"
-
-#: inc/classes/class-ipr-custom.php:935
-#, php-format
-msgid "Show All %s"
-msgstr "Mostrar todo %s"
-
-#: inc/classes/class-ipr-custom.php:1012
+#: inc/classes/class-ipr-custom.php:65
 #, php-format
 msgid "Error: Bad Post Types [%s]."
 msgstr "Error: Tipos de publicación incorrectos [%s]."
 
-#: inc/classes/class-ipr-custom.php:1024
+#: inc/classes/class-ipr-custom.php:78
 #, php-format
 msgid "Error: Bad Taxonomies [%s]."
 msgstr "Error: Taxonomías incorrectas [%s]."
 
-#: inc/classes/class-ipr-init.php:133
-msgid "<strong>ERROR</strong>: Stop guessing!"
-msgstr "<strong>ERROR</strong>: ¡Deja de adivinar!"
+#: inc/classes/class-ipr-load-scripts.php:103
+msgid "Script settings should be set via initialisation function"
+msgstr ""
+"La configuración del script debe establecerse mediante la función de "
+"inicialización"
 
-#: inc/classes/class-ipr-sidebars.php:91
+#: inc/classes/class-ipr-load-styles.php:104
+msgid "Style settings should be set via initialisation function"
+msgstr ""
+"La configuración de estilo debe establecerse mediante la función de "
+"inicialización"
+
+#: inc/classes/class-ipr-post-type.php:428
+#, php-format
+msgid "This is the %s post-type"
+msgstr "Este es el tipo de publicación %s"
+
+#: inc/classes/class-ipr-post-type.php:452
+#, php-format
+msgid "Add %s"
+msgstr "Agregar %s"
+
+#: inc/classes/class-ipr-post-type.php:453
+#: inc/classes/class-ipr-taxonomy.php:503
+#, php-format
+msgid "Add New %s"
+msgstr "Añadir nuevo %s"
+
+#: inc/classes/class-ipr-post-type.php:454
+#: inc/classes/class-ipr-taxonomy.php:500
+#, php-format
+msgid "Edit %s"
+msgstr "Editar %s"
+
+#: inc/classes/class-ipr-post-type.php:455
+#, php-format
+msgid "New %s"
+msgstr "Nuevo %s"
+
+#: inc/classes/class-ipr-post-type.php:456
+#: inc/classes/class-ipr-post-type.php:457
+#: inc/classes/class-ipr-taxonomy.php:501
+#, php-format
+msgid "View %s"
+msgstr "Ver %s"
+
+#: inc/classes/class-ipr-post-type.php:458
+#: inc/classes/class-ipr-taxonomy.php:507
+#, php-format
+msgid "Search %s"
+msgstr "Buscar %s"
+
+#: inc/classes/class-ipr-post-type.php:459
+#: inc/classes/class-ipr-taxonomy.php:512
+#, php-format
+msgid "No %s found"
+msgstr "No se encontró %s"
+
+#: inc/classes/class-ipr-post-type.php:460
+#, php-format
+msgid "No %s found in Trash"
+msgstr "No se encontraron %s en la basura"
+
+#: inc/classes/class-ipr-post-type.php:461
+#: inc/classes/class-ipr-taxonomy.php:506
+#, php-format
+msgid "Parent %s:"
+msgstr "Padres %s:"
+
+#: inc/classes/class-ipr-post-type.php:462
+#: inc/classes/class-ipr-taxonomy.php:499
+#, php-format
+msgid "All %s"
+msgstr "Todos los %s"
+
+#: inc/classes/class-ipr-post-type.php:463
+#, php-format
+msgid "%s Archives"
+msgstr "%s Archivos"
+
+#: inc/classes/class-ipr-post-type.php:464
+#, php-format
+msgid "%s Attributes"
+msgstr "%s Atributos"
+
+#: inc/classes/class-ipr-post-type.php:465
+#, php-format
+msgid "Insert into %s"
+msgstr "Insertar en %s"
+
+#: inc/classes/class-ipr-post-type.php:466
+#, php-format
+msgid "Uploaded to this %s"
+msgstr "Subido a este %s"
+
+#: inc/classes/class-ipr-post-type.php:467
+#, php-format
+msgid "%s Featured Image"
+msgstr "%s Imagen destacada"
+
+#: inc/classes/class-ipr-post-type.php:468
+#, php-format
+msgid "Set %s Featured Image"
+msgstr "Establecer %s Imagen destacada"
+
+#: inc/classes/class-ipr-post-type.php:469
+#, php-format
+msgid "Remove %s Featured Image"
+msgstr "Eliminar %s Imagen destacada"
+
+#: inc/classes/class-ipr-post-type.php:470
+#, php-format
+msgid "Use %s Featured Image"
+msgstr "Use %s Imagen destacada"
+
+#: inc/classes/class-ipr-post-type.php:471
+#, php-format
+msgid "Filter %s list"
+msgstr "Filtrar la lista %s"
+
+#: inc/classes/class-ipr-post-type.php:472
+#, php-format
+msgid "Filter %s by date"
+msgstr "Filtrar %s por fecha"
+
+#: inc/classes/class-ipr-post-type.php:473
+#, php-format
+msgid "%s list navigation"
+msgstr "%s navegación de lista"
+
+#: inc/classes/class-ipr-post-type.php:474
+#, php-format
+msgid "%s list"
+msgstr "lista %s"
+
+#: inc/classes/class-ipr-post-type.php:475
+#, php-format
+msgid "%s published"
+msgstr "% s publicado"
+
+#: inc/classes/class-ipr-post-type.php:476
+#, php-format
+msgid "%s published privately"
+msgstr "%s publicado en privado"
+
+#: inc/classes/class-ipr-post-type.php:477
+#, php-format
+msgid "%s reverted to draft"
+msgstr "%s revertido a borrador"
+
+#: inc/classes/class-ipr-post-type.php:478
+#, php-format
+msgid "%s scheduled"
+msgstr "%s programado"
+
+#: inc/classes/class-ipr-post-type.php:479
+#, php-format
+msgid "%s updated"
+msgstr "%s actualizado"
+
+#: inc/classes/class-ipr-post-type.php:480
+#, php-format
+msgctxt "navigation link block title"
+msgid "%s Link"
+msgstr "Enlace %s"
+
+#: inc/classes/class-ipr-post-type.php:481
+#, php-format
+msgctxt "navigation link block description"
+msgid "A link to a %s."
+msgstr "Un enlace a una% s."
+
+#: inc/classes/class-ipr-sidebars.php:112
 #, php-format
 msgid "Footer %d"
 msgstr "Pie de página %d"
 
-#: inc/classes/class-ipr-sidebars.php:93
+#: inc/classes/class-ipr-sidebars.php:114
 #, php-format
 msgid "Footer sidebar area %d."
 msgstr "Área de la barra lateral del pie de página %d."
 
-#: inc/classes/class-ipr-sidebars.php:138
+#: inc/classes/class-ipr-sidebars.php:149
 #, php-format
 msgid "This is the %s sidebar description"
 msgstr "Esta es la descripción de la barra lateral %s"
 
-#: inc/functions/pagination.php:45 inc/functions/pagination.php:89
+#: inc/classes/class-ipr-taxonomy.php:477
+#, php-format
+msgid "This is the %s taxonomy"
+msgstr "Esta es la taxonomía %s"
+
+#: inc/classes/class-ipr-taxonomy.php:502
+#, php-format
+msgid "Update %s"
+msgstr "Actualización %s"
+
+#: inc/classes/class-ipr-taxonomy.php:504
+#, php-format
+msgid "New %s Name"
+msgstr "Nuevo %s Nombre"
+
+#: inc/classes/class-ipr-taxonomy.php:505
+#, php-format
+msgid "Parent %s"
+msgstr "Padres %s"
+
+#: inc/classes/class-ipr-taxonomy.php:508
+#, php-format
+msgid "Popular %s"
+msgstr "Popular %s"
+
+#: inc/classes/class-ipr-taxonomy.php:509
+#, php-format
+msgid "Separate %s with commas"
+msgstr "Separe %s con comas"
+
+#: inc/classes/class-ipr-taxonomy.php:510
+#, php-format
+msgid "Add or remove %s"
+msgstr "Agregar o eliminar %s"
+
+#: inc/classes/class-ipr-taxonomy.php:511
+#, php-format
+msgid "Choose from the most used %s"
+msgstr "Elija entre los %s más utilizados"
+
+#: inc/classes/class-ipr-taxonomy.php:513
+#, php-format
+msgid "&#8617; Back to %s"
+msgstr "&#8617; De regreso %s"
+
+#: inc/classes/class-ipr-taxonomy.php:709
+#, php-format
+msgid "Show All %s"
+msgstr "Mostrar todo %s"
+
+#: inc/customizer/functions.php:264
+msgid "Comma separated list of category IDs only."
+msgstr "Lista separada por comas de ID de categoría solamente."
+
+#: inc/functions/pagination.php:67
 msgid "&larr; Older"
 msgstr "&larr; Mayor"
 
-#: inc/functions/pagination.php:46 inc/functions/pagination.php:90
+#: inc/functions/pagination.php:68
 msgid "Newer &rarr;"
 msgstr "Más Nuevo &rarr;"
 
-#: inc/functions/pagination.php:149
-msgid "&larr; %title"
-msgstr "&larr; %title"
-
-#: inc/functions/pagination.php:150
-msgid "%title &rarr;"
-msgstr "%title &rarr;"
-
-#: inc/functions/pagination.php:213 inc/functions/pagination.php:254
-msgid "Next post"
-msgstr "Publicación siguiente"
-
-#: inc/functions/pagination.php:214 inc/functions/pagination.php:255
-msgid "Previous post"
-msgstr "Publicación anterior"
-
-#: inc/functions/pagination.php:254
-msgctxt "Next post"
+#: inc/functions/pagination.php:78 inc/functions/pagination.php:133
+#: inc/functions/pagination.php:198 inc/functions/pagination.php:253
+#: inc/functions/pagination.php:321 inc/functions/pagination.php:473
 msgid "Next"
 msgstr "Próximo"
 
-#: inc/functions/pagination.php:255
-msgctxt "Previous post"
+#: inc/functions/pagination.php:86 inc/functions/pagination.php:132
+#: inc/functions/pagination.php:199 inc/functions/pagination.php:254
+#: inc/functions/pagination.php:322 inc/functions/pagination.php:436
 msgid "Previous"
 msgstr "Anterior"
 
-#: inc/functions/pagination.php:304
-msgid "Prev"
-msgstr "Anterior"
-
-#: inc/functions/pagination.php:305
+#: inc/functions/pagination.php:253 inc/functions/pagination.php:321
+msgctxt "Next Post"
 msgid "Next"
 msgstr "Próximo"
 
-#: inc/functions/pagination.php:394
-msgid "Previous Page"
-msgstr "Pagina anterior"
+#: inc/functions/pagination.php:254 inc/functions/pagination.php:322
+msgctxt "Previous Post"
+msgid "Previous"
+msgstr "Anterior"
 
-#: inc/functions/pagination.php:411
+#: inc/functions/pagination.php:452
 msgid "Current page"
 msgstr "Página actual"
-
-#: inc/functions/pagination.php:428
-msgid "Next Page"
-msgstr "Siguiente página"
-
-#: inc/functions/template.php:327
-msgid "Posted on"
-msgstr "Publicado en"
-
-#: inc/functions/template.php:368
-#, php-format
-msgid "Posted on <a href=\"%1$s\" rel=\"bookmark\">%2$s</a>"
-msgstr "Publicado en <a href=\"%1$s\" rel=\"bookmark\">%2$s</a>"
-
-#: inc/functions/template.php:431
-#, php-format
-msgid ""
-"By <span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-link\" "
-"rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></span>"
-msgstr ""
-"Por<span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-link\" "
-"rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></span>"
-
-#: inc/functions/template.php:559
-#, php-format
-msgid "Edit <span class=\"screen-reader-text\">\"%s\"</span>"
-msgstr "Editar<span class=\"screen-reader-text\">\"%s\"</span>"
-
-#: inc/functions/template.php:643
-msgid "Written by"
-msgstr "Escrito por"
-
-#: inc/functions/template.php:665
-msgid "Posted in"
-msgstr "Publicado en"
-
-#: inc/functions/template.php:688
-msgid "Tagged in"
-msgstr "Etiquetado en"
-
-#: inc/functions/template.php:711
-msgid "Comments"
-msgstr "Comentarios"

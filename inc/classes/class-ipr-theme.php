@@ -177,11 +177,13 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 				add_theme_shupport( 'post-formats', $ip_post_formats );
 			}
 
+			// Add feed link support
+			add_theme_support( 'automatic-feed-links' );
+
 			// Custom plugin & feature support, e.g. Guttenberg wide image alignment, embeds & block styles
 			$ip_theme_support = (array) apply_filters(
 				'ipress_theme_support',
 				[
-					'automatic-feed-links',
 					'align-wide',
 					'responsive-embeds',
 					'wp-block-styles',
