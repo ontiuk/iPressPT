@@ -37,7 +37,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			'store'			=> [],
 			'front' 		=> [],
 			'login' 		=> [],
-			'custom' 		=> [],
+			'theme' 		=> [],
 			'inline' 		=> [],
 			'attr' 			=> [],
 		];
@@ -353,9 +353,9 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 				} );
 			}
 
-			// Register & enqueue custom styles
-			$custom_styles = $this->custom;
-		   	$custom_styles && array_walk( $custom_styles, function( $style, $handle ) {
+			// Register & enqueue core theme styles
+			$theme_styles = $this->theme;
+		   	$theme_styles && array_walk( $theme_styles, function( $style, $handle ) {
 
 				// Register style
 				$this->enqueue_style( $style, $handle );

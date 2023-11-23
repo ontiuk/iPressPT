@@ -44,4 +44,5 @@
 * (26 June 2023)		2.6.2	Refactor header templates & hooked functionality
 * (18 July 2023)		2.6.3	Refactor customizer controls for dynamic JS
 * (18 July 2023)		2.6.4	Minor updates & sync with standalone theme
-* (29 Septemper 2023)	2.7.0	Additional updates & refinements for production version
+* (26 September 2023)	2.7.0	Refinements production release
+* (18 November 2023)	2.7.1	Optimisation & additional template functions

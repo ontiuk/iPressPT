@@ -38,7 +38,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			'conditional' 	=> [],
 			'front' 		=> [],
 			'login' 		=> [],
-			'custom' 		=> [],
+			'theme' 		=> [],
 			'inline' 		=> [],
 			'local' 		=> [],
 			'attr' 			=> [],
@@ -376,9 +376,9 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 				} );
 			}
 
-			// Register & enqueue base scripts in footer
-			$custom_scripts = $this->custom;
-			$custom_scripts && array_walk( $custom_scripts, function( $script, $handle ) {
+			// Register & enqueue core theme scripts in footer
+			$theme_scripts = $this->theme;
+			$theme_scripts && array_walk( $theme_scripts, function( $script, $handle ) {
 				$this->enqueue_script( $script, $handle );
 			} );
 
