@@ -46,3 +46,4 @@
 * (18 July 2023)		2.6.4	Minor updates & sync with standalone theme
 * (26 September 2023)	2.7.0	Refinements production release
 * (18 November 2023)	2.7.1	Optimisation & additional template functions
+* (03 December 2023)	2.7.2	Refactor script & styles loading. Increase version requirements to WP 6.3

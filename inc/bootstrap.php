@@ -24,7 +24,7 @@ do_action( 'ipress_bootstrap' );
 define( 'IPRESS_THEME_NAME', 'iPress' );
 
 // Theme Versioning
-define( 'IPRESS_THEME_WP', 6.2 ); // WordPress minimum version required
+define( 'IPRESS_THEME_WP', 6.3 ); // WordPress minimum version required
 define( 'IPRESS_THEME_PHP', 8.1 ); // Server PHP minimum version required
 
 // Directory Structure
