@@ -47,3 +47,6 @@
 * (26 September 2023)	2.7.0	Refinements production release
 * (18 November 2023)	2.7.1	Optimisation & additional template functions
 * (03 December 2023)	2.7.2	Refactor script & styles loading. Increase version requirements to WP 6.3
+* (05 December 2023)	2.7.3	Some integrated functionality should be off by default and config controlled
+* (05 December 2023)	2.7.4	Update custom post-type & taxonomy functionality
+* (06 December 2023)	2.7.5	Tidy up classes methods & instantiation
