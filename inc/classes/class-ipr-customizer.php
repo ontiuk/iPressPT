@@ -40,6 +40,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			//----------------------------------------------------------------
 			// Customizer Support & Layout
+			// ========================================
 			//
 			// - add_theme_support( 'custom-logo' )
 			// - add_theme_support( 'custom-header' )
