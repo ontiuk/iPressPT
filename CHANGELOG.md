@@ -50,3 +50,4 @@
 * (05 December 2023)	2.7.3	Some integrated functionality should be off by default and config controlled
 * (05 December 2023)	2.7.4	Update custom post-type & taxonomy functionality
 * (06 December 2023)	2.7.5	Tidy up classes methods & instantiation
+* (14 December 2023)	2.7.6	Upshift font loading to be before styles
