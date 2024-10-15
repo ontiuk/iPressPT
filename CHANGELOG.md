@@ -51,3 +51,4 @@
 * (05 December 2023)	2.7.4	Update custom post-type & taxonomy functionality
 * (06 December 2023)	2.7.5	Tidy up classes methods & instantiation
 * (14 December 2023)	2.7.6	Upshift font loading to be before styles
+* (15 December 2023)	2.7.7	Allow multiple page templates to be assigned to a single handle 

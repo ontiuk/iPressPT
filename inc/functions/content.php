@@ -28,6 +28,7 @@
 // ipress_ordinal_number
 // ipress_do_shortcode
 // ipress_posts_archive
+// ipress_related_posts_archive
 // ipress_featured_post_archive
 // ipress_single_post_archive
 //---------------------------------------------
@@ -386,7 +387,7 @@ if ( ! function_exists( 'ipress_posts_archive' ) ) :
 	/**
 	 * Retrieve a list of posts by parameters
 	 *
-	 * @param array|null $params
+	 * @param array $params
 	 * @return array
 	 */
 	function ipress_posts_archive( $params = [] ) {
